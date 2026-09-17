@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["DOM", "ES2019"],
+    "outDir": "js",
+    "rootDir": "src",
+    "strict": true,
+    "noEmitOnError": true,
+    "newLine": "lf"
+  },
+  "include": ["src/**/*.ts"]
+}

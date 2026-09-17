@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
-import CursorGlow from '@/components/CursorGlow';
+import BarberScene from '@/components/scene/BarberScene';
 
 export const metadata: Metadata = {
   title: 'Escape Barbershop — Home',
@@ -13,11 +13,8 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="hero-bg"></div>
-        <video className="hero-video" autoPlay muted loop playsInline poster="/images/hero-poster.svg">
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
+        <BarberScene />
         <div className="hero-overlay"></div>
-        <CursorGlow />
         <div className="hero-content">
           <img src="/images/logo.png" alt="Escape Barbershop" className="hero-logo" />
           <p className="eyebrow">Est. in the city</p>
