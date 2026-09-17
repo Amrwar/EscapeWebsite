@@ -1,10 +1,22 @@
 # Escape Barbershop — Website
 
-A modern, dark, single-page site for Escape Barbershop: hero, about, services, gallery, hours/location, and a booking CTA. Pure HTML/CSS/JS — no build step, no dependencies.
+A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraunces) with a gold/ivory-on-black palette, five separate pages, no build step or dependencies.
+
+## Pages
+
+| File | Page |
+|---|---|
+| `index.html` | Home — hero, story teaser, services teaser, gallery teaser, booking CTA |
+| `about.html` | About — full story, stats, supporting photos |
+| `services.html` | Services — the full menu |
+| `gallery.html` | Gallery — all photos |
+| `visit.html` | Visit — hours, location, contact, map slot |
+
+Header and footer (with the same nav, live status pill, and links) are repeated at the top/bottom of every page — there's no shared template since this is plain HTML, so if you edit the nav or footer, update it in all five files.
 
 ## Run it locally
 
-Just open `index.html` in a browser, or serve it:
+Just open `index.html` in a browser, or serve the folder so relative links behave exactly like a real deployment:
 
 ```bash
 python3 -m http.server 8000
@@ -12,50 +24,54 @@ python3 -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
-## Replace the placeholders
+## Design system
 
-**Photos** — real shots are in for the storefront and three gallery spots; the rest are still dark placeholder tiles (`images/*.svg`) waiting for real photos. Drop new shots in `images/` and update the matching `<img src="...">` in `index.html`:
+- **Type** — Fraunces (serif, used italic for accents) for headings and the logo wordmark; Inter for body copy and UI labels.
+- **Palette** — near-black background, warm ivory text, muted warm grey for secondary text, a soft brass/gold (`--gold`) for accents, dividers, hover states, and the "open now" indicator.
+- **Services** are presented as an editorial menu list (`services.html`), not boxed cards.
+- **Photos** are grayscale with a faint sepia tint (`filter` on `.about-frame img` / `.gallery-item img` in `css/style.css`) so mixed-quality source photos still read as one consistent, moody palette. Remove the filter there if you'd rather show full color.
 
-| File | Used for | Status |
+## Photos
+
+| File | Used on | Status |
 |---|---|---|
-| `storefront.jpg` | About section — storefront/interior shot | ✅ real photo |
-| `pedicure-area.jpg` | Gallery — pedicure area | ✅ real photo |
-| `wash-station.jpg` | Gallery — wash basins | ✅ real photo |
-| `barber-chairs.jpg` | Gallery — row of barber chairs | ✅ real photo |
-| `entrance-lights.jpg` | Gallery — pendant lighting & reception wall sign | ✅ real photo |
-| `facade.svg` | Gallery — illuminated sign & entrance | placeholder |
-| `hallway.svg` | Gallery — corridor | placeholder |
-| `floor-overview.svg` | Gallery — overview of the floor | placeholder |
-| `hero-poster.svg` | Hero video poster frame (shown until `videos/hero.mp4` exists) | placeholder |
+| `storefront.jpg` | Home, About | ✅ real photo |
+| `pedicure-area.jpg` | Home, About, Gallery | ✅ real photo |
+| `wash-station.jpg` | Home, About, Gallery | ✅ real photo |
+| `barber-chairs.jpg` | Gallery | ✅ real photo |
+| `entrance-lights.jpg` | Home, Gallery | ✅ real photo |
+| — | Gallery — illuminated sign & entrance | still a placeholder tile |
+| — | Gallery — corridor | still a placeholder tile |
+| — | Gallery — floor overview | still a placeholder tile |
 
-The four real photos were cropped from the originals to cut off the baked-in logo watermark and the "Mivida, Eterna Mall Gate 2" caption text that were burned into the uploaded files, so they read as native site photography rather than reposted social graphics. `storefront.jpg` came from a low-resolution source (~390px wide) — it reads fine at its current size thanks to the grayscale filter, but would look soft if enlarged; swap in a higher-res version of that same shot if you have one.
+The three remaining gallery slots render as an elegant "coming soon" tile (see `.placeholder-tile` in `css/style.css`) rather than a broken image — drop a photo into `images/` and swap the matching `<div class="placeholder-tile">…</div>` block in `gallery.html` for an `<img>` tag once you have it.
 
-Any aspect ratio works — the CSS crops with `object-fit: cover`. For the moody black-and-white look, the gallery images are desaturated with CSS (`filter: grayscale(1)`), so you can drop in color photos and they'll still match; remove the filter in `css/style.css` (`.about-frame img`, `.gallery-item img`) if you'd rather show color.
+**Logo** — `images/logo.png`, used in the header, home hero, and every footer.
 
-**Logo** — already wired up at `images/logo.png`, used in the header, hero, and footer.
+**Hero video** — see `videos/README.md`. Drop a clip in as `videos/hero.mp4` and it autoplays muted/looped behind the home hero; until then a plain dark poster shows instead.
 
-**Hero video** — see `videos/README.md`. Drop a clip in as `videos/hero.mp4` and it autoplays muted/looped behind the hero; until then a static poster image shows instead.
+**Map** — `visit.html` has a placeholder tile where a Google Maps embed would go. To wire up a real one, get an embed `<iframe>` from Google Maps ("Share" → "Embed a map") for your actual location and swap it in for the `.placeholder-tile` inside `.map-frame`.
 
-**Text** — update the real address, phone, email, hours, and social links in the `#visit` section, and the phone number in the `href="tel:..."` links. The "open now / closed" pill in the nav and the "closes/opens at" times are computed live from the `HOURS` table at the top of `js/script.js` — keep that in sync with the hours listed in `#visit`.
+**Text** — update the phone/email/social links (currently placeholders) across all five files, and the hours in both `visit.html` and the `HOURS` table at the top of `js/script.js` (used to compute the live "open now / closed" pill) — keep them in sync.
 
-**Booking** — the "Book Now" buttons currently link to a phone number. Swap the `href` for your booking platform (Square, Fresha, Calendly, etc.) once you pick one.
+**Booking** — "Book Now" / "Call to Book" buttons currently link to a placeholder phone number. Swap the `tel:` href for your real number, or a booking platform link (Square, Fresha, Calendly, etc.), across all five files.
 
 ## Live/motion features
 
 - Hero background video (autoplay, muted, looped) with a poster fallback.
 - Live "open now / closed" status pill in the nav, computed from real hours in the visitor's local time.
-- Scroll-reveal animation on sections, cards, and gallery tiles.
-- Count-up animation on the stat numbers (5+, 7, 100%) when they scroll into view.
-- Scrollspy — the nav link for the section currently in view is highlighted.
+- Scroll-reveal animation on sections, rows, and gallery tiles.
+- Count-up animation on the About page's stat numbers when they scroll into view.
+- Current-page highlighting in the nav (via `data-page` matching on each link).
 - Header gains a solid background and shrinks slightly once you scroll.
-- Subtle cursor-follow glow in the hero on pointer devices.
+- Subtle cursor-follow glow in the home hero on pointer devices.
 
 ## Structure
 
 ```
-index.html       — page markup/content
-css/style.css     — all styling
-js/script.js      — nav, live status, scroll-reveal, count-up, scrollspy, cursor glow
-images/           — photos + logo (some still placeholders, see table above)
+index.html, about.html, services.html, gallery.html, visit.html  — pages
+css/style.css     — design system + all styling
+js/script.js      — nav, live status, scroll-reveal, count-up, cursor glow
+images/           — photos + logo (see table above)
 videos/           — hero background video (see videos/README.md)
 ```

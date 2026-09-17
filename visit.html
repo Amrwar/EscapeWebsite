@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visit — Escape Barbershop</title>
+<meta name="description" content="Hours, location, and contact for Escape Barbershop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230a0908'/%3E%3Ccircle cx='32' cy='17' r='7' fill='%23c9a86a'/%3E%3Cpath d='M32 24 L32 43 M22 33 L42 33 M32 43 L24 57 M32 43 L40 57' stroke='%23c9a86a' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header" id="top">
+  <nav class="nav">
+    <a class="logo" href="index.html">
+      <span class="logo-text">Escape<em>Barbershop</em></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-page="index.html">Home</a></li>
+      <li><a href="about.html" data-page="about.html">About</a></li>
+      <li><a href="services.html" data-page="services.html">Services</a></li>
+      <li><a href="gallery.html" data-page="gallery.html">Gallery</a></li>
+      <li><a href="visit.html" data-page="visit.html">Visit</a></li>
+      <li class="status-pill" id="statusPill"><span class="status-dot"></span><span id="statusText">Checking hours…</span></li>
+      <li><a href="tel:+10000000000" class="nav-cta">Book Now</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="page-header">
+  <p class="eyebrow center">Visit</p>
+  <h1>Come <em>Find Us</em></h1>
+  <p>Mivida, Eterna Mall Gate 2.</p>
+</section>
+
+<section class="visit">
+  <div class="visit-grid">
+    <div class="visit-block reveal">
+      <h3>Hours</h3>
+      <ul class="hours-list">
+        <li><span>Mon – Fri</span><span>10:00 – 21:00</span></li>
+        <li><span>Saturday</span><span>10:00 – 20:00</span></li>
+        <li><span>Sunday</span><span>11:00 – 18:00</span></li>
+      </ul>
+    </div>
+    <div class="visit-block reveal">
+      <h3>Find Us</h3>
+      <p>Mivida, Eterna Mall<br>Gate 2</p>
+      <a href="#" class="text-link">Open in Maps →</a>
+    </div>
+    <div class="visit-block reveal">
+      <h3>Contact</h3>
+      <p><a href="tel:+10000000000">+1 (000) 000-0000</a></p>
+      <p><a href="mailto:hello@escapebarbershop.com">hello@escapebarbershop.com</a></p>
+      <div class="social-row">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="TikTok">TikTok</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-frame reveal">
+    <div class="placeholder-tile">
+      <span class="ph-mark">✦</span>
+      <span class="ph-label">Map Preview — Add Your Google Maps Embed</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip" id="book">
+  <p class="eyebrow center">Book Your Visit</p>
+  <h2>See you <em>soon</em></h2>
+  <p>Walk-ins welcome. Regulars preferred. Book ahead to skip the wait.</p>
+  <div class="hero-actions center">
+    <a href="tel:+10000000000" class="btn btn-primary">Call to Book</a>
+    <a href="gallery.html" class="btn btn-ghost">See the Space</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <img src="images/logo.png" alt="Escape Barbershop" class="footer-logo">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="visit.html">Visit</a>
+  </div>
+  <p>&copy; <span id="year"></span> Escape Barbershop. All rights reserved.</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

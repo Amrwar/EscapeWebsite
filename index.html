@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escape Barbershop</title>
+<title>Escape Barbershop — Home</title>
 <meta name="description" content="Escape Barbershop — modern grooming, classic craft.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230a0a0a'/%3E%3Ccircle cx='32' cy='17' r='7' fill='%23f4f2ee'/%3E%3Cpath d='M32 24 L32 43 M22 33 L42 33 M32 43 L24 57 M32 43 L40 57' stroke='%23f4f2ee' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230a0908'/%3E%3Ccircle cx='32' cy='17' r='7' fill='%23c9a86a'/%3E%3Cpath d='M32 24 L32 43 M22 33 L42 33 M32 43 L24 57 M32 43 L40 57' stroke='%23c9a86a' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 </head>
 <body>
 
@@ -17,19 +17,20 @@
 
 <header class="site-header" id="top">
   <nav class="nav">
-    <a class="logo" href="#top">
-      <span class="logo-text">ESCAPE<em>barbershop</em></span>
+    <a class="logo" href="index.html">
+      <span class="logo-text">Escape<em>Barbershop</em></span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#visit">Visit</a></li>
+      <li><a href="index.html" data-page="index.html">Home</a></li>
+      <li><a href="about.html" data-page="about.html">About</a></li>
+      <li><a href="services.html" data-page="services.html">Services</a></li>
+      <li><a href="gallery.html" data-page="gallery.html">Gallery</a></li>
+      <li><a href="visit.html" data-page="visit.html">Visit</a></li>
       <li class="status-pill" id="statusPill"><span class="status-dot"></span><span id="statusText">Checking hours…</span></li>
-      <li><a href="#book" class="nav-cta">Book Now</a></li>
+      <li><a href="tel:+10000000000" class="nav-cta">Book Now</a></li>
     </ul>
   </nav>
 </header>
@@ -44,130 +45,106 @@
   <div class="hero-content">
     <img src="images/logo.png" alt="Escape Barbershop" class="hero-logo">
     <p class="eyebrow">Est. in the city</p>
-    <h1>WHERE A CUT<br>BECOMES AN <span>ESCAPE</span></h1>
+    <h1>Where a cut<br>becomes <em>an escape</em></h1>
     <p class="hero-sub">Modern barbering, old-world detail. Fades, beards, straight-razor finishes — in a space built to slow you down.</p>
     <div class="hero-actions">
-      <a href="#book" class="btn btn-primary">Book an Appointment</a>
-      <a href="#gallery" class="btn btn-ghost">See the Space</a>
+      <a href="tel:+10000000000" class="btn btn-primary">Book an Appointment</a>
+      <a href="gallery.html" class="btn btn-ghost">Explore the Space</a>
     </div>
   </div>
-  <a href="#about" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+  <a href="#story" class="scroll-cue" aria-label="Scroll down"><span></span></a>
 </section>
 
-<section class="marquee">
-  <div class="marquee-track">
-    <span>FADES&nbsp;&nbsp;•&nbsp;&nbsp;BEARD SCULPT&nbsp;&nbsp;•&nbsp;&nbsp;HOT TOWEL SHAVE&nbsp;&nbsp;•&nbsp;&nbsp;KIDS CUTS&nbsp;&nbsp;•&nbsp;&nbsp;PEDICURE&nbsp;&nbsp;•&nbsp;&nbsp;FADES&nbsp;&nbsp;•&nbsp;&nbsp;BEARD SCULPT&nbsp;&nbsp;•&nbsp;&nbsp;HOT TOWEL SHAVE&nbsp;&nbsp;•&nbsp;&nbsp;KIDS CUTS&nbsp;&nbsp;•&nbsp;&nbsp;PEDICURE&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  </div>
-</section>
-
-<section class="about" id="about">
+<section class="about" id="story">
   <div class="about-media reveal">
     <div class="about-frame">
-      <img src="images/storefront.jpg" alt="Escape Barbershop storefront at night" loading="lazy">
+      <div class="frame-inner">
+        <img src="images/storefront.jpg" alt="Escape Barbershop storefront at night" loading="lazy">
+      </div>
     </div>
   </div>
   <div class="about-copy reveal">
     <p class="eyebrow">The Place</p>
-    <h2>Not just a barbershop.<br>An escape.</h2>
+    <h2>Not just a barbershop.<br><em>An escape.</em></h2>
     <p>Low light, dark concrete, and a chair that finally lets your shoulders drop. Escape Barbershop was built for people who want their grooming ritual to feel like a reset — sharp lines, honest service, no rush.</p>
-    <p>Every station is set up for precision. Every visit ends the same way: you leave looking better than you walked in, and feeling like you actually took a break.</p>
-    <div class="stat-row">
-      <div class="stat"><strong data-count="5" data-suffix="+">0</strong><span>Chairs &amp; stations</span></div>
-      <div class="stat"><strong data-count="7">0</strong><span>Days a week</span></div>
-      <div class="stat"><strong data-count="100" data-suffix="%">0</strong><span>Straight-razor finish</span></div>
+    <p>Every station is set up for precision. Every visit ends the same way: you leave looking better than you walked in.</p>
+    <div class="hero-actions" style="justify-content:flex-start; margin-top: 0.8rem;">
+      <a href="about.html" class="btn btn-ghost">Our Story</a>
     </div>
   </div>
 </section>
 
-<section class="services" id="services">
-  <p class="eyebrow center">Services</p>
-  <h2 class="center">Crafted, Not Rushed</h2>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <span class="service-num">01</span>
-      <h3>Signature Fade</h3>
-      <p>Precision clipper work tailored to your face shape, finished with a razor edge.</p>
+<div class="divider"><span>✦</span></div>
+
+<section class="services">
+  <div class="section-head">
+    <p class="eyebrow center">Services</p>
+    <h2 class="center">Crafted, <em>Not Rushed</em></h2>
+  </div>
+  <div class="menu-list">
+    <div class="menu-row reveal">
+      <span class="menu-num">01</span>
+      <div>
+        <h3>Signature Fade</h3>
+        <p>Precision clipper work tailored to your face shape, finished with a razor edge.</p>
+      </div>
     </div>
-    <div class="service-card reveal">
-      <span class="service-num">02</span>
-      <h3>Beard Sculpt</h3>
-      <p>Shape, line-up, and hot towel conditioning for a beard that actually holds its line.</p>
+    <div class="menu-row reveal">
+      <span class="menu-num">02</span>
+      <div>
+        <h3>Beard Sculpt</h3>
+        <p>Shape, line-up, and hot towel conditioning for a beard that actually holds its line.</p>
+      </div>
     </div>
-    <div class="service-card reveal">
-      <span class="service-num">03</span>
-      <h3>Hot Towel Shave</h3>
-      <p>The classic straight-razor shave — steam, oils, and a finish smooth enough to notice.</p>
+    <div class="menu-row reveal">
+      <span class="menu-num">03</span>
+      <div>
+        <h3>Hot Towel Shave</h3>
+        <p>The classic straight-razor shave — steam, oils, and a finish smooth enough to notice.</p>
+      </div>
     </div>
-    <div class="service-card reveal">
-      <span class="service-num">04</span>
-      <h3>Pedicure Lounge</h3>
-      <p>Dedicated pedicure area for a full reset — because grooming isn't only above the neck.</p>
-    </div>
-    <div class="service-card reveal">
-      <span class="service-num">05</span>
-      <h3>Kids Cuts</h3>
-      <p>Patient, precise cuts for the next generation of regulars.</p>
-    </div>
-    <div class="service-card reveal">
-      <span class="service-num">06</span>
-      <h3>Full Groom</h3>
-      <p>Cut, beard, and shave in one sitting — the complete Escape experience.</p>
-    </div>
+  </div>
+  <div class="hero-actions center" style="margin-top: 3rem;">
+    <a href="services.html" class="btn btn-ghost">View Full Menu</a>
   </div>
 </section>
 
-<section class="gallery" id="gallery">
-  <p class="eyebrow center">Inside Escape</p>
-  <h2 class="center">The Space</h2>
-  <div class="gallery-grid">
-    <div class="gallery-item reveal span-2"><img src="images/facade.svg" alt="Escape Barbershop illuminated sign and entrance" loading="lazy"></div>
+<div class="divider"><span>✦</span></div>
+
+<section class="gallery">
+  <div class="section-head">
+    <p class="eyebrow center">Inside Escape</p>
+    <h2 class="center">The <em>Space</em></h2>
+  </div>
+  <div class="gallery-grid" style="grid-auto-rows: 260px;">
+    <div class="gallery-item reveal span-2"><img src="images/entrance-lights.jpg" alt="Entrance with pendant lighting" loading="lazy"></div>
     <div class="gallery-item reveal"><img src="images/pedicure-area.jpg" alt="Pedicure area with dark leather chairs" loading="lazy"></div>
     <div class="gallery-item reveal"><img src="images/wash-station.jpg" alt="Wash basin station" loading="lazy"></div>
-    <div class="gallery-item reveal span-2"><img src="images/barber-chairs.jpg" alt="Row of barber chairs" loading="lazy"></div>
-    <div class="gallery-item reveal"><img src="images/entrance-lights.jpg" alt="Entrance with pendant lighting" loading="lazy"></div>
-    <div class="gallery-item reveal"><img src="images/hallway.svg" alt="Corridor with linear lighting" loading="lazy"></div>
-    <div class="gallery-item reveal span-2"><img src="images/floor-overview.svg" alt="Overview of the barbershop floor" loading="lazy"></div>
+  </div>
+  <div class="hero-actions center" style="margin-top: 3rem;">
+    <a href="gallery.html" class="btn btn-ghost">See Full Gallery</a>
   </div>
 </section>
 
 <section class="cta-strip" id="book">
-  <h2>Ready for a cut that feels like an escape?</h2>
+  <p class="eyebrow center">Book Your Visit</p>
+  <h2>Ready for a cut that feels like <em>an escape?</em></h2>
   <p>Walk-ins welcome. Regulars preferred. Book ahead to skip the wait.</p>
   <div class="hero-actions center">
     <a href="tel:+10000000000" class="btn btn-primary">Call to Book</a>
-    <a href="#visit" class="btn btn-ghost">Get Directions</a>
-  </div>
-</section>
-
-<section class="visit" id="visit">
-  <div class="visit-grid">
-    <div class="visit-block reveal">
-      <h3>Hours</h3>
-      <ul class="hours-list">
-        <li><span>Mon – Fri</span><span>10:00 – 21:00</span></li>
-        <li><span>Saturday</span><span>10:00 – 20:00</span></li>
-        <li><span>Sunday</span><span>11:00 – 18:00</span></li>
-      </ul>
-    </div>
-    <div class="visit-block reveal">
-      <h3>Find Us</h3>
-      <p>123 Your Street<br>Your City</p>
-      <a href="#" class="text-link">Open in Maps →</a>
-    </div>
-    <div class="visit-block reveal">
-      <h3>Contact</h3>
-      <p><a href="tel:+10000000000">+1 (000) 000-0000</a></p>
-      <p><a href="mailto:hello@escapebarbershop.com">hello@escapebarbershop.com</a></p>
-      <div class="social-row">
-        <a href="#" aria-label="Instagram">Instagram</a>
-        <a href="#" aria-label="TikTok">TikTok</a>
-      </div>
-    </div>
+    <a href="visit.html" class="btn btn-ghost">Get Directions</a>
   </div>
 </section>
 
 <footer class="site-footer">
   <img src="images/logo.png" alt="Escape Barbershop" class="footer-logo">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="visit.html">Visit</a>
+  </div>
   <p>&copy; <span id="year"></span> Escape Barbershop. All rights reserved.</p>
 </footer>
 

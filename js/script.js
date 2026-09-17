@@ -15,6 +15,12 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
+/* Highlight the nav link for the current page */
+const currentPage = location.pathname.split('/').pop() || 'index.html';
+navLinks.querySelectorAll('a[data-page]').forEach(link => {
+  if (link.dataset.page === currentPage) link.classList.add('active');
+});
+
 /* Sticky header on scroll */
 const header = document.querySelector('.site-header');
 const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
@@ -47,24 +53,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-/* Scrollspy: highlight the nav link for the section in view */
-const sections = ['about', 'services', 'gallery', 'visit']
-  .map(id => document.getElementById(id))
-  .filter(Boolean);
-const spyLinks = navLinks.querySelectorAll('a[href^="#"]');
-
-const spyObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      spyLinks.forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
-      });
-    }
-  });
-}, { rootMargin: '-40% 0px -55% 0px' });
-
-sections.forEach(section => spyObserver.observe(section));
 
 /* Live open/closed status, computed from real hours in the visitor's local time */
 const HOURS = {
