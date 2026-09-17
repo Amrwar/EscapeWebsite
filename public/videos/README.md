@@ -1,8 +1,8 @@
 # Hero video
 
-Drop your background video here as **`hero.mp4`** and it will autoplay, muted and looped, behind the homepage hero text — that's the only file `index.html` looks for (`<source src="videos/hero.mp4">`).
+Drop your background video here as **`hero.mp4`** and it will autoplay, muted and looped, behind the homepage hero text — that's the only file `app/page.tsx` looks for (`<source src="/videos/hero.mp4">`).
 
-Until it's added, the hero shows a static poster image instead (currently the `storefront` placeholder), so nothing looks broken in the meantime.
+Until it's added, the hero shows a static poster image instead (`/images/hero-poster.svg`), so nothing looks broken in the meantime.
 
 Tips for a clean result:
 - Keep it short (8–20 seconds) and loop-friendly — no hard cuts at the start/end.
