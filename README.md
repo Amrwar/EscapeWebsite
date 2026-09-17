@@ -22,8 +22,8 @@ Then visit `http://localhost:8000`.
 | `pedicure-area.jpg` | Gallery — pedicure area | ✅ real photo |
 | `wash-station.jpg` | Gallery — wash basins | ✅ real photo |
 | `barber-chairs.jpg` | Gallery — row of barber chairs | ✅ real photo |
+| `entrance-lights.jpg` | Gallery — pendant lighting & reception wall sign | ✅ real photo |
 | `facade.svg` | Gallery — illuminated sign & entrance | placeholder |
-| `entrance-lights.svg` | Gallery — pendant lighting shot | placeholder |
 | `hallway.svg` | Gallery — corridor | placeholder |
 | `floor-overview.svg` | Gallery — overview of the floor | placeholder |
 | `hero-poster.svg` | Hero video poster frame (shown until `videos/hero.mp4` exists) | placeholder |
