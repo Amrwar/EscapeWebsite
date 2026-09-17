@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
-import PlaceholderTile from '@/components/PlaceholderTile';
 
 export const metadata: Metadata = {
   title: 'Gallery — Escape Barbershop',
@@ -45,10 +44,14 @@ export default function GalleryPage() {
             <img src="/images/entrance-lights.jpg" alt="Entrance with pendant lighting" loading="lazy" />
           </Reveal>
           <Reveal className="gallery-item">
-            <PlaceholderTile label="Corridor — Coming Soon" />
+            <img src="/images/corridor.jpg" alt="Corridor leading into Escape Barbershop" loading="lazy" />
           </Reveal>
           <Reveal className="gallery-item">
-            <PlaceholderTile label="Floor Overview — Coming Soon" />
+            <img
+              src="/images/floor-overview.jpg"
+              alt="Overview of the Escape Barbershop floor"
+              loading="lazy"
+            />
           </Reveal>
         </div>
       </section>

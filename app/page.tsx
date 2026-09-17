@@ -13,7 +13,7 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="hero-bg"></div>
-        <div className="cinematic-bg" style={{ backgroundImage: 'url(/images/storefront.jpg)' }} />
+        <div className="cinematic-bg" style={{ backgroundImage: 'url(/images/hero-chair.jpg)' }} />
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <img src="/images/logo.png" alt="Escape Barbershop" className="hero-logo" />
