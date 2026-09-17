@@ -15,20 +15,93 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-const revealTargets = document.querySelectorAll('.service-card, .gallery-item, .about-copy, .about-media');
-const observer = new IntersectionObserver((entries) => {
+/* Sticky header on scroll */
+const header = document.querySelector('.site-header');
+const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* Scroll-reveal + number count-up */
+function animateCount(el) {
+  const target = parseFloat(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1200;
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(target * eased) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-      observer.unobserve(entry.target);
+      entry.target.classList.add('in-view');
+      entry.target.querySelectorAll('[data-count]').forEach(animateCount);
+      revealObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.15 });
 
-revealTargets.forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  observer.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* Scrollspy: highlight the nav link for the section in view */
+const sections = ['about', 'services', 'gallery', 'visit']
+  .map(id => document.getElementById(id))
+  .filter(Boolean);
+const spyLinks = navLinks.querySelectorAll('a[href^="#"]');
+
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      spyLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(section => spyObserver.observe(section));
+
+/* Live open/closed status, computed from real hours in the visitor's local time */
+const HOURS = {
+  0: [11, 18],   // Sunday
+  1: [10, 21],   // Monday
+  2: [10, 21],
+  3: [10, 21],
+  4: [10, 21],
+  5: [10, 21],
+  6: [10, 20],   // Saturday
+};
+
+function updateStatus() {
+  const pill = document.getElementById('statusPill');
+  const text = document.getElementById('statusText');
+  if (!pill || !text) return;
+  const now = new Date();
+  const [openHour, closeHour] = HOURS[now.getDay()];
+  const isOpen = now.getHours() >= openHour && now.getHours() < closeHour;
+  pill.classList.toggle('is-open', isOpen);
+  pill.classList.toggle('is-closed', !isOpen);
+  text.textContent = isOpen
+    ? `Open now · closes ${closeHour > 12 ? closeHour - 12 : closeHour}${closeHour >= 12 ? 'PM' : 'AM'}`
+    : `Closed · opens ${openHour}${openHour >= 12 ? 'PM' : 'AM'}`;
+}
+updateStatus();
+setInterval(updateStatus, 60000);
+
+/* Cursor-follow glow in the hero (pointer devices only) */
+const hero = document.querySelector('.hero');
+const cursorGlow = document.getElementById('cursorGlow');
+if (hero && cursorGlow && window.matchMedia('(pointer: fine)').matches) {
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    cursorGlow.style.setProperty('--x', `${x}%`);
+    cursorGlow.style.setProperty('--y', `${y}%`);
+  });
+}
