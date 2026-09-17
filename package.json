@@ -1,0 +1,13 @@
+{
+  "name": "escape-barbershop-website",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Escape Barbershop website — TypeScript compiles to js/script.js, which the static HTML pages load directly.",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

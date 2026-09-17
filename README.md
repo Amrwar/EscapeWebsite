@@ -1,6 +1,6 @@
 # Escape Barbershop — Website
 
-A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraunces) over a true black/white/ivory palette (matching the shop's monochrome logo and photography), six separate pages, no build step or dependencies.
+A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraunces) over a true black/white/ivory palette (matching the shop's monochrome logo and photography), six separate HTML pages. The only thing with a build step is the site's interactive logic, which is written in TypeScript.
 
 ## Pages
 
@@ -11,7 +11,7 @@ A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraun
 | `services.html` | Services — the full menu |
 | `gallery.html` | Gallery — all photos |
 | `visit.html` | Visit — hours, location, map slot |
-| `contact.html` | Contact — phone/email, social icons, a message form |
+| `contact.html` | Contact — phone/email, address, and social icons |
 
 Header and footer (with the same nav, live status pill, and links) are repeated at the top/bottom of every page — there's no shared template since this is plain HTML, so if you edit the nav or footer, update it in all six files.
 
@@ -57,11 +57,28 @@ The three remaining gallery slots render as an elegant "coming soon" tile (see `
 
 **Contact page** (`contact.html`) is a simple, centered info page — phone, email, address, and the social icons. No form.
 
-**Text** — update the phone/email links (currently placeholders) across all six files, and the hours in both `visit.html` and the `HOURS` table at the top of `js/script.js` (used to compute the live "open now / closed" pill) — keep them in sync.
+**Text** — update the phone/email links (currently placeholders) across all six files, and the hours in both `visit.html` and the `HOURS` table near the top of `src/script.ts` (used to compute the live "open now / closed" pill; **not** `js/script.js` — see TypeScript section below) — keep them in sync.
 
 **Booking** — "Book Now" / "Call to Book" buttons currently link to a placeholder phone number. Swap the `tel:` href for your real number, or a booking platform link (Square, Fresha, Calendly, etc.), across all six files.
 
 **Nav width** — the nav switches to the hamburger menu below 1100px wide (not just on phones) since six links plus the status pill and Book Now button get cramped on tablets/small laptops otherwise. Adjust the `@media (max-width: 1100px)` breakpoint in `css/style.css` if you add/remove nav items.
+
+## TypeScript
+
+The site's logic is written in TypeScript (`src/script.ts`) and compiled to plain JavaScript (`js/script.js`), which is what the HTML pages actually load with `<script src="js/script.js">` — the same as before, just generated instead of hand-written.
+
+**`js/script.js` is a build artifact — don't hand-edit it.** Edit `src/script.ts` and rebuild. Both the source and the compiled output are committed to the repo (the compiled file has to be, since GitHub Pages just serves whatever's in the branch — it doesn't run a build step). If you add a proper CI/CD pipeline later, you could stop committing `js/script.js` and build it during deploy instead.
+
+To make a change:
+
+```bash
+npm install       # one-time, installs TypeScript locally (devDependency)
+npm run build     # compiles src/script.ts → js/script.js
+# or, while actively editing:
+npm run watch     # rebuilds automatically on every save
+```
+
+Then commit both `src/script.ts` and the updated `js/script.js` together.
 
 ## Live/motion features
 
@@ -76,9 +93,11 @@ The three remaining gallery slots render as an elegant "coming soon" tile (see `
 ## Structure
 
 ```
-index.html, about.html, services.html, gallery.html, visit.html  — pages
+index.html, about.html, services.html, gallery.html, visit.html, contact.html  — pages
 css/style.css     — design system + all styling
-js/script.js      — nav, live status, scroll-reveal, count-up, cursor glow
+src/script.ts     — TypeScript source: nav, live status, scroll-reveal, count-up, cursor glow
+js/script.js      — compiled output of src/script.ts (generated — don't hand-edit)
+tsconfig.json, package.json  — TypeScript build config
 images/           — photos + logo (see table above)
 videos/           — hero background video (see videos/README.md)
 ```
