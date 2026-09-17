@@ -36,22 +36,23 @@ Then visit `http://localhost:8000`.
 
 | File | Used on | Status |
 |---|---|---|
-| `storefront.jpg` | Home, About | ✅ real photo |
+| `storefront.jpg` | Home, About, Gallery (illuminated entrance sign) | ✅ real photo |
 | `pedicure-area.jpg` | Home, About, Gallery | ✅ real photo |
 | `wash-station.jpg` | Home, About, Gallery | ✅ real photo |
 | `barber-chairs.jpg` | Gallery | ✅ real photo |
 | `entrance-lights.jpg` | Home, Gallery | ✅ real photo |
-| — | Gallery — illuminated sign & entrance | still a placeholder tile |
 | — | Gallery — corridor | still a placeholder tile |
 | — | Gallery — floor overview | still a placeholder tile |
 
-The three remaining gallery slots render as an elegant "coming soon" tile (see `.placeholder-tile` in `css/style.css`) rather than a broken image — drop a photo into `images/` and swap the matching `<div class="placeholder-tile">…</div>` block in `gallery.html` for an `<img>` tag once you have it.
+The two remaining gallery slots render as an elegant "coming soon" tile (see `.placeholder-tile` in `css/style.css`) rather than a broken image — drop a photo into `images/` and swap the matching `<div class="placeholder-tile">…</div>` block in `gallery.html` for an `<img>` tag once you have it.
+
+**Gallery layout** — `.gallery-grid` is a masonry (CSS multi-column) layout, not a fixed grid: each photo displays at its own natural aspect ratio with no cropping, and taller/wider photos just take up more vertical space in their column instead of being forced into a uniform tile size.
 
 **Logo** — `images/logo.png`, used in the header, home hero, and every footer.
 
 **Hero video** — see `videos/README.md`. Drop a clip in as `videos/hero.mp4` and it autoplays muted/looped behind the home hero; until then a plain dark poster shows instead.
 
-**Map** — `visit.html` has a placeholder tile where a Google Maps embed would go. The "Open in Maps" link on that page already points to a real Google Maps search for "Mivida Eterna Mall Gate 2" (taken from the address printed on your storefront photos) — swap it for the shop's exact Maps link once you have one. To add a real embedded map, get an `<iframe>` from Google Maps ("Share" → "Embed a map") and swap it in for the `.placeholder-tile` inside `.map-frame`.
+**Map** — both the "Open in Maps →" link and the large map tile on `visit.html` now link out to the shop's real Google Maps location (`https://share.google/7Xe5DxwhBiDTLbYOz`). It's a link-out, not a live embedded map, since that needs a proper Google Maps Embed `<iframe>` snippet rather than a share link. If you want an actual embedded map on the page, go to Google Maps → your location → "Share" → "Embed a map", copy the `<iframe>` it gives you, and swap it in for the `.placeholder-tile` inside the `<a class="map-frame">` in `visit.html` (change that wrapper back to a plain `<div>` at that point, since it'd hold an iframe instead of being a link itself).
 
 **Social icons** — Instagram/TikTok/Facebook icon circles appear in every footer and, larger, on `contact.html`. All currently link to `#` — replace with your real profile URLs across all six files (search for `aria-label="Instagram"` etc.).
 
