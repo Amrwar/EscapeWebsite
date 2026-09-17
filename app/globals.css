@@ -267,6 +267,52 @@ h2 em, h1 em { font-style: italic; color: var(--gold-soft); font-weight: 400; }
     linear-gradient(180deg, rgba(10,10,10,0.62) 0%, rgba(10,10,10,0.5) 40%, rgba(10,10,10,0.82) 100%);
 }
 
+/* ---------- Cinematic full-bleed sections ---------- */
+.cinematic {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem;
+  overflow: hidden;
+}
+.cinematic-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) contrast(1.1) brightness(0.75);
+  transform: scale(1.02);
+}
+.cinematic-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.88) 100%);
+}
+.cinematic-content {
+  max-width: 42rem;
+  padding: 0 1.5rem;
+}
+.cinematic-heading {
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 1.08;
+  margin: 0 auto;
+}
+.cinematic-sub {
+  margin-top: 1.3rem;
+  color: var(--grey);
+  font-size: 1.05rem;
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cinematic .hero-actions { margin-top: 2rem; }
+
 .hero .eyebrow { justify-content: center; }
 .hero .eyebrow::before { display: none; }
 

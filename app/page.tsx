@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
-import BarberScene from '@/components/scene/BarberScene';
+import CinematicSection from '@/components/CinematicSection';
 
 export const metadata: Metadata = {
   title: 'Escape Barbershop — Home',
@@ -13,7 +13,7 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="hero-bg"></div>
-        <BarberScene />
+        <div className="cinematic-bg" style={{ backgroundImage: 'url(/images/storefront.jpg)' }} />
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <img src="/images/logo.png" alt="Escape Barbershop" className="hero-logo" />
@@ -41,37 +41,46 @@ export default function HomePage() {
         </a>
       </section>
 
-      <section className="about" id="story">
-        <Reveal className="about-media">
-          <div className="about-frame">
-            <div className="frame-inner">
-              <img src="/images/storefront.jpg" alt="Escape Barbershop storefront at night" loading="lazy" />
-            </div>
-          </div>
-        </Reveal>
-        <Reveal className="about-copy">
-          <p className="eyebrow">The Place</p>
-          <h2>
-            Not just a barbershop.
-            <br />
-            <em>An escape.</em>
-          </h2>
-          <p>
-            Low light, dark concrete, and a chair that finally lets your shoulders drop. Escape
-            Barbershop was built for people who want their grooming ritual to feel like a reset —
-            sharp lines, honest service, no rush.
-          </p>
-          <p>
-            Every station is set up for precision. Every visit ends the same way: you leave looking
-            better than you walked in.
-          </p>
-          <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: '0.8rem' }}>
-            <Link href="/about" className="btn btn-ghost">
-              Our Story
-            </Link>
-          </div>
-        </Reveal>
-      </section>
+      <div id="story" />
+
+      <CinematicSection
+        image="/images/barber-chairs.jpg"
+        alt="Row of barber chairs inside Escape Barbershop"
+        eyebrow="The Craft"
+        heading={
+          <>
+            Precision in <em>every pass</em>
+          </>
+        }
+        sub="Fades, tapers, straight-razor lines — the kind of detail you feel before you see it in the mirror."
+      >
+        <div className="hero-actions center">
+          <Link href="/about" className="btn btn-ghost">
+            Our Story
+          </Link>
+        </div>
+      </CinematicSection>
+
+      <CinematicSection
+        image="/images/wash-station.jpg"
+        alt="Wash basin station at Escape Barbershop"
+        eyebrow="The Escape"
+        heading={
+          <>
+            Sit back. <em>Let go.</em>
+          </>
+        }
+        sub="Hot towels, warm light, and nowhere else you need to be for the next forty minutes."
+      >
+        <div className="hero-actions center">
+          <a href="tel:+10000000000" className="btn btn-primary">
+            Book an Appointment
+          </a>
+          <Link href="/visit" className="btn btn-ghost">
+            Get Directions
+          </Link>
+        </div>
+      </CinematicSection>
 
       <div className="divider">
         <span>✦</span>
