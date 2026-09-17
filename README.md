@@ -14,19 +14,21 @@ Then visit `http://localhost:8000`.
 
 ## Replace the placeholders
 
-**Photos** — `images/*.svg` are dark placeholder tiles standing in for your real photos. Drop your real shots in `images/` and update the matching `<img src="...">` in `index.html`:
+**Photos** — real shots are in for the storefront and three gallery spots; the rest are still dark placeholder tiles (`images/*.svg`) waiting for real photos. Drop new shots in `images/` and update the matching `<img src="...">` in `index.html`:
 
-| Placeholder file | Used for |
-|---|---|
-| `storefront.svg` | About section — storefront/interior shot |
-| `hero-poster.svg` | Hero video poster frame (shown until `videos/hero.mp4` exists, or as the fallback frame before the video loads) — replace with a still from your video, or a hero photo |
-| `facade.svg` | Gallery — illuminated sign & entrance |
-| `pedicure-area.svg` | Gallery — pedicure area |
-| `wash-station.svg` | Gallery — wash basins |
-| `barber-chairs.svg` | Gallery — row of barber chairs |
-| `entrance-lights.svg` | Gallery — pendant lighting shot |
-| `hallway.svg` | Gallery — corridor |
-| `floor-overview.svg` | Gallery — overview of the floor |
+| File | Used for | Status |
+|---|---|---|
+| `storefront.jpg` | About section — storefront/interior shot | ✅ real photo |
+| `pedicure-area.jpg` | Gallery — pedicure area | ✅ real photo |
+| `wash-station.jpg` | Gallery — wash basins | ✅ real photo |
+| `barber-chairs.jpg` | Gallery — row of barber chairs | ✅ real photo |
+| `facade.svg` | Gallery — illuminated sign & entrance | placeholder |
+| `entrance-lights.svg` | Gallery — pendant lighting shot | placeholder |
+| `hallway.svg` | Gallery — corridor | placeholder |
+| `floor-overview.svg` | Gallery — overview of the floor | placeholder |
+| `hero-poster.svg` | Hero video poster frame (shown until `videos/hero.mp4` exists) | placeholder |
+
+The four real photos were cropped from the originals to cut off the baked-in logo watermark and the "Mivida, Eterna Mall Gate 2" caption text that were burned into the uploaded files, so they read as native site photography rather than reposted social graphics. `storefront.jpg` came from a low-resolution source (~390px wide) — it reads fine at its current size thanks to the grayscale filter, but would look soft if enlarged; swap in a higher-res version of that same shot if you have one.
 
 Any aspect ratio works — the CSS crops with `object-fit: cover`. For the moody black-and-white look, the gallery images are desaturated with CSS (`filter: grayscale(1)`), so you can drop in color photos and they'll still match; remove the filter in `css/style.css` (`.about-frame img`, `.gallery-item img`) if you'd rather show color.
 
