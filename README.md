@@ -1,6 +1,6 @@
 # Escape Barbershop — Website
 
-A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraunces) with a gold/ivory-on-black palette, five separate pages, no build step or dependencies.
+A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraunces) over a true black/white/ivory palette (matching the shop's monochrome logo and photography), six separate pages, no build step or dependencies.
 
 ## Pages
 
@@ -10,9 +10,10 @@ A dark, upscale multi-page site for Escape Barbershop. Serif display type (Fraun
 | `about.html` | About — full story, stats, supporting photos |
 | `services.html` | Services — the full menu |
 | `gallery.html` | Gallery — all photos |
-| `visit.html` | Visit — hours, location, contact, map slot |
+| `visit.html` | Visit — hours, location, map slot |
+| `contact.html` | Contact — phone/email, social icons, a message form |
 
-Header and footer (with the same nav, live status pill, and links) are repeated at the top/bottom of every page — there's no shared template since this is plain HTML, so if you edit the nav or footer, update it in all five files.
+Header and footer (with the same nav, live status pill, and links) are repeated at the top/bottom of every page — there's no shared template since this is plain HTML, so if you edit the nav or footer, update it in all six files.
 
 ## Run it locally
 
@@ -27,9 +28,9 @@ Then visit `http://localhost:8000`.
 ## Design system
 
 - **Type** — Fraunces (serif, used italic for accents) for headings and the logo wordmark; Inter for body copy and UI labels.
-- **Palette** — near-black background, warm ivory text, muted warm grey for secondary text, a soft brass/gold (`--gold`) for accents, dividers, hover states, and the "open now" indicator.
+- **Palette** — true monochrome: near-black background, off-white/ivory text, neutral grey for secondary text, white used as the sole accent (dividers, hover fills, the "open now" pulse dot) — no color, matching the shop's black-and-white logo and photography. Tokens live at the top of `css/style.css` (`--gold`/`--gold-soft`/`--gold-dim` are the accent variable names, kept from an earlier draft, but their values are white/grey, not literally gold).
 - **Services** are presented as an editorial menu list (`services.html`), not boxed cards.
-- **Photos** are grayscale with a faint sepia tint (`filter` on `.about-frame img` / `.gallery-item img` in `css/style.css`) so mixed-quality source photos still read as one consistent, moody palette. Remove the filter there if you'd rather show full color.
+- **Photos** are grayscale (`filter` on `.about-frame img` / `.gallery-item img` in `css/style.css`) so mixed-quality source photos still read as one consistent palette. Remove the filter there if you'd rather show full color.
 
 ## Photos
 
@@ -50,11 +51,17 @@ The three remaining gallery slots render as an elegant "coming soon" tile (see `
 
 **Hero video** — see `videos/README.md`. Drop a clip in as `videos/hero.mp4` and it autoplays muted/looped behind the home hero; until then a plain dark poster shows instead.
 
-**Map** — `visit.html` has a placeholder tile where a Google Maps embed would go. To wire up a real one, get an embed `<iframe>` from Google Maps ("Share" → "Embed a map") for your actual location and swap it in for the `.placeholder-tile` inside `.map-frame`.
+**Map** — `visit.html` has a placeholder tile where a Google Maps embed would go. The "Open in Maps" link on that page already points to a real Google Maps search for "Mivida Eterna Mall Gate 2" (taken from the address printed on your storefront photos) — swap it for the shop's exact Maps link once you have one. To add a real embedded map, get an `<iframe>` from Google Maps ("Share" → "Embed a map") and swap it in for the `.placeholder-tile` inside `.map-frame`.
 
-**Text** — update the phone/email/social links (currently placeholders) across all five files, and the hours in both `visit.html` and the `HOURS` table at the top of `js/script.js` (used to compute the live "open now / closed" pill) — keep them in sync.
+**Social icons** — Instagram/TikTok/Facebook icon circles appear in every footer and, larger, on `contact.html`. All currently link to `#` — replace with your real profile URLs across all six files (search for `aria-label="Instagram"` etc.).
 
-**Booking** — "Book Now" / "Call to Book" buttons currently link to a placeholder phone number. Swap the `tel:` href for your real number, or a booking platform link (Square, Fresha, Calendly, etc.), across all five files.
+**Contact page** (`contact.html`) is a simple, centered info page — phone, email, address, and the social icons. No form.
+
+**Text** — update the phone/email links (currently placeholders) across all six files, and the hours in both `visit.html` and the `HOURS` table at the top of `js/script.js` (used to compute the live "open now / closed" pill) — keep them in sync.
+
+**Booking** — "Book Now" / "Call to Book" buttons currently link to a placeholder phone number. Swap the `tel:` href for your real number, or a booking platform link (Square, Fresha, Calendly, etc.), across all six files.
+
+**Nav width** — the nav switches to the hamburger menu below 1100px wide (not just on phones) since six links plus the status pill and Book Now button get cramped on tablets/small laptops otherwise. Adjust the `@media (max-width: 1100px)` breakpoint in `css/style.css` if you add/remove nav items.
 
 ## Live/motion features
 
