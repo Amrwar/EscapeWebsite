@@ -2,10 +2,12 @@
   "name": "escape-barbershop-website",
   "private": true,
   "version": "1.0.0",
-  "description": "Escape Barbershop website — TypeScript compiles to js/script.js, which the static HTML pages load directly.",
+  "description": "Escape Barbershop website — static HTML built from src/pages + site.config.json by tools/build.mjs.",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc && node tools/build.mjs",
+    "watch": "tsc --watch",
+    "serve": "node tools/serve.mjs",
+    "dev": "npm run build && npm run serve"
   },
   "devDependencies": {
     "typescript": "^5.6.0"

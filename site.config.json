@@ -1,0 +1,128 @@
+{
+  "_readme": "Everything the site says about the shop lives here. Edit this file, run `npm run build`, and every page updates. Nothing else needs touching for day-to-day changes (phone, hours, prices, team, reviews).",
+
+  "name": "Escape Barbershop",
+  "shortName": "Escape",
+  "tagline": "Where a cut becomes an escape",
+  "description": "Escape Barbershop in Mivida, New Cairo — fades, beard sculpting, hot-towel shaves and grooming packages, by appointment or walk-in.",
+  "url": "https://escape-website-phi.vercel.app",
+
+  "_contact": "TODO: replace the placeholder phone/email/social links with the shop's real ones.",
+  "phoneDisplay": "+20 100 000 0000",
+  "phoneHref": "+201000000000",
+  "whatsapp": "201000000000",
+  "email": "hello@escapebarbershop.com",
+
+  "address": {
+    "line1": "Eterna Mall, Gate 2",
+    "line2": "Mivida, New Cairo",
+    "country": "Egypt",
+    "mapsUrl": "https://share.google/7Xe5DxwhBiDTLbYOz",
+    "mapsEmbed": "https://www.google.com/maps?q=Mivida+Eterna+Mall+Gate+2&output=embed"
+  },
+
+  "social": {
+    "instagram": "",
+    "tiktok": "",
+    "facebook": ""
+  },
+
+  "currency": "EGP",
+
+  "_hours": "One row per weekday, starting Sunday. Set open/close to null for a closed day. 24-hour clock.",
+  "hours": [
+    { "day": "Sunday", "open": "11:00", "close": "18:00" },
+    { "day": "Monday", "open": "10:00", "close": "21:00" },
+    { "day": "Tuesday", "open": "10:00", "close": "21:00" },
+    { "day": "Wednesday", "open": "10:00", "close": "21:00" },
+    { "day": "Thursday", "open": "10:00", "close": "21:00" },
+    { "day": "Friday", "open": "10:00", "close": "21:00" },
+    { "day": "Saturday", "open": "10:00", "close": "20:00" }
+  ],
+
+  "_services": "The shop's real menu, taken from the POS. `price` is null until you fill it in — while every price is null the site simply shows durations instead of an empty price column. `featured` services appear on the home page.",
+  "serviceGroups": ["Hair", "Beard", "Colour & Treatments", "Packages", "Extras"],
+  "services": [
+    { "name": "Hair Cut", "ar": "قص شعر", "group": "Hair", "minutes": 30, "price": null, "featured": true, "blurb": "Precision clipper and scissor work shaped to your head, finished with a razor edge." },
+    { "name": "Kids Hair Cut", "ar": "قص شعر أطفال", "group": "Hair", "minutes": 30, "price": null, "blurb": "Patient, precise cuts for the next generation of regulars." },
+    { "name": "Curly or Hair Dryer", "ar": "كيرلي أو سشوار", "group": "Hair", "minutes": 30, "price": null, "blurb": "Blow-dry and styling, curls included." },
+    { "name": "Hair Dryer for Long Hair", "ar": "سشوار للشعر الطويل", "group": "Hair", "minutes": 30, "price": null, "blurb": "Extra time and heat control for longer hair." },
+    { "name": "External Hair Dryer", "ar": "سشوار خارجي", "group": "Hair", "minutes": 20, "price": null, "blurb": "A styling-only visit, no cut." },
+    { "name": "Douglas", "ar": "داغلاس", "group": "Hair", "minutes": 30, "price": null, "blurb": "The Douglas cut, done properly." },
+
+    { "name": "Beard Cut", "ar": "قص لحية", "group": "Beard", "minutes": 20, "price": null, "featured": true, "blurb": "Shape, line-up and hot-towel conditioning for a beard that holds its line." },
+    { "name": "Beard Hair Dryer", "ar": "سشوار لحية", "group": "Beard", "minutes": 15, "price": null, "blurb": "Heat-shaped and softened, no trim needed." },
+    { "name": "Beard Oil Bath", "ar": "حمام زيت لحية", "group": "Beard", "minutes": 20, "price": null, "blurb": "Deep oil treatment for coarse or dry beards." },
+    { "name": "Beard Dye", "ar": "صبغة لحية", "group": "Beard", "minutes": 30, "price": null, "blurb": "Even colour, matched to your hair." },
+    { "name": "Beard Henna", "ar": "حناء لحية", "group": "Beard", "minutes": 30, "price": null, "blurb": "Natural henna colour and conditioning." },
+    { "name": "Face Threading", "ar": "خيط وجه", "group": "Beard", "minutes": 20, "price": null, "blurb": "Clean lines around the cheeks, brows and neck." },
+
+    { "name": "Hair Dye", "ar": "صبغة شعر", "group": "Colour & Treatments", "minutes": 45, "price": null, "blurb": "Full colour, mixed for your tone." },
+    { "name": "Silver Dye", "ar": "صبغة فضية", "group": "Colour & Treatments", "minutes": 60, "price": null, "blurb": "Ash and silver tones, lifted and toned in one sitting." },
+    { "name": "Highlights", "ar": "هايلايت", "group": "Colour & Treatments", "minutes": 90, "price": null, "blurb": "Hand-placed lightening for depth and contrast." },
+    { "name": "Hair Protein", "ar": "بروتين شعر", "group": "Colour & Treatments", "minutes": 120, "price": null, "blurb": "Smoothing protein treatment — frizz gone for months." },
+    { "name": "American Straightening", "ar": "فرد أمريكي", "group": "Colour & Treatments", "minutes": 120, "price": null, "blurb": "Long-lasting straightening, kept soft and natural." },
+    { "name": "Rinsage", "ar": "رينساج", "group": "Colour & Treatments", "minutes": 45, "price": null, "blurb": "Colour refresh and shine in a single wash-out." },
+    { "name": "Argan Oil Bath", "ar": "حمام زيت أرغان", "group": "Colour & Treatments", "minutes": 30, "price": null, "featured": true, "blurb": "Steam, argan oil and a scalp massage at the wash station." },
+    { "name": "L'Oréal Oil Bath", "ar": "حمام زيت لوريال", "group": "Colour & Treatments", "minutes": 30, "price": null, "blurb": "Salon-grade conditioning treatment." },
+    { "name": "Hair Henna", "ar": "حناء شعر", "group": "Colour & Treatments", "minutes": 45, "price": null, "blurb": "Natural colour with no ammonia." },
+    { "name": "Dandruff Removal", "ar": "إزالة قشرة", "group": "Colour & Treatments", "minutes": 30, "price": null, "blurb": "Targeted scalp treatment that actually clears it." },
+    { "name": "Topical Thickening", "ar": "تكثيف موضعي", "group": "Colour & Treatments", "minutes": 30, "price": null, "blurb": "Density treatment for thinning patches." },
+
+    { "name": "Nose & Ear Wax", "ar": "شمع أنف وأذن", "group": "Extras", "minutes": 15, "price": null, "blurb": "Quick, clean, over before you think about it." },
+    { "name": "Full Wax", "ar": "شمع كامل", "group": "Extras", "minutes": 30, "price": null, "blurb": "Full face and neck waxing." },
+    { "name": "Extras", "ar": "إضافات", "group": "Extras", "minutes": 15, "price": null, "blurb": "Add-ons to any service — ask your barber." }
+  ],
+
+  "_packages": "Multi-service sittings. Shown on the Offers page and linked from the booking form.",
+  "packages": [
+    {
+      "name": "Groom Package — In-Shop",
+      "ar": "باقة عريس داخلية",
+      "highlight": "Most booked before a wedding",
+      "blurb": "The full run-up in the chair: cut, beard sculpt, oil bath, facial threading and styling on the day.",
+      "includes": ["Hair cut & styling", "Beard sculpt", "Argan oil bath", "Face threading", "Nose & ear wax"],
+      "price": null
+    },
+    {
+      "name": "Groom Package — On Location",
+      "ar": "باقة عريس خارجية",
+      "highlight": "We come to you",
+      "blurb": "A barber travels to the hotel or the house on the wedding day, with everything needed to finish the look on site.",
+      "includes": ["Everything in the in-shop package", "Barber travels to you", "Styling on the day", "Touch-up before the ceremony"],
+      "price": null
+    },
+    {
+      "name": "The Full Escape",
+      "highlight": "The complete visit",
+      "blurb": "Cut, beard and treatment in one sitting — the whole ritual, start to finish, without watching the clock.",
+      "includes": ["Hair cut", "Beard cut", "Oil bath", "Hot towel finish"],
+      "price": null
+    }
+  ],
+
+  "_team": "TODO: these names came from the shop's own booking system — check them, and drop a photo into images/team/ for each one (then set `photo`).",
+  "team": [
+    { "name": "Abdullah", "role": "Master Barber", "specialty": "Skin fades & classic scissor work", "photo": null },
+    { "name": "Khaled", "role": "Senior Barber", "specialty": "Beard sculpting & hot-towel finishes", "photo": null },
+    { "name": "Mohamed", "role": "Barber", "specialty": "Colour, silver & highlights", "photo": null },
+    { "name": "Ali", "role": "Barber", "specialty": "Kids' cuts & styling", "photo": null }
+  ],
+
+  "_reviews": "Real customer reviews only. Leave the list empty and the Reviews page invites people to Google instead of showing anything made up. Add entries as { \"quote\", \"author\", \"source\", \"rating\" }.",
+  "googleReviewsUrl": "https://share.google/7Xe5DxwhBiDTLbYOz",
+  "reviews": [],
+
+  "faq": [
+    { "q": "Do I need an appointment?", "a": "No — walk-ins are welcome and always have been. But evenings and weekends fill up, so booking ahead is the difference between sitting straight down and waiting for a chair." },
+    { "q": "How do I book?", "a": "Use the booking form on this site and it sends your request straight to the shop on WhatsApp, or just call us. You'll get a reply confirming the time." },
+    { "q": "How long does a visit take?", "a": "A cut is about 30 minutes and a beard around 20. Colour, protein and straightening run from 45 minutes up to two hours — the full menu lists the time for every service." },
+    { "q": "What does it cost?", "a": "Ask us for the current price list — prices move with product costs, so we'd rather quote you than publish something out of date." },
+    { "q": "Do you cut children's hair?", "a": "Yes. Kids' cuts are on the menu and the barbers are patient with first-timers." },
+    { "q": "Which payment methods do you take?", "a": "Cash and card, plus the usual mobile wallets." },
+    { "q": "Do you do weddings?", "a": "Yes — there are two groom packages, one in the shop and one where a barber comes to you on the day. See the Offers page." },
+    { "q": "Where exactly are you?", "a": "Eterna Mall, Gate 2, in Mivida, New Cairo. The Visit page has a map and directions." },
+    { "q": "Is there parking?", "a": "Yes, there's parking at the mall right by Gate 2." },
+    { "q": "Can I book a specific barber?", "a": "Of course. Pick them on the booking form, or name them when you call — regulars usually do." }
+  ]
+}
