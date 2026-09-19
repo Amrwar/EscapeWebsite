@@ -6,11 +6,23 @@
  */
 
 type DayHours = { day: string; open: string | null; close: string | null };
-type SiteData = { hours: DayHours[]; name: string; whatsapp: string; phone: string };
+type SiteData = {
+  hours: DayHours[];
+  name: string;
+  whatsapp: string;
+  phone: string;
+  address: string;
+};
 
 const SITE: SiteData = (() => {
   const el = document.getElementById('site-data');
-  const fallback: SiteData = { hours: [], name: 'Escape Barbershop', whatsapp: '', phone: '' };
+  const fallback: SiteData = {
+    hours: [],
+    name: 'Escape Barbershop',
+    whatsapp: '',
+    phone: '',
+    address: '',
+  };
   if (!el || !el.textContent) return fallback;
   try {
     return { ...fallback, ...(JSON.parse(el.textContent) as Partial<SiteData>) };
@@ -555,4 +567,81 @@ if (bookingForm) {
   [nameInput, phoneInput, serviceInput, dateInput, timeInput].forEach((field) => {
     field?.addEventListener('input', () => setError(field, false));
   });
+
+  /* Returning customers shouldn't retype their own name and number. Stored on
+     this device only, and only after they've actually sent a request. */
+  const REMEMBER_KEY = 'escape.customer';
+  try {
+    const saved = localStorage.getItem(REMEMBER_KEY);
+    if (saved) {
+      const { name, phone } = JSON.parse(saved) as { name?: string; phone?: string };
+      if (nameInput && name && !nameInput.value) nameInput.value = name;
+      if (phoneInput && phone && !phoneInput.value) phoneInput.value = phone;
+    }
+  } catch {
+    /* private browsing, or storage turned off — just show an empty form */
+  }
+
+  const remember = (): void => {
+    try {
+      localStorage.setItem(
+        REMEMBER_KEY,
+        JSON.stringify({ name: nameInput?.value.trim(), phone: phoneInput?.value.trim() })
+      );
+    } catch {
+      /* nothing to do — remembering is a convenience, not a requirement */
+    }
+  };
+  bookingForm.addEventListener('submit', remember);
+  $<HTMLButtonElement>('#bookSms')?.addEventListener('click', remember);
+
+  /* An .ics the visitor can drop into their own calendar. It's marked
+     tentative, because the shop hasn't confirmed anything yet. */
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  const stamp = (d: Date): string =>
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+
+  $<HTMLButtonElement>('#bookCalendar')?.addEventListener('click', () => {
+    if (!dateInput?.value || !timeInput?.value || !serviceInput?.value) return;
+    const start = new Date(`${dateInput.value}T${timeInput.value}`);
+    const minutes = Number(
+      serviceInput.selectedOptions[0]?.dataset.minutes ?? '30'
+    );
+    const end = new Date(start.getTime() + minutes * 60000);
+    const barber = barberInput?.value ? ` with ${barberInput.value}` : '';
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Escape Barbershop//Website//EN',
+      'BEGIN:VEVENT',
+      `UID:${Date.now()}@escape-barbershop`,
+      `DTSTAMP:${stamp(new Date())}`,
+      `DTSTART:${stamp(start)}`,
+      `DTEND:${stamp(end)}`,
+      `SUMMARY:${serviceInput.value}${barber} — ${SITE.name}`,
+      `LOCATION:${SITE.address}`,
+      'STATUS:TENTATIVE',
+      'DESCRIPTION:Requested through the website. Not confirmed until the shop replies.',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ];
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'escape-barbershop.ics';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+
+  /* If they land here after hours, say so rather than let them wonder. */
+  const bookingStatus = shopStatus();
+  const aside = document.getElementById('bookNote');
+  if (aside && bookingStatus && !bookingStatus.open) {
+    aside.textContent = `${bookingStatus.long} Send the request anyway — we'll reply when we open.`;
+    aside.hidden = false;
+  }
 }
+
+/* ------------------------------------------------------------ print the menu */
+
+$<HTMLButtonElement>('#printMenu')?.addEventListener('click', () => window.print());

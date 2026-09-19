@@ -1,0 +1,22 @@
+{
+  "name": "Escape Barbershop",
+  "short_name": "Escape",
+  "description": "Escape Barbershop in Mivida, New Cairo — fades, beard sculpting, hot-towel shaves and grooming packages, by appointment or walk-in.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

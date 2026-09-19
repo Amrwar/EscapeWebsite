@@ -253,7 +253,12 @@ strong { font-weight: 500; color: var(--white); }
   max-width: var(--max);
   margin: 0 auto;
 }
-.section-narrow { max-width: 900px; }
+/* Narrow sections carry less content, so they need less air around them —
+   otherwise two in a row read as a gap in the page. */
+.section-narrow {
+  max-width: 900px;
+  padding-block: clamp(3.5rem, 6vw, 6rem);
+}
 
 .page-header {
   padding: clamp(9rem, 16vw, 13rem) var(--gutter) clamp(3rem, 6vw, 5rem);
@@ -871,17 +876,36 @@ strong { font-weight: 500; color: var(--white); }
   aspect-ratio: 3 / 4;
   margin-bottom: 1rem;
   background:
-    radial-gradient(80% 60% at 50% 20%, var(--panel-hi), var(--charcoal));
+    radial-gradient(90% 70% at 50% 15%, #242423 0%, #131313 60%, #0d0d0d 100%);
   border: 1px solid var(--line);
   display: grid;
   place-items: center;
   overflow: hidden;
+  transition: border-color 0.4s var(--ease);
 }
-.team-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
+.team-card:hover .team-photo { border-color: var(--line-mid); }
+.team-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition: transform 0.9s var(--ease);
+}
+.team-card:hover .team-photo img { transform: scale(1.04); }
+/* Until a portrait is dropped in, the plate shows a monogram inside a hairline
+   frame — deliberate, rather than a gap waiting for a photo. */
 .team-initial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58%;
+  aspect-ratio: 1;
+  border: 1px solid var(--line-mid);
+  border-radius: 50%;
   font-family: var(--display);
-  font-size: clamp(3rem, 7vw, 4.5rem);
-  color: var(--accent-dim);
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  color: var(--accent-soft);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
 }
 .team-role {
   font-size: 0.64rem;
@@ -889,8 +913,93 @@ strong { font-weight: 500; color: var(--white); }
   text-transform: uppercase;
   color: var(--accent-soft);
 }
-.team-specialty { font-size: var(--step--1); flex: 1; }
-.team-card .text-link { align-self: flex-start; margin-top: 0.6rem; }
+.team-specialty { font-size: var(--step--1); }
+.team-card .text-link { align-self: flex-start; margin-top: auto; padding-top: 1.1rem; }
+
+.team-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+.team-focus li {
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+.team-languages {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-dim);
+}
+.team-photo { position: relative; }
+.team-index {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.75rem;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--grey);
+}
+.team-grid.compact .team-photo { aspect-ratio: 4 / 3; }
+
+/* The four-step "how we work" list on the team page. */
+.craft-list {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border-block: 1px solid var(--line);
+}
+.craft-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  background: var(--black);
+  padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1rem, 2vw, 1.5rem);
+  transition: background 0.35s var(--ease);
+}
+.craft-step:hover { background: var(--panel); }
+.craft-num {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: var(--grey-dim);
+  padding-top: 0.35rem;
+}
+.craft-step h3 { margin-bottom: 0.4rem; }
+.craft-step p { font-size: var(--step--1); max-width: 68ch; }
+
+/* "Pick by what you want" — one tile per barber. */
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.pick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  background: var(--black);
+  transition: background 0.35s var(--ease);
+}
+.pick-card:hover { background: var(--panel); }
+.pick-focus {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+.pick-card strong { font-family: var(--display); font-size: var(--step-2); font-weight: 400; }
+.pick-role { font-size: var(--step--1); color: var(--grey-dim); }
 
 .contact-grid {
   display: grid;
@@ -1235,7 +1344,24 @@ strong { font-weight: 500; color: var(--white); }
   line-height: 1.8;
 }
 
+.preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+.preview-note { font-size: var(--step--1); color: var(--grey-dim); }
+
 .booking-aside { display: flex; flex-direction: column; gap: 1.25rem; }
+.aside-note {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--line-mid);
+  border-left-width: 2px;
+  font-size: var(--step--1);
+  color: var(--white);
+  background: var(--panel);
+}
 .aside-block {
   border: 1px solid var(--line);
   padding: clamp(1.5rem, 3vw, 2rem);
@@ -1416,6 +1542,34 @@ strong { font-weight: 500; color: var(--white); }
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1; transform: none; }
+}
+
+/* Print — "Print the Menu" should give a clean list on white paper, not a
+   screenshot of a dark website. */
+
+@media print {
+  :root { --white: #111; --grey: #444; --grey-dim: #666; --line: #ddd; }
+  body { background: #fff; color: #111; padding: 0; }
+  .site-header, .action-bar, .to-top, .grain, .cta-strip, .site-footer,
+  .menu-tools, .filter-empty, .menu-book, .skip-link, .divider,
+  .hero-actions, .section-head .eyebrow { display: none !important; }
+  .page-header { padding: 0 0 1.5rem; text-align: left; }
+  .page-header h1 { font-size: 26pt; }
+  .page-header > p { display: none; }
+  main { padding: 0; }
+  .services, .section-narrow, .section-wide { padding: 0; max-width: none; }
+  .menu-row {
+    break-inside: avoid;
+    padding: 0.35cm 0;
+    border-bottom: 1px solid #ddd;
+    background: none !important;
+  }
+  .menu-row h3 { font-size: 12pt; }
+  .menu-row p { font-size: 9pt; color: #555; }
+  .menu-time, .menu-price { font-size: 9pt; color: #333; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .faq-a { display: block !important; }
+  a[href]::after { content: ""; }
 }
 
 /* 12. Responsive ----------------------------------------------------------- */

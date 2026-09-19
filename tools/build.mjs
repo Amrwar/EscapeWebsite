@@ -49,6 +49,29 @@ await writeFile(
   'utf8'
 );
 
+/* Saved to a phone's home screen, this is what it's called and how it opens. */
+await writeFile(
+  path.join(root, 'site.webmanifest'),
+  `${JSON.stringify(
+    {
+      name: site.name,
+      short_name: site.shortName,
+      description: site.description,
+      start_url: '/index.html',
+      display: 'standalone',
+      background_color: '#090909',
+      theme_color: '#090909',
+      icons: [
+        { src: '/images/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
+        { src: '/images/logo.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      ],
+    },
+    null,
+    2
+  )}\n`,
+  'utf8'
+);
+
 console.log(`Built ${built.length} pages: ${built.join(', ')}`);
 console.log('Wrote sitemap.xml and robots.txt');
 

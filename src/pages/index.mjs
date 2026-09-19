@@ -6,7 +6,7 @@ import {
   ctaStrip,
   featuredServices,
   galleryGrid,
-  GALLERY,
+  gallery,
   hoursTable,
 } from '../../tools/components.mjs';
 
@@ -78,7 +78,7 @@ export default function home(site) {
     <p>Every station is set up for precision: proper wash basins, hot towels, blades that are sharpened, not swapped out. Every visit ends the same way — you leave looking better than you walked in.</p>
     <div class="hero-actions" style="justify-content:flex-start">
       <a href="about.html" class="btn btn-ghost">Our Story</a>
-      <a href="barbers.html" class="btn btn-ghost">Meet the Barbers</a>
+      <a href="behind-the-chair.html" class="btn btn-ghost">Meet the Barbers</a>
     </div>
   </div>
 </section>
@@ -98,7 +98,7 @@ ${divider}
 
 <section class="gallery">
   ${sectionHead('Inside Escape', 'The <em>space</em>', 'Shot in the shop, not in a stock library.')}
-  ${galleryGrid({ filters: false, items: GALLERY.slice(0, 3) })}
+  ${galleryGrid({ filters: false, items: gallery(site).slice(0, 3) })}
   <div class="hero-actions center" style="margin-top:3rem">
     <a href="gallery.html" class="btn btn-ghost">See the Full Gallery</a>
   </div>

@@ -101,13 +101,44 @@
     }
   ],
 
-  "_team": "TODO: these names came from the shop's own booking system — check them, and drop a photo into images/team/ for each one (then set `photo`).",
+  "_team": "TODO: these names came from the shop's own booking system — check them, and check what each one is known for. Photos are picked up automatically: drop a portrait at images/team/<name>.jpg (so images/team/abdullah.jpg) and it appears. `since` is the year they joined; left null, nothing is claimed.",
   "team": [
-    { "name": "Abdullah", "role": "Master Barber", "specialty": "Skin fades & classic scissor work", "photo": null },
-    { "name": "Khaled", "role": "Senior Barber", "specialty": "Beard sculpting & hot-towel finishes", "photo": null },
-    { "name": "Mohamed", "role": "Barber", "specialty": "Colour, silver & highlights", "photo": null },
-    { "name": "Ali", "role": "Barber", "specialty": "Kids' cuts & styling", "photo": null }
+    {
+      "name": "Abdullah",
+      "role": "Master Barber",
+      "specialty": "Skin fades and classic scissor work, finished with a razor edge.",
+      "focus": ["Skin fades", "Scissor cuts", "Razor finish"],
+      "languages": ["Arabic", "English"],
+      "since": null
+    },
+    {
+      "name": "Khaled",
+      "role": "Senior Barber",
+      "specialty": "Beard sculpting and hot-towel work — shapes that hold their line.",
+      "focus": ["Beard sculpting", "Hot towel", "Face threading"],
+      "languages": ["Arabic"],
+      "since": null
+    },
+    {
+      "name": "Mohamed",
+      "role": "Barber",
+      "specialty": "Colour work: silver, ash tones and hand-placed highlights.",
+      "focus": ["Colour", "Silver & ash", "Highlights"],
+      "languages": ["Arabic", "English"],
+      "since": null
+    },
+    {
+      "name": "Ali",
+      "role": "Barber",
+      "specialty": "Styling and kids' cuts — patient with first-timers.",
+      "focus": ["Kids' cuts", "Styling", "Blow-dry"],
+      "languages": ["Arabic"],
+      "since": null
+    }
   ],
+
+  "_photoCaptions": "Optional alt text for photos dropped into images/gallery/, keyed by their path under that folder. Anything not listed gets a caption made from its file name.",
+  "photoCaptions": {},
 
   "_reviews": "Real customer reviews only. Leave the list empty and the Reviews page invites people to Google instead of showing anything made up. Add entries as { \"quote\", \"author\", \"source\", \"rating\" }.",
   "googleReviewsUrl": "https://share.google/7Xe5DxwhBiDTLbYOz",

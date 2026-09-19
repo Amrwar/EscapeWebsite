@@ -4,7 +4,12 @@
  * so the shop edits data in one place and every page that shows it follows.
  */
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { esc, pretty, waLink, icon } from './layout.mjs';
+import { teamPhotos, galleryPhotos, slug } from './photos.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 export const sectionHead = (eyebrow, heading, sub = '') => `
   <div class="section-head reveal">
@@ -142,25 +147,45 @@ export function packageCards(site) {
   </div>`;
 }
 
-export function teamGrid(site) {
+/**
+ * The team. Portraits are found on disk (images/team/<name>.jpg) rather than
+ * listed in the config, so adding a photo is just dropping the file in. Until
+ * one exists, the card shows a monogram plate instead of a broken frame.
+ *
+ * `compact` is the shorter card used on pages where the team isn't the subject.
+ */
+export function teamGrid(site, { compact = false } = {}) {
+  const portraits = teamPhotos(ROOT);
   return `
-  <div class="team-grid">
+  <div class="team-grid${compact ? ' compact' : ''}">
     ${site.team
-      .map(
-        (m) => `<article class="team-card reveal">
+      .map((m, i) => {
+        const photo = m.photo ?? portraits.get(slug(m.name));
+        return `<article class="team-card reveal">
       <div class="team-photo">
         ${
-          m.photo
-            ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}" loading="lazy">`
+          photo
+            ? `<img src="${esc(photo)}" alt="${esc(m.name)}, ${esc(m.role.toLowerCase())} at ${esc(site.name)}" loading="lazy">`
             : `<span class="team-initial" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`
         }
+        <span class="team-index" aria-hidden="true">0${i + 1}</span>
       </div>
       <h3>${esc(m.name)}</h3>
-      <p class="team-role">${esc(m.role)}</p>
+      <p class="team-role">${esc(m.role)}${m.since ? ` · since ${esc(String(m.since))}` : ''}</p>
       <p class="team-specialty">${esc(m.specialty)}</p>
+      ${
+        !compact && m.focus?.length
+          ? `<ul class="team-focus">${m.focus.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>`
+          : ''
+      }
+      ${
+        !compact && m.languages?.length
+          ? `<p class="team-languages">Speaks ${esc(m.languages.join(' & '))}</p>`
+          : ''
+      }
       <a class="text-link" href="book.html?barber=${encodeURIComponent(m.name)}">Book with ${esc(m.name)} →</a>
-    </article>`
-      )
+    </article>`;
+      })
       .join('\n    ')}
   </div>`;
 }
@@ -216,7 +241,8 @@ export function reviewWall(site) {
   <div class="review-dots" id="reviewDots" role="tablist" aria-label="Reviews"></div>`;
 }
 
-export const GALLERY = [
+/** The photos that shipped with the site. */
+const BASE_GALLERY = [
   { file: 'storefront.jpg', alt: 'Escape Barbershop storefront at night', group: 'The Shop' },
   { file: 'entrance-lights.jpg', alt: 'Entrance with pendant lighting', group: 'The Shop' },
   { file: 'barber-chairs.jpg', alt: 'Barber chairs lined up along the mirrors', group: 'The Chairs' },
@@ -224,7 +250,17 @@ export const GALLERY = [
   { file: 'wash-station.jpg', alt: 'Wash basin station', group: 'Stations' },
 ];
 
-export function galleryGrid({ filters = true, items = GALLERY } = {}) {
+/**
+ * Everything the gallery shows: the photos above, plus anything dropped into
+ * images/gallery/<group>/ since. New work lands at the front, because that's
+ * what a visitor wants to see first.
+ */
+export function gallery(site) {
+  const dropped = galleryPhotos(ROOT, site.photoCaptions ?? {});
+  return [...dropped, ...BASE_GALLERY];
+}
+
+export function galleryGrid({ filters = true, items = BASE_GALLERY } = {}) {
   const groups = [...new Set(items.map((i) => i.group))];
   const tabs = filters
     ? `

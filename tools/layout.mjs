@@ -9,7 +9,7 @@
 export const NAV = [
   { href: 'services.html', label: 'Services' },
   { href: 'offers.html', label: 'Offers' },
-  { href: 'barbers.html', label: 'Barbers' },
+  { href: 'behind-the-chair.html', label: 'The Barbers' },
   { href: 'gallery.html', label: 'Gallery' },
   { href: 'about.html', label: 'About' },
   { href: 'visit.html', label: 'Visit' },
@@ -90,7 +90,8 @@ function head(page, site) {
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="images/logo.png">`;
+<link rel="apple-touch-icon" href="images/logo.png">
+<link rel="manifest" href="site.webmanifest">`;
 }
 
 /** Structured data, so Google can show hours, location and the FAQ. */
@@ -231,6 +232,7 @@ export function render(page, site) {
     name: site.name,
     whatsapp: site.whatsapp,
     phone: site.phoneHref,
+    address: `${site.address.line1}, ${site.address.line2}, ${site.address.country}`,
   });
   return `<!DOCTYPE html>
 <html lang="en">

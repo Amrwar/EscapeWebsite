@@ -28,7 +28,7 @@ The build prints a warning listing anything still on a placeholder value.
 | `email` | Currently a placeholder address. |
 | `social.instagram` / `tiktok` / `facebook` | Empty for now, so no icons appear. Paste the profile URLs in and the icons show up in every footer and on the Contact page. |
 | `services[].price`, `packages[].price` | All `null`. While every price is null the menu shows durations only — as soon as one is filled, a price column appears everywhere. |
-| `team` | The four names came from the shop's own booking system. Check them, and drop photos into `images/team/` and set `photo` on each. |
+| `team` | The four names came from the shop's own booking system. Check them and what each is known for. Photos are automatic — see below. |
 | `reviews` | Empty on purpose — the Reviews page invites people to Google rather than showing anything made up. Add real ones as `{ "quote", "author", "source", "rating" }`. |
 | `url` | Set this to the final domain once there is one, so the social cards and sitemap point at the right place. |
 
@@ -39,7 +39,7 @@ The build prints a warning listing anything still on a placeholder value.
 | `index.html` | Home — hero, story, featured services, gallery, hours, booking CTA |
 | `services.html` | The full menu, filterable and searchable, with durations |
 | `offers.html` | Groom packages, the full sitting, standing offers |
-| `barbers.html` | The team, each linking to a booking pre-filled with their name |
+| `behind-the-chair.html` | The barbers, each linking to a booking pre-filled with their name |
 | `gallery.html` | All photos, filterable, with a lightbox |
 | `book.html` | Booking request form |
 | `reviews.html` | Reviews, or the invitation to leave one |
@@ -66,14 +66,24 @@ src/script.ts       — all the interactive behaviour (compiled to js/script.js)
 tools/layout.mjs    — the shell every page shares: head, header, footer, action bar
 tools/components.mjs— blocks used on more than one page (menu, hours, FAQ, team…)
 tools/build.mjs     — pours pages into the shell, writes the HTML + sitemap
+tools/photos.mjs    — finds photos dropped into images/team and images/gallery
 tools/serve.mjs     — the local preview server
 tools/smoke.mjs     — end-to-end checks (see below)
 css/style.css       — the whole design system
-images/, videos/    — photos, logo, favicon, optional hero clip
+images/team/        — barber portraits, picked up by file name
+images/gallery/     — gallery photos, filed by the folder they're in
+images/, videos/    — logo, favicon, the photos that shipped, optional hero clip
 *.html              — generated. Don't edit these by hand; they're overwritten.
 ```
 
 Adding a page means adding one file to `src/pages/` and, if it belongs in the nav, one line in `NAV` (or `NAV_SECONDARY`) in `tools/layout.mjs`.
+
+## What else is on the site
+
+- **Booking extras** — the form remembers your name and number on your own device, and offers an **Add to My Calendar** file (marked tentative, since the shop still confirms). After hours it says so instead of letting you wonder.
+- **Print the Menu** — a print stylesheet turns the services page into a clean list on white paper.
+- **Home-screen install** — `site.webmanifest` is generated at build time, so the site can be saved to a phone's home screen.
+- **Tidy URLs** — `vercel.json` redirects `/barbers`, `/team`, `/booking`, `/prices` and `/menu` to the right pages, and keeps the old `/barbers.html` link working.
 
 ## Testing
 
@@ -83,9 +93,21 @@ chrome --headless --remote-debugging-port=9222 # terminal 2
 node tools/smoke.mjs                           # terminal 3
 ```
 
-Drives a real headless Chrome and checks the menu filter and search (including Arabic), the gallery lightbox and its keyboard controls, the FAQ accordion, and the booking form — that it pre-fills from a deep link, rejects an empty name and a closed-hours time, and builds the right message.
+Drives a real headless Chrome through 20 checks: the menu filter and search (including Arabic), the gallery lightbox and its keyboard controls, the FAQ accordion, the team cards and their photo fallback, and the booking form — that it pre-fills from a deep link, rejects an empty name and a closed-hours time, builds the right message, remembers the customer, and writes a calendar file covering the right slot.
 
-## Photos
+## Adding photos
+
+You never edit code to add a picture. Drop the file in the right folder and run `npm run build`.
+
+**Barber portraits** → `images/team/<name>.jpg`, named after the barber in lowercase (`images/team/khaled.jpg`). It appears on their card everywhere they're shown. Until then the card shows a monogram plate, which is why nothing looks half-built while we wait. Upright, roughly 3:4, about 1200px on the long edge.
+
+**Gallery photos** → `images/gallery/<section>/<file>.jpg`. The folder name becomes the filter button on the Gallery page (`images/gallery/the-chairs/mirrors.jpg` files it under "The Chairs"), and new photos also feed the three tiles on the home page. The file name becomes the alt text; to write your own, add it to `photoCaptions` in `site.config.json`. Landscape, about 1600px wide.
+
+Both folders have a README repeating this, so it's there when you need it.
+
+Everything is rendered in black and white to match the rest of the site, so don't worry about matching colour between shots.
+
+### Photos that ship with the site
 
 | File | Used on |
 |---|---|
@@ -94,8 +116,6 @@ Drives a real headless Chrome and checks the menu filter and search (including A
 | `barber-chairs.jpg` | Gallery |
 | `pedicure-area.jpg` | Gallery |
 | `wash-station.jpg` | About, Gallery |
-
-To add more, drop the file into `images/` and add a line to `GALLERY` in `tools/components.mjs`.
 
 **Hero video** — optional. Put a clip at `videos/hero.mp4` and the home hero plays it automatically; until then the entrance photo stands in.
 

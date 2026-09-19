@@ -1,6 +1,6 @@
-import { galleryGrid, ctaStrip } from '../../tools/components.mjs';
+import { galleryGrid, gallery, ctaStrip } from '../../tools/components.mjs';
 
-export default function gallery(site) {
+export default function galleryPage(site) {
   return {
     file: 'gallery.html',
     title: `Gallery — ${site.name}`,
@@ -13,7 +13,7 @@ export default function gallery(site) {
 </section>
 
 <section class="gallery">
-  ${galleryGrid()}
+  ${galleryGrid({ items: gallery(site) })}
 </section>
 
 ${ctaStrip(site, 'Better in <em>person</em>', 'The lighting, the leather and the quiet do not photograph. Come and sit in it.')}

@@ -60,7 +60,7 @@ ${divider}
 
 <section class="section-wide">
   ${sectionHead('The team', 'Who you&rsquo;ll <em>sit with</em>')}
-  ${teamGrid(site)}
+  ${teamGrid(site, { compact: true })}
 </section>
 
 ${ctaStrip(site, 'Come see if it <em>holds up</em>', `Book a chair, or drop into ${esc(site.address.line1)} and ask for whoever is free.`)}

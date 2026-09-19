@@ -16,6 +16,10 @@ export default function services(site) {
 
 <section class="services">
   ${serviceMenu(site)}
+  <div class="hero-actions center" style="margin-top:2.5rem">
+    <a href="book.html" class="btn btn-primary">Book a Service</a>
+    <button type="button" class="btn btn-ghost" id="printMenu">Print the Menu</button>
+  </div>
 </section>
 
 ${divider}

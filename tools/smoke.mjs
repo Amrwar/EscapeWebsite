@@ -185,6 +185,47 @@ const ok =
   message.includes('12:00');
 check('valid request builds the full message', ok, message.replace(/\n/g, ' | '));
 
+const remembered = await evaluate(`
+  JSON.parse(localStorage.getItem('escape.customer') || '{}').name
+`);
+check('the form remembers who you are for next time', remembered === 'Test Customer', remembered);
+
+const ics = await evaluate(`
+  let captured = '';
+  const realCreate = URL.createObjectURL;
+  URL.createObjectURL = (blob) => { captured = blob; return 'blob:stub'; };
+  const realClick = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function () {};
+  document.querySelector('#bookCalendar').click();
+  URL.createObjectURL = realCreate;
+  HTMLAnchorElement.prototype.click = realClick;
+  captured ? captured.text() : '';
+`);
+const icsOk =
+  typeof ics === 'string' &&
+  ics.includes('BEGIN:VEVENT') &&
+  ics.includes('SUMMARY:Beard Cut with Khaled') &&
+  ics.includes('STATUS:TENTATIVE') &&
+  /DTSTART:\d{8}T120000/.test(ics) &&
+  /DTEND:\d{8}T122000/.test(ics); // a beard cut is 20 minutes
+check('calendar file covers the right slot', icsOk, ics.split('\r\n').slice(3, 9).join(' | '));
+
+/* ---- the team page ---- */
+await goto('behind-the-chair.html');
+const cards = await evaluate(`document.querySelectorAll('.team-card').length`);
+check('every barber has a card', cards === 4, `${cards} cards`);
+
+const fallbacks = await evaluate(`
+  document.querySelectorAll('.team-photo .team-initial').length
+    + ':' + document.querySelectorAll('.team-photo img').length
+`);
+check('portraits fall back to a monogram until photos land', fallbacks === '4:0', fallbacks);
+
+const picks = await evaluate(`
+  [...document.querySelectorAll('.pick-card')].every(a => a.href.includes('barber='))
+`);
+check('each pick tile books that barber', picks === true);
+
 /* ---- no page threw ---- */
 const failed = results.filter((r) => !r.pass);
 console.log(`\n${results.length - failed.length}/${results.length} checks passed`);

@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="images/logo.png">
+<link rel="manifest" href="site.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"Escape Barbershop","description":"Escape Barbershop in Mivida, New Cairo — fades, beard sculpting, hot-towel shaves and grooming packages, by appointment or walk-in.","url":"https://escape-website-phi.vercel.app","image":"https://escape-website-phi.vercel.app/images/storefront.jpg","telephone":"+201000000000","email":"hello@escapebarbershop.com","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Eterna Mall, Gate 2","addressLocality":"Mivida, New Cairo","addressCountry":"Egypt"},"hasMap":"https://share.google/7Xe5DxwhBiDTLbYOz","sameAs":[],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Sunday","opens":"11:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Monday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Tuesday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Wednesday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Thursday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Friday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Saturday","opens":"10:00","closes":"20:00"}]}</script>
 </head>
 <body>
@@ -42,7 +43,7 @@
     <ul class="nav-links" id="navLinks">
         <li><a href="services.html" data-page="services.html">Services</a></li>
         <li><a href="offers.html" data-page="offers.html">Offers</a></li>
-        <li><a href="barbers.html" data-page="barbers.html">Barbers</a></li>
+        <li><a href="behind-the-chair.html" data-page="behind-the-chair.html">The Barbers</a></li>
         <li><a href="gallery.html" data-page="gallery.html">Gallery</a></li>
         <li><a href="about.html" data-page="about.html">About</a></li>
         <li><a href="visit.html" data-page="visit.html">Visit</a></li>
@@ -81,35 +82,35 @@
       <label for="bookService">Service</label>
       <select id="bookService" name="service" required>
         <option value="">Choose a service…</option>
-        <option value="Groom Package — In-Shop">Groom Package — In-Shop</option>
-        <option value="Groom Package — On Location">Groom Package — On Location</option>
-        <option value="The Full Escape">The Full Escape</option>
-        <option value="Hair Cut">Hair Cut</option>
-        <option value="Kids Hair Cut">Kids Hair Cut</option>
-        <option value="Curly or Hair Dryer">Curly or Hair Dryer</option>
-        <option value="Hair Dryer for Long Hair">Hair Dryer for Long Hair</option>
-        <option value="External Hair Dryer">External Hair Dryer</option>
-        <option value="Douglas">Douglas</option>
-        <option value="Beard Cut">Beard Cut</option>
-        <option value="Beard Hair Dryer">Beard Hair Dryer</option>
-        <option value="Beard Oil Bath">Beard Oil Bath</option>
-        <option value="Beard Dye">Beard Dye</option>
-        <option value="Beard Henna">Beard Henna</option>
-        <option value="Face Threading">Face Threading</option>
-        <option value="Hair Dye">Hair Dye</option>
-        <option value="Silver Dye">Silver Dye</option>
-        <option value="Highlights">Highlights</option>
-        <option value="Hair Protein">Hair Protein</option>
-        <option value="American Straightening">American Straightening</option>
-        <option value="Rinsage">Rinsage</option>
-        <option value="Argan Oil Bath">Argan Oil Bath</option>
-        <option value="L'Oréal Oil Bath">L'Oréal Oil Bath</option>
-        <option value="Hair Henna">Hair Henna</option>
-        <option value="Dandruff Removal">Dandruff Removal</option>
-        <option value="Topical Thickening">Topical Thickening</option>
-        <option value="Nose &amp; Ear Wax">Nose &amp; Ear Wax</option>
-        <option value="Full Wax">Full Wax</option>
-        <option value="Extras">Extras</option>
+        <option value="Groom Package — In-Shop" data-minutes="90">Groom Package — In-Shop</option>
+        <option value="Groom Package — On Location" data-minutes="90">Groom Package — On Location</option>
+        <option value="The Full Escape" data-minutes="90">The Full Escape</option>
+        <option value="Hair Cut" data-minutes="30">Hair Cut</option>
+        <option value="Kids Hair Cut" data-minutes="30">Kids Hair Cut</option>
+        <option value="Curly or Hair Dryer" data-minutes="30">Curly or Hair Dryer</option>
+        <option value="Hair Dryer for Long Hair" data-minutes="30">Hair Dryer for Long Hair</option>
+        <option value="External Hair Dryer" data-minutes="20">External Hair Dryer</option>
+        <option value="Douglas" data-minutes="30">Douglas</option>
+        <option value="Beard Cut" data-minutes="20">Beard Cut</option>
+        <option value="Beard Hair Dryer" data-minutes="15">Beard Hair Dryer</option>
+        <option value="Beard Oil Bath" data-minutes="20">Beard Oil Bath</option>
+        <option value="Beard Dye" data-minutes="30">Beard Dye</option>
+        <option value="Beard Henna" data-minutes="30">Beard Henna</option>
+        <option value="Face Threading" data-minutes="20">Face Threading</option>
+        <option value="Hair Dye" data-minutes="45">Hair Dye</option>
+        <option value="Silver Dye" data-minutes="60">Silver Dye</option>
+        <option value="Highlights" data-minutes="90">Highlights</option>
+        <option value="Hair Protein" data-minutes="120">Hair Protein</option>
+        <option value="American Straightening" data-minutes="120">American Straightening</option>
+        <option value="Rinsage" data-minutes="45">Rinsage</option>
+        <option value="Argan Oil Bath" data-minutes="30">Argan Oil Bath</option>
+        <option value="L'Oréal Oil Bath" data-minutes="30">L'Oréal Oil Bath</option>
+        <option value="Hair Henna" data-minutes="45">Hair Henna</option>
+        <option value="Dandruff Removal" data-minutes="30">Dandruff Removal</option>
+        <option value="Topical Thickening" data-minutes="30">Topical Thickening</option>
+        <option value="Nose &amp; Ear Wax" data-minutes="15">Nose &amp; Ear Wax</option>
+        <option value="Full Wax" data-minutes="30">Full Wax</option>
+        <option value="Extras" data-minutes="15">Extras</option>
       </select>
       <p class="field-error" data-error-for="bookService" hidden>Pick a service so we set aside the right amount of time.</p>
     </div>
@@ -153,10 +154,15 @@
     <div class="form-preview" id="bookPreview" hidden>
       <h3>What we'll receive</h3>
       <pre id="bookPreviewText"></pre>
+      <div class="preview-actions">
+        <button type="button" class="btn btn-ghost" id="bookCalendar">Add to My Calendar</button>
+        <span class="preview-note">Saves a provisional entry — the shop still confirms by reply.</span>
+      </div>
     </div>
   </form>
 
   <aside class="booking-aside">
+    <p class="aside-note" id="bookNote" hidden></p>
     <div class="aside-block reveal">
       <h3 class="block-title">Opening hours</h3>
       <ul class="hours-list compact" data-hours-list>
@@ -201,7 +207,7 @@
         <a href="index.html">Home</a>
         <a href="services.html">Services</a>
         <a href="offers.html">Offers</a>
-        <a href="barbers.html">Barbers</a>
+        <a href="behind-the-chair.html">The Barbers</a>
         <a href="gallery.html">Gallery</a>
         <a href="about.html">About</a>
         <a href="visit.html">Visit</a>
@@ -247,7 +253,7 @@
 
 <button class="to-top" id="toTop" aria-label="Back to top" hidden>↑</button>
 
-<script id="site-data" type="application/json">{"hours":[{"day":"Sunday","open":"11:00","close":"18:00"},{"day":"Monday","open":"10:00","close":"21:00"},{"day":"Tuesday","open":"10:00","close":"21:00"},{"day":"Wednesday","open":"10:00","close":"21:00"},{"day":"Thursday","open":"10:00","close":"21:00"},{"day":"Friday","open":"10:00","close":"21:00"},{"day":"Saturday","open":"10:00","close":"20:00"}],"name":"Escape Barbershop","whatsapp":"201000000000","phone":"+201000000000"}</script>
+<script id="site-data" type="application/json">{"hours":[{"day":"Sunday","open":"11:00","close":"18:00"},{"day":"Monday","open":"10:00","close":"21:00"},{"day":"Tuesday","open":"10:00","close":"21:00"},{"day":"Wednesday","open":"10:00","close":"21:00"},{"day":"Thursday","open":"10:00","close":"21:00"},{"day":"Friday","open":"10:00","close":"21:00"},{"day":"Saturday","open":"10:00","close":"20:00"}],"name":"Escape Barbershop","whatsapp":"201000000000","phone":"+201000000000","address":"Eterna Mall, Gate 2, Mivida, New Cairo, Egypt"}</script>
 <script src="js/script.js" defer></script>
 </body>
 </html>

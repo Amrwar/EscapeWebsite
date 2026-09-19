@@ -9,8 +9,8 @@ import { hoursTable } from '../../tools/components.mjs';
  */
 export default function book(site) {
   const serviceOptions = [
-    ...site.packages.map((p) => p.name),
-    ...site.services.map((s) => s.name),
+    ...site.packages.map((p) => ({ name: p.name, minutes: 90 })),
+    ...site.services.map((s) => ({ name: s.name, minutes: s.minutes })),
   ];
   return {
     file: 'book.html',
@@ -42,7 +42,9 @@ export default function book(site) {
       <label for="bookService">Service</label>
       <select id="bookService" name="service" required>
         <option value="">Choose a service…</option>
-        ${serviceOptions.map((name) => `<option value="${esc(name)}">${esc(name)}</option>`).join('\n        ')}
+        ${serviceOptions
+          .map((s) => `<option value="${esc(s.name)}" data-minutes="${s.minutes}">${esc(s.name)}</option>`)
+          .join('\n        ')}
       </select>
       <p class="field-error" data-error-for="bookService" hidden>Pick a service so we set aside the right amount of time.</p>
     </div>
@@ -83,10 +85,15 @@ export default function book(site) {
     <div class="form-preview" id="bookPreview" hidden>
       <h3>What we'll receive</h3>
       <pre id="bookPreviewText"></pre>
+      <div class="preview-actions">
+        <button type="button" class="btn btn-ghost" id="bookCalendar">Add to My Calendar</button>
+        <span class="preview-note">Saves a provisional entry — the shop still confirms by reply.</span>
+      </div>
     </div>
   </form>
 
   <aside class="booking-aside">
+    <p class="aside-note" id="bookNote" hidden></p>
     <div class="aside-block reveal">
       <h3 class="block-title">Opening hours</h3>
       ${hoursTable(site, { compact: true })}
