@@ -165,7 +165,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body.nav-open { overflow: hidden; }
+html.nav-open, body.nav-open { overflow: hidden; height: 100%; overscroll-behavior: none; }
 
 /* Filters and the lightbox toggle the `hidden` attribute, and a display rule
    further down would otherwise win against it. */
@@ -2236,6 +2236,7 @@ html[data-theme="dark"] .to-top { background: rgba(15, 15, 14, 0.9); }
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    touch-action: pan-y;
   }
   html[data-theme="dark"] .nav-links { background: rgba(15, 15, 14, 0.98); }
   .nav-links.open { transform: none; opacity: 1; pointer-events: auto; }

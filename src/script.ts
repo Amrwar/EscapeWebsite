@@ -81,17 +81,30 @@ const navToggle = $<HTMLButtonElement>('#navToggle');
 const navLinks = $<HTMLUListElement>('#navLinks');
 let navScrollY = 0;
 
+/* Locking scroll on both html and body (rather than moving body with
+   position: fixed) stops the background from scrolling on mobile without
+   fighting the menu panel's own independent scrolling. Plain
+   `overflow: hidden` drops the scroll position while it's applied, so it's
+   saved here and restored on the next frame once the lock is lifted (doing
+   it in the same tick as removing the class is unreliable). */
+function lockScroll(): void {
+  navScrollY = window.scrollY;
+  document.body.classList.add('nav-open');
+  document.documentElement.classList.add('nav-open');
+}
+function unlockScroll(): void {
+  document.body.classList.remove('nav-open');
+  document.documentElement.classList.remove('nav-open');
+  requestAnimationFrame(() => window.scrollTo(0, navScrollY));
+}
+
 function closeNav(): void {
   if (!navLinks || !navToggle) return;
   navLinks.classList.remove('open');
   navToggle.classList.remove('open');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.setAttribute('aria-label', 'Open menu');
-  document.body.classList.remove('nav-open');
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  window.scrollTo(0, navScrollY);
+  unlockScroll();
 }
 
 if (navToggle && navLinks) {
@@ -100,21 +113,8 @@ if (navToggle && navLinks) {
     navToggle.classList.toggle('open', isOpen);
     navToggle.setAttribute('aria-expanded', String(isOpen));
     navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-    document.body.classList.toggle('nav-open', isOpen);
-    /* A plain `overflow: hidden` on body isn't enough to stop mobile
-       browsers from moving the fixed menu panel around once the page has
-       been scrolled — pinning body at the current offset avoids that. */
-    if (isOpen) {
-      navScrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${navScrollY}px`;
-      document.body.style.width = '100%';
-    } else {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, navScrollY);
-    }
+    if (isOpen) lockScroll();
+    else unlockScroll();
   });
   navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNav));
   document.addEventListener('keydown', (e) => {
