@@ -19,14 +19,18 @@ ${cover({
   ${reviewWall(site)}
 </section>
 
-<section class="section-narrow" data-rail="Leave Yours">
+${
+  site.reviews.length
+    ? `<section class="section-narrow" data-rail="Leave Yours">
   ${sectionHead('Leave yours', 'Sat in one of our chairs?')}
   <p class="section-sub">A line on Google takes thirty seconds and decides where somebody in Mivida gets their next cut. If something was off, tell us first — we would rather fix it than read about it.</p>
   <div class="hero-actions center" style="margin-top:2rem">
     <a class="btn btn-primary" href="${esc(site.googleReviewsUrl)}" target="_blank" rel="noopener">Write a Google Review</a>
     <a class="btn btn-ghost" href="contact.html">Tell us privately</a>
   </div>
-</section>
+</section>`
+    : ''
+}
 
 ${ctaStrip(site, 'Judge it for <em>yourself</em>', 'Book a chair and see whether the reviews hold up.')}
 `,
