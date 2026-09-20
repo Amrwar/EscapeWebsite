@@ -30,13 +30,13 @@
 
   "_hours": "One row per weekday, starting Sunday. Set open/close to null for a closed day. 24-hour clock.",
   "hours": [
-    { "day": "Sunday", "open": "11:00", "close": "18:00" },
-    { "day": "Monday", "open": "10:00", "close": "21:00" },
-    { "day": "Tuesday", "open": "10:00", "close": "21:00" },
-    { "day": "Wednesday", "open": "10:00", "close": "21:00" },
-    { "day": "Thursday", "open": "10:00", "close": "21:00" },
-    { "day": "Friday", "open": "10:00", "close": "21:00" },
-    { "day": "Saturday", "open": "10:00", "close": "20:00" }
+    { "day": "Sunday", "open": "11:00", "close": "23:00" },
+    { "day": "Monday", "open": "11:00", "close": "23:00" },
+    { "day": "Tuesday", "open": "11:00", "close": "23:00" },
+    { "day": "Wednesday", "open": "11:00", "close": "23:00" },
+    { "day": "Thursday", "open": "11:00", "close": "23:00" },
+    { "day": "Friday", "open": "11:00", "close": "23:00" },
+    { "day": "Saturday", "open": "11:00", "close": "23:00" }
   ],
 
   "_services": "The shop's real menu, taken from the POS. `price` is null until you fill it in — while every price is null the site simply shows durations instead of an empty price column. `featured` services appear on the home page.",
