@@ -67,7 +67,7 @@ export function socialLinks(site, className = 'social-icons') {
 function head(page, site) {
   const title = page.title ?? site.name;
   const description = page.description ?? site.description;
-  const canonical = `${site.url}/${page.file === 'index.html' ? '' : page.file}`;
+  const canonical = `${site.url}/${page.file === 'index.html' ? '' : page.file.replace(/\.html$/, '')}`;
   const ogImage = `${site.url}/images/storefront.jpg`;
   return `<meta charset="UTF-8">
 <script>(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>

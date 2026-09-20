@@ -34,7 +34,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${built
   .filter((f) => f !== '404.html')
   .map((f) => {
-    const loc = `${site.url}/${f === 'index.html' ? '' : f}`;
+    const loc = `${site.url}/${f === 'index.html' ? '' : f.replace(/\.html$/, '')}`;
     const priority = f === 'index.html' ? '1.0' : f === 'book.html' ? '0.9' : '0.7';
     return `  <url>\n    <loc>${loc}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
   })

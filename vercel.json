@@ -1,12 +1,13 @@
 {
   "outputDirectory": ".",
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/barbers.html", "destination": "/behind-the-chair.html", "permanent": true },
-    { "source": "/barbers", "destination": "/behind-the-chair.html", "permanent": true },
-    { "source": "/team", "destination": "/behind-the-chair.html", "permanent": false },
-    { "source": "/booking", "destination": "/book.html", "permanent": false },
-    { "source": "/prices", "destination": "/services.html", "permanent": false },
-    { "source": "/menu", "destination": "/services.html", "permanent": false }
+    { "source": "/barbers.html", "destination": "/behind-the-chair", "permanent": true },
+    { "source": "/barbers", "destination": "/behind-the-chair", "permanent": true },
+    { "source": "/team", "destination": "/behind-the-chair", "permanent": false },
+    { "source": "/booking", "destination": "/book", "permanent": false },
+    { "source": "/prices", "destination": "/services", "permanent": false },
+    { "source": "/menu", "destination": "/services", "permanent": false }
   ],
   "headers": [
     {
