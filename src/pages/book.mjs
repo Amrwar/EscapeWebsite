@@ -28,7 +28,7 @@ export default function book(site) {
   <form class="booking-form reveal" id="bookingForm" novalidate>
     <div class="field">
       <label for="bookName">Your name</label>
-      <input type="text" id="bookName" name="name" autocomplete="name" required placeholder="e.g. Amr Hefny">
+      <input type="text" id="bookName" name="name" autocomplete="name" required placeholder="e.g. Mohamed Ahmed">
       <p class="field-error" data-error-for="bookName" hidden>Please tell us your name.</p>
     </div>
 
