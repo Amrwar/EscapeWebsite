@@ -21,7 +21,7 @@ export default function home(site) {
 
   return {
     file: 'index.html',
-    title: `${site.name} — Mivida, New Cairo`,
+    title: `${site.name} 💈 | Your Grooming Retreat in Mivida`,
     description: site.description,
     bodyClass: 'page-home dark-top',
     body: `
