@@ -7,11 +7,10 @@
   "description": "Escape Barbershop in Mivida, New Cairo — fades, beard sculpting, hot-towel shaves and grooming packages, by appointment or walk-in.",
   "url": "https://escape-website-phi.vercel.app",
 
-  "_contact": "TODO: replace the placeholder phone/email/social links with the shop's real ones.",
-  "phoneDisplay": "+20 100 000 0000",
-  "phoneHref": "+201000000000",
-  "whatsapp": "201000000000",
-  "email": "hello@escapebarbershop.com",
+  "phoneDisplay": "+20 121 452 2244",
+  "phoneHref": "+201214522244",
+  "whatsapp": "201214522244",
+  "email": "info@escapebarber.shop",
 
   "address": {
     "line1": "Eterna Mall, Gate 2",
@@ -22,8 +21,8 @@
   },
 
   "social": {
-    "instagram": "",
-    "tiktok": "",
+    "instagram": "https://www.instagram.com/escape_barber?stkn=MWpoamVmdGVrMTg0OA==",
+    "tiktok": "https://www.tiktok.com/@escape.barbershop?_r=1&_t=ZS-99srIeJRHhE",
     "facebook": ""
   },
 
