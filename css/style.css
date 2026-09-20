@@ -1445,29 +1445,11 @@ body.dark-top .site-header:not(.scrolled) .nav-logo.on-light { display: none; }
   background: var(--panel);
   box-shadow: var(--shadow);
 }
+.review-empty-score { display: block; font-family: var(--display); font-size: var(--step-4); line-height: 1; margin-bottom: 0.3rem; }
 .review-empty h3 { margin: 0.8rem 0; font-size: var(--step-2); }
 .review-empty p { max-width: 60ch; margin: 0 auto 2rem; }
+.review-empty-count { display: block; margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--fg-soft); }
 .stars { color: var(--fg); letter-spacing: 0.3em; font-size: 0.95rem; }
-
-.rating-card {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0 auto 2.5rem;
-  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(2rem, 5vw, 3rem);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius-lg);
-  background: var(--panel);
-  box-shadow: var(--shadow);
-  text-decoration: none;
-  color: var(--fg);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-}
-.rating-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg, var(--shadow)); }
-.rating-card-eyebrow { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-soft); }
-.rating-card-score { font-family: var(--display); font-size: var(--step-4); line-height: 1; }
-.rating-card-count { font-size: 0.9rem; color: var(--fg-soft); }
 
 .review-track { display: flex; transition: transform 0.7s var(--ease); }
 .review-card {

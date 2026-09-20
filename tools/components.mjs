@@ -276,9 +276,15 @@ export function faqList(site, limit = site.faq.length) {
 
 export function reviewWall(site) {
   if (!site.reviews.length) {
+    const hasRating = site.googleRating != null && site.googleReviewCount != null;
+    const stars = hasRating
+      ? `${'★'.repeat(Math.round(site.googleRating))}${'☆'.repeat(5 - Math.round(site.googleRating))}`
+      : '★★★★★';
     return `
   <div class="review-empty reveal">
-    <span class="stars" aria-hidden="true">★★★★★</span>
+    ${hasRating ? `<span class="review-empty-score">${esc(site.googleRating)}</span>` : ''}
+    <span class="stars" aria-hidden="true">${stars}</span>
+    ${hasRating ? `<span class="review-empty-count">${esc(site.googleReviewCount)} reviews on Google</span>` : ''}
     <h3>The chair speaks for itself</h3>
     <p>We'd rather show nothing than show reviews we wrote ourselves. If you've sat in one of our chairs, leave a word on Google — it's read by everyone deciding where to get their next cut.</p>
     <div class="hero-actions center">
@@ -300,18 +306,6 @@ export function reviewWall(site) {
       .join('\n    ')}
   </div>
   <div class="review-dots" id="reviewDots" role="tablist" aria-label="Reviews"></div>`;
-}
-
-/** The shop's real aggregate rating from Google, as a stat card. Skipped if either number is missing. */
-export function googleRatingCard(site) {
-  if (site.googleRating == null || site.googleReviewCount == null) return '';
-  return `
-  <a class="rating-card reveal" href="${esc(site.googleReviewsUrl)}" target="_blank" rel="noopener">
-    <span class="rating-card-eyebrow">On Google</span>
-    <span class="rating-card-score">${esc(site.googleRating)}</span>
-    <span class="stars" aria-hidden="true">${'★'.repeat(Math.round(site.googleRating))}${'☆'.repeat(5 - Math.round(site.googleRating))}</span>
-    <span class="rating-card-count">${esc(site.googleReviewCount)} reviews on Google →</span>
-  </a>`;
 }
 
 /** The photos that shipped with the site. */
