@@ -53,6 +53,7 @@ if (yearEl)
 /* --------------------------------------------------------------------- nav */
 const navToggle = $('#navToggle');
 const navLinks = $('#navLinks');
+let navScrollY = 0;
 function closeNav() {
     if (!navLinks || !navToggle)
         return;
@@ -61,6 +62,10 @@ function closeNav() {
     navToggle.setAttribute('aria-expanded', 'false');
     navToggle.setAttribute('aria-label', 'Open menu');
     document.body.classList.remove('nav-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, navScrollY);
 }
 if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
@@ -69,6 +74,21 @@ if (navToggle && navLinks) {
         navToggle.setAttribute('aria-expanded', String(isOpen));
         navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
         document.body.classList.toggle('nav-open', isOpen);
+        /* A plain `overflow: hidden` on body isn't enough to stop mobile
+           browsers from moving the fixed menu panel around once the page has
+           been scrolled — pinning body at the current offset avoids that. */
+        if (isOpen) {
+            navScrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${navScrollY}px`;
+            document.body.style.width = '100%';
+        }
+        else {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, navScrollY);
+        }
     });
     navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNav));
     document.addEventListener('keydown', (e) => {
@@ -102,6 +122,12 @@ function onScroll() {
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 toTop === null || toTop === void 0 ? void 0 : toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+/* Native "#top" anchor jumps don't work reliably since the header is
+   position: fixed and isn't part of normal document flow. */
+$$('a[href="#top"]').forEach((link) => link.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+}));
 /* ------------------------------------------------- reveal on scroll + counters */
 function animateCount(el) {
     var _a, _b;
