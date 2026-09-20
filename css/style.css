@@ -2221,7 +2221,7 @@ html[data-theme="dark"] .to-top { background: rgba(15, 15, 14, 0.9); }
     inset: 0;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: safe center;
     gap: 1.1rem;
     padding: 6rem var(--gutter) 7rem;
     background: rgba(247, 245, 240, 0.98);
@@ -2232,6 +2232,8 @@ html[data-theme="dark"] .to-top { background: rgba(15, 15, 14, 0.9); }
     pointer-events: none;
     transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   html[data-theme="dark"] .nav-links { background: rgba(15, 15, 14, 0.98); }
   .nav-links.open { transform: none; opacity: 1; pointer-events: auto; }
