@@ -353,7 +353,7 @@ section { background: var(--bg); color: var(--fg); }
 }
 /* Over the home page's dark hero the header is light; everywhere else the page
    starts on paper, so it's ink from the first pixel. */
-body.page-home .site-header { color: #f6f4ef; }
+body.page-home .site-header:not(.scrolled) { color: #f6f4ef; }
 .site-header.scrolled {
   background: rgba(247, 245, 240, 0.86);
   backdrop-filter: blur(16px) saturate(140%);
@@ -393,6 +393,7 @@ body.page-home .site-header { color: #f6f4ef; }
   transition: height 0.4s var(--ease), opacity 0.3s var(--ease);
 }
 .nav-logo.on-dark { display: none; }
+body.page-home .site-header:not(.scrolled) .nav-cta { --cta-bg: #f6f4ef; --cta-fg: #0f0f0e; }
 body.page-home .site-header:not(.scrolled) .nav-logo.on-dark { display: block; }
 body.page-home .site-header:not(.scrolled) .nav-logo.on-light { display: none; }
 .site-header.scrolled .nav-logo { height: 32px; }
@@ -434,6 +435,8 @@ body.page-home .site-header:not(.scrolled) .nav-logo.on-light { display: none; }
 .nav-extra { display: none; }
 
 .nav-cta {
+  --cta-bg: var(--ink);
+  --cta-fg: var(--bone);
   padding: 0.68rem 1.5rem !important;
   border: 1px solid currentColor;
   border-radius: 100px;
@@ -441,9 +444,7 @@ body.page-home .site-header:not(.scrolled) .nav-logo.on-light { display: none; }
   transition: background 0.35s var(--ease), color 0.35s var(--ease);
 }
 .nav-cta::after { display: none; }
-.nav-cta:hover { background: currentColor; }
-.nav-cta:hover span { color: var(--bone); }
-.site-header:not(.scrolled) body.page-home .nav-cta:hover { color: var(--char); }
+.nav-cta:hover { background: var(--cta-bg); color: var(--cta-fg) !important; border-color: var(--cta-bg); }
 
 .status-pill {
   display: inline-flex;

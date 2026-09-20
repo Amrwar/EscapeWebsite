@@ -215,6 +215,52 @@ const icsOk =
   /DTEND:\d{8}T122000/.test(ics); // a beard cut is 20 minutes
 check('calendar file covers the right slot', icsOk, ics.split('\r\n').slice(3, 9).join(' | '));
 
+/* ---- the header stays readable in both states ---- */
+
+/* The header is light over the home page's dark hero and ink once it turns to
+   bone on scroll. Getting that the wrong way round hides the whole nav, so it
+   is checked rather than eyeballed. */
+const headerContrast = async (label, path, scrollTo) => {
+  await goto(path);
+  await evaluate(`window.scrollTo(0, ${scrollTo}); 0`);
+  /* The header fades between states, so let the transition land first. */
+  await new Promise((r) => setTimeout(r, 700));
+  const reading = await evaluate(`
+    const lum = (value) => {
+      const [r, g, b, a = 1] = value.match(/[0-9.]+/g).map(Number);
+      return a === 0 ? null : (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    };
+    /* Whatever is actually behind the nav: the header's own background once it
+       turns to paper, otherwise the first opaque thing painted under it. */
+    const opaqueBehind = (el) => {
+      while (el) {
+        const value = lum(getComputedStyle(el).backgroundColor);
+        if (value !== null) return value;
+        el = el.parentElement;
+      }
+      return null;
+    };
+    const header = document.querySelector('.site-header');
+    const link = document.querySelector('.nav-links a');
+    const box = link.getBoundingClientRect();
+    const headerBg = lum(getComputedStyle(header).backgroundColor);
+    const under = document
+      .elementsFromPoint(box.left + box.width / 2, box.top + box.height / 2)
+      .find((el) => !el.closest('.site-header'));
+    const back = headerBg !== null ? headerBg : opaqueBehind(under);
+    JSON.stringify({ text: lum(getComputedStyle(link).color), back });
+  `);
+  const { text, back } = JSON.parse(reading);
+  check(
+    `nav is readable ${label}`,
+    back !== null && Math.abs(text - back) > 0.35,
+    `text ${text.toFixed(2)} vs background ${back === null ? 'unknown' : back.toFixed(2)}`
+  );
+};
+await headerContrast('over the hero', 'index.html', 0);
+await headerContrast('once the header turns to paper', 'index.html', 900);
+await headerContrast('on an inner page', 'services.html', 0);
+
 /* ---- the team page ---- */
 await goto('behind-the-chair.html');
 const cards = await evaluate(`document.querySelectorAll('.team-card').length`);
