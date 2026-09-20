@@ -26,7 +26,7 @@
 <link rel="manifest" href="site.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"Escape Barbershop","description":"Escape Barbershop in Mivida, New Cairo — fades, beard sculpting, hot-towel shaves and grooming packages, by appointment or walk-in.","url":"https://escape-website-phi.vercel.app","image":"https://escape-website-phi.vercel.app/images/storefront.jpg","telephone":"+201000000000","email":"hello@escapebarbershop.com","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Eterna Mall, Gate 2","addressLocality":"Mivida, New Cairo","addressCountry":"Egypt"},"hasMap":"https://share.google/7Xe5DxwhBiDTLbYOz","sameAs":[],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Sunday","opens":"11:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Monday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Tuesday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Wednesday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Thursday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Friday","opens":"10:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"https://schema.org/Saturday","opens":"10:00","closes":"20:00"}]}</script>
 </head>
-<body>
+<body class="dark-top">
 
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
@@ -59,13 +59,18 @@
 
 <main id="main">
 
-<section class="page-header">
-  <p class="eyebrow center">Visit</p>
-  <h1>Come <em>find us</em></h1>
-  <p>Eterna Mall, Gate 2 · Mivida, New Cairo</p>
+
+<section class="cover theme-dark" data-rail="Visit">
+  <img class="cover-img" src="images/gallery/the-shop/storefront-at-night.jpg" alt="" aria-hidden="true">
+  <div class="cover-overlay" aria-hidden="true"></div>
+  <div class="cover-content">
+    <p class="eyebrow center">Visit</p>
+    <h1>Come <em>find us</em></h1>
+    <p>Eterna Mall, Gate 2 · Mivida, New Cairo</p>
+  </div>
 </section>
 
-<section class="visit">
+<section class="visit" data-rail="Hours & Directions">
   <div class="visit-grid">
     <div class="visit-block reveal">
       <h3 class="block-title">Hours</h3>
@@ -87,10 +92,12 @@
       <a href="https://share.google/7Xe5DxwhBiDTLbYOz" class="text-link" target="_blank" rel="noopener">Open in Google Maps →</a>
     </div>
     <div class="visit-block reveal">
-      <h3 class="block-title">Contact</h3>
-      <p><a href="tel:+201000000000">+20 100 000 0000</a></p>
-      <p><a href="mailto:hello@escapebarbershop.com">hello@escapebarbershop.com</a></p>
-      <a href="contact.html" class="text-link">All the ways to reach us →</a>
+      <h3 class="block-title">Before you come</h3>
+      <p class="footer-text">Walk in and you'll usually be seen. Book ahead and you sit straight down.</p>
+      <div class="hero-actions" style="margin-top:1rem">
+        <a href="book.html" class="btn btn-primary">Book a Chair</a>
+      </div>
+      <p class="footer-text" style="margin-top:1rem"><a href="tel:+201000000000">+20 100 000 0000</a></p>
     </div>
   </div>
 
@@ -104,9 +111,7 @@
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><span>✦</span></div>
-
-<section class="section-narrow">
+<section class="section-narrow" data-rail="Worth Knowing">
   
   <div class="section-head reveal">
     <p class="eyebrow center">While you are here</p>
@@ -123,8 +128,8 @@
       <p>Thursday evenings and weekends fill first. Weekday mornings are the quietest.</p>
     </article>
     <article class="offer-row reveal">
-      <h3>Waiting</h3>
-      <p>Walk in and you'll usually be seen. Book ahead and you sit straight down.</p>
+      <h3>Running late?</h3>
+      <p><a class="text-link" href="https://wa.me/201000000000?text=Hi%2C%20I%20have%20a%20booking%20and%20I%20am%20running%20a%20few%20minutes%20late." target="_blank" rel="noopener">Send a message</a> and we'll hold the chair where we can.</p>
     </article>
   </div>
 </section>
@@ -210,8 +215,8 @@
       <p>&copy; <span id="year">2026</span> Escape Barbershop. All rights reserved.</p>
       <p class="footer-credit"><a href="#top">Back to top ↑</a></p>
     </div>
+    <span class="footer-mark" aria-hidden="true">Escape Barbershop</span>
   </div>
-  <span class="footer-mark" aria-hidden="true">Escape Barbershop</span>
 </footer>
 <div class="action-bar" aria-label="Quick actions">
   <a href="tel:+201000000000" aria-label="Call the shop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h3l1.5 4.5L8.6 9a12 12 0 0 0 6.4 6.4l1.5-1.9L21 15v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 5.2 2 2 0 0 1 6 3z"/></svg><span>Call</span></a>

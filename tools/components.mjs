@@ -18,6 +18,24 @@ export const sectionHead = (eyebrow, heading, sub = '') => `
     ${sub ? `<p class="section-sub">${sub}</p>` : ''}
   </div>`;
 
+/**
+ * A page opening on a photo rather than plain paper. `image` is a path under
+ * images/; the caller adds `bodyClass: 'dark-top'` so the header goes light
+ * over it.
+ */
+export function cover({ eyebrow, title, sub, image, alt = '' }) {
+  return `
+<section class="cover theme-dark" data-rail="${esc(eyebrow)}">
+  <img class="cover-img" src="images/${image}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'}>
+  <div class="cover-overlay" aria-hidden="true"></div>
+  <div class="cover-content">
+    <p class="eyebrow center">${esc(eyebrow)}</p>
+    <h1>${title}</h1>
+    ${sub ? `<p>${sub}</p>` : ''}
+  </div>
+</section>`;
+}
+
 export const divider = '<div class="divider" aria-hidden="true"><span>✦</span></div>';
 
 export function ctaStrip(site, heading, sub) {

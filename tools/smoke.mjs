@@ -280,6 +280,7 @@ const headerContrast = async (label, path, scrollTo) => {
 await headerContrast('over the hero', 'index.html', 0);
 await headerContrast('once the header turns to paper', 'index.html', 900);
 await headerContrast('on an inner page', 'services.html', 0);
+await headerContrast('over the about cover', 'about.html', 0);
 
 /* ---- the team page ---- */
 await goto('behind-the-chair.html');

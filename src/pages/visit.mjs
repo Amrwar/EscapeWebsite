@@ -1,19 +1,21 @@
-import { esc } from '../../tools/layout.mjs';
-import { hoursTable, ctaStrip, divider, sectionHead } from '../../tools/components.mjs';
+import { esc, waLink } from '../../tools/layout.mjs';
+import { hoursTable, ctaStrip, sectionHead, cover } from '../../tools/components.mjs';
 
 export default function visit(site) {
   return {
     file: 'visit.html',
     title: `Visit Us — ${site.name}`,
     description: `Hours, directions and parking for ${site.name} at ${site.address.line1}, ${site.address.line2}.`,
+    bodyClass: 'dark-top',
     body: `
-<section class="page-header">
-  <p class="eyebrow center">Visit</p>
-  <h1>Come <em>find us</em></h1>
-  <p>${esc(site.address.line1)} · ${esc(site.address.line2)}</p>
-</section>
+${cover({
+  eyebrow: 'Visit',
+  title: 'Come <em>find us</em>',
+  sub: `${esc(site.address.line1)} · ${esc(site.address.line2)}`,
+  image: 'gallery/the-shop/storefront-at-night.jpg',
+})}
 
-<section class="visit">
+<section class="visit" data-rail="Hours & Directions">
   <div class="visit-grid">
     <div class="visit-block reveal">
       <h3 class="block-title">Hours</h3>
@@ -27,10 +29,12 @@ export default function visit(site) {
       <a href="${esc(site.address.mapsUrl)}" class="text-link" target="_blank" rel="noopener">Open in Google Maps →</a>
     </div>
     <div class="visit-block reveal">
-      <h3 class="block-title">Contact</h3>
-      <p><a href="tel:${esc(site.phoneHref)}">${esc(site.phoneDisplay)}</a></p>
-      <p><a href="mailto:${esc(site.email)}">${esc(site.email)}</a></p>
-      <a href="contact.html" class="text-link">All the ways to reach us →</a>
+      <h3 class="block-title">Before you come</h3>
+      <p class="footer-text">Walk in and you'll usually be seen. Book ahead and you sit straight down.</p>
+      <div class="hero-actions" style="margin-top:1rem">
+        <a href="book.html" class="btn btn-primary">Book a Chair</a>
+      </div>
+      <p class="footer-text" style="margin-top:1rem"><a href="tel:${esc(site.phoneHref)}">${esc(site.phoneDisplay)}</a></p>
     </div>
   </div>
 
@@ -44,9 +48,7 @@ export default function visit(site) {
   </div>
 </section>
 
-${divider}
-
-<section class="section-narrow">
+<section class="section-narrow" data-rail="Worth Knowing">
   ${sectionHead('While you are here', 'Worth <em>knowing</em>')}
   <div class="offer-list">
     <article class="offer-row reveal">
@@ -58,8 +60,8 @@ ${divider}
       <p>Thursday evenings and weekends fill first. Weekday mornings are the quietest.</p>
     </article>
     <article class="offer-row reveal">
-      <h3>Waiting</h3>
-      <p>Walk in and you'll usually be seen. Book ahead and you sit straight down.</p>
+      <h3>Running late?</h3>
+      <p><a class="text-link" href="${esc(waLink(site, 'Hi, I have a booking and I am running a few minutes late.'))}" target="_blank" rel="noopener">Send a message</a> and we'll hold the chair where we can.</p>
     </article>
   </div>
 </section>

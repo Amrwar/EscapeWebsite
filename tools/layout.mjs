@@ -231,8 +231,8 @@ function footer(site) {
       <p>&copy; <span id="year">2026</span> ${esc(site.name)}. All rights reserved.</p>
       <p class="footer-credit"><a href="#top">Back to top ↑</a></p>
     </div>
+    <span class="footer-mark" aria-hidden="true">${esc(site.name)}</span>
   </div>
-  <span class="footer-mark" aria-hidden="true">${esc(site.name)}</span>
 </footer>`;
 }
 

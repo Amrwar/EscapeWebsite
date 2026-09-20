@@ -23,7 +23,7 @@ export default function home(site) {
     file: 'index.html',
     title: `${site.name} — Barbershop in Mivida, New Cairo`,
     description: site.description,
-    bodyClass: 'page-home',
+    bodyClass: 'page-home dark-top',
     body: `
 <section class="hero" data-rail="Escape">
   <div class="hero-bg" aria-hidden="true"></div>

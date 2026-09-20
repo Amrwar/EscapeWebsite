@@ -1,10 +1,10 @@
 import { esc } from '../../tools/layout.mjs';
-import { teamGrid, ctaStrip, sectionHead, divider } from '../../tools/components.mjs';
+import { teamGrid, ctaStrip, sectionHead, cover } from '../../tools/components.mjs';
 
 /**
- * The team page. Portraits come from images/team/<name>.jpg — drop them in and
- * they appear; until then each card shows a monogram plate, which is why the
- * page doesn't look half-finished while we wait for the photographs.
+ * The team page. Portraits come from images/team/ — drop a file in and it
+ * appears; until then each card shows a monogram plate, so the page never looks
+ * half-finished while we wait for photographs.
  */
 export default function behindTheChair(site) {
   return {
@@ -12,20 +12,20 @@ export default function behindTheChair(site) {
     title: `Behind the Chair — ${site.name}`,
     description:
       'The barbers at Escape Barbershop — who does fades, who does beards, who does colour, and how to book the one you want.',
+    bodyClass: 'dark-top',
     body: `
-<section class="page-header">
-  <p class="eyebrow center">Behind the chair</p>
-  <h1>The hands on <em>the clippers</em></h1>
-  <p>Regulars book by name. If you're new, tell us what you're after and we'll put you with whoever does it best.</p>
-</section>
+${cover({
+  eyebrow: 'Behind the chair',
+  title: 'The hands on <em>the clippers</em>',
+  sub: "Regulars book by name. If you're new, tell us what you're after and we'll put you with whoever does it best.",
+  image: 'gallery/the-chairs/in-the-chair.jpg',
+})}
 
-<section class="section-wide">
+<section class="section-wide" data-rail="The Barbers">
   ${teamGrid(site)}
 </section>
 
-${divider}
-
-<section class="section-narrow">
+<section class="section-narrow" data-rail="The Standard">
   ${sectionHead('The standard', 'The same work <em>in every chair</em>', 'Four barbers, one way of doing things.')}
   <ol class="craft-list">
     <li class="craft-step reveal">
@@ -59,9 +59,7 @@ ${divider}
   </ol>
 </section>
 
-${divider}
-
-<section class="section-narrow">
+<section class="section-narrow" data-rail="Who to Ask For">
   ${sectionHead('Not sure who to ask for', 'Pick by <em>what you want</em>')}
   <div class="pick-grid">
     ${site.team

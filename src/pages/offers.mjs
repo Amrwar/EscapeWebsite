@@ -1,5 +1,5 @@
 import { esc, waLink } from '../../tools/layout.mjs';
-import { packageCards, ctaStrip, sectionHead, divider } from '../../tools/components.mjs';
+import { packageCards, ctaStrip, sectionHead, cover } from '../../tools/components.mjs';
 
 export default function offers(site) {
   return {
@@ -7,20 +7,20 @@ export default function offers(site) {
     title: `Packages & Offers — ${site.name}`,
     description:
       'Groom packages, the full Escape sitting, and standing offers for regulars at Escape Barbershop in Mivida, New Cairo.',
+    bodyClass: 'dark-top',
     body: `
-<section class="page-header">
-  <p class="eyebrow center">Packages &amp; offers</p>
-  <h1>More than <em>one service</em></h1>
-  <p>Sittings built to be booked together — for a wedding, a reset, or the visit you've been putting off.</p>
-</section>
+${cover({
+  eyebrow: 'Packages & offers',
+  title: 'More than <em>one service</em>',
+  sub: 'Sittings built to be booked together — for a wedding, a reset, or the visit you have been putting off.',
+  image: 'gallery/the-chairs/mirror-arches.jpg',
+})}
 
-<section class="section-wide">
+<section class="section-wide" data-rail="Packages">
   ${packageCards(site)}
 </section>
 
-${divider}
-
-<section class="section-narrow">
+<section class="section-narrow" data-rail="Standing Offers">
   ${sectionHead('Standing offers', 'For the <em>regulars</em>')}
   <div class="offer-list">
     <article class="offer-row reveal">
