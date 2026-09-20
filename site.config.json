@@ -30,7 +30,7 @@
 
   "_hours": "One row per weekday, starting Sunday. Set open/close to null for a closed day. 24-hour clock.",
   "hours": [
-    { "day": "Sunday", "open": "11:00", "close": "23:00" },
+    { "day": "Sunday", "open": "12:00", "close": "23:00" },
     { "day": "Monday", "open": "11:00", "close": "23:00" },
     { "day": "Tuesday", "open": "11:00", "close": "23:00" },
     { "day": "Wednesday", "open": "11:00", "close": "23:00" },
