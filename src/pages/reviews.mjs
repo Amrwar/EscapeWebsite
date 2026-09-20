@@ -1,5 +1,5 @@
 import { esc } from '../../tools/layout.mjs';
-import { reviewWall, ctaStrip, sectionHead, cover } from '../../tools/components.mjs';
+import { reviewWall, googleRatingCard, ctaStrip, sectionHead, cover } from '../../tools/components.mjs';
 
 export default function reviews(site) {
   return {
@@ -16,6 +16,7 @@ ${cover({
 })}
 
 <section class="section-narrow reviews-section" data-rail="Reviews">
+  ${googleRatingCard(site)}
   ${reviewWall(site)}
 </section>
 

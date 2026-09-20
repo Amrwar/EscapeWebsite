@@ -302,6 +302,18 @@ export function reviewWall(site) {
   <div class="review-dots" id="reviewDots" role="tablist" aria-label="Reviews"></div>`;
 }
 
+/** The shop's real aggregate rating from Google, as a stat card. Skipped if either number is missing. */
+export function googleRatingCard(site) {
+  if (site.googleRating == null || site.googleReviewCount == null) return '';
+  return `
+  <a class="rating-card reveal" href="${esc(site.googleReviewsUrl)}" target="_blank" rel="noopener">
+    <span class="rating-card-eyebrow">On Google</span>
+    <span class="rating-card-score">${esc(site.googleRating)}</span>
+    <span class="stars" aria-hidden="true">${'★'.repeat(Math.round(site.googleRating))}${'☆'.repeat(5 - Math.round(site.googleRating))}</span>
+    <span class="rating-card-count">${esc(site.googleReviewCount)} reviews on Google →</span>
+  </a>`;
+}
+
 /** The photos that shipped with the site. */
 const BASE_GALLERY = [
   { file: 'entrance-lights.jpg', alt: 'Entrance with pendant lighting', group: 'The Shop' },

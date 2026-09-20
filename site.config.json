@@ -145,6 +145,9 @@
 
   "_reviews": "Real customer reviews only. Leave the list empty and the Reviews page invites people to Google instead of showing anything made up. Add entries as { \"quote\", \"author\", \"source\", \"rating\" }.",
   "googleReviewsUrl": "https://share.google/7Xe5DxwhBiDTLbYOz",
+  "_googleRating": "The shop's real aggregate rating on Google. Leave either null and the rating card is skipped. Update these by hand as the numbers change.",
+  "googleRating": 4.9,
+  "googleReviewCount": 116,
   "reviews": [],
 
   "faq": [
