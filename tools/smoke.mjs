@@ -50,7 +50,18 @@ const evaluate = async (expression) => {
 
 const goto = async (path) => {
   await send('Page.navigate', { url: `${BASE}/${path}` });
-  await new Promise((r) => setTimeout(r, 900));
+  /* Wait for the new document to actually commit and finish — checking
+     readyState alone matched the *old* page, which was still 'complete'. */
+  const wanted = path.split('?')[0];
+  for (let i = 0; i < 60; i += 1) {
+    await new Promise((r) => setTimeout(r, 150));
+    const ready = await send('Runtime.evaluate', {
+      expression: `location.pathname.endsWith('${wanted}') && document.readyState === 'complete' && !!document.querySelector('.menu-list, .gallery-grid, .hero, .booking, .team-grid, .faq-list, main')`,
+      returnByValue: true,
+    });
+    if (ready.result?.result?.value) break;
+  }
+  await new Promise((r) => setTimeout(r, 400));
 };
 
 const results = [];
@@ -222,9 +233,18 @@ check('calendar file covers the right slot', icsOk, ics.split('\r\n').slice(3, 9
    is checked rather than eyeballed. */
 const headerContrast = async (label, path, scrollTo) => {
   await goto(path);
-  await evaluate(`window.scrollTo(0, ${scrollTo}); 0`);
-  /* The header fades between states, so let the transition land first. */
-  await new Promise((r) => setTimeout(r, 700));
+  /* The header cross-fades between states; measuring mid-transition reads a
+     half-applied colour, so transitions are switched off for the measurement. */
+  await evaluate(`
+    const kill = document.createElement('style');
+    kill.id = 'smoke-no-transitions';
+    kill.textContent = '*, *::before, *::after { transition: none !important; animation: none !important; }';
+    document.head.appendChild(kill);
+    window.scrollTo(0, ${scrollTo});
+    window.dispatchEvent(new Event('scroll'));
+    0
+  `);
+  await new Promise((r) => setTimeout(r, 250));
   const reading = await evaluate(`
     const lum = (value) => {
       const [r, g, b, a = 1] = value.match(/[0-9.]+/g).map(Number);

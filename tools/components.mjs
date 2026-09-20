@@ -51,19 +51,26 @@ const GROUP_PREVIEW = {
   Extras: 'images/gallery/details/tools-trolley.jpg',
 };
 
+/**
+ * The menu, laid out like a printed card: a sticky panel on the left that shows
+ * the room the service happens in, and the list on the right, grouped under its
+ * own headings. The preview is pinned rather than following the cursor — it was
+ * covering the very rows you were reading.
+ */
 export function serviceMenu(site, { filters = true } = {}) {
   const showPrices = hasPrices(site);
   const groups = site.serviceGroups.filter((g) => site.services.some((s) => s.group === g));
+  const firstGroup = groups[0];
 
-  const tabs = filters
+  const toolbar = filters
     ? `
   <div class="menu-tools reveal">
     <div class="filter-row" role="tablist" aria-label="Filter services">
-      <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All <span>${site.services.length}</span></button>
       ${groups
         .map(
           (g) =>
-            `<button class="chip" data-filter="${esc(g)}" role="tab" aria-selected="false">${esc(g)}</button>`
+            `<button class="chip" data-filter="${esc(g)}" role="tab" aria-selected="false">${esc(g)} <span>${site.services.filter((s) => s.group === g).length}</span></button>`
         )
         .join('\n      ')}
     </div>
@@ -76,27 +83,54 @@ export function serviceMenu(site, { filters = true } = {}) {
   <p class="filter-empty" id="filterEmpty" hidden>Nothing on the menu matches that — try another word, or <a href="contact.html">ask us</a>.</p>`
     : '';
 
-  const rows = site.services
-    .map((s, i) => {
-      const n = String(i + 1).padStart(2, '0');
-      return `    <article class="menu-row reveal" data-group="${esc(s.group)}" data-name="${esc(`${s.name} ${s.ar ?? ''}`)}" data-preview="${esc(GROUP_PREVIEW[s.group] ?? '')}">
-      <span class="menu-num">${n}</span>
-      <div class="menu-body">
-        <h3>${esc(s.name)}${s.ar ? ` <span class="menu-ar" lang="ar" dir="rtl">${esc(s.ar)}</span>` : ''}</h3>
-        <p>${esc(s.blurb ?? '')}</p>
-      </div>
-      <div class="menu-meta">
-        <span class="menu-time">${s.minutes} min</span>
-        ${showPrices ? `<span class="menu-price">${s.price == null ? 'On request' : esc(money(site, s.price))}</span>` : ''}
-      </div>
-      <a class="menu-book" href="book.html?service=${encodeURIComponent(s.name)}" aria-label="Book ${esc(s.name)}">Book →</a>
-    </article>`;
+  let index = 0;
+  const groupBlocks = groups
+    .map((group) => {
+      const inGroup = site.services.filter((s) => s.group === group);
+      const rows = inGroup
+        .map((s) => {
+          index += 1;
+          const n = String(index).padStart(2, '0');
+          return `      <article class="menu-row reveal" data-group="${esc(s.group)}" data-name="${esc(`${s.name} ${s.ar ?? ''}`)}" data-preview="${esc(GROUP_PREVIEW[s.group] ?? '')}" data-service="${esc(s.name)}" data-minutes="${s.minutes}">
+        <span class="menu-num">${n}</span>
+        <div class="menu-body">
+          <h3>${esc(s.name)}${s.ar ? ` <span class="menu-ar" lang="ar" dir="rtl">${esc(s.ar)}</span>` : ''}</h3>
+          <p>${esc(s.blurb ?? '')}</p>
+        </div>
+        <div class="menu-meta">
+          <span class="menu-time">${s.minutes} min</span>
+          ${showPrices ? `<span class="menu-price">${s.price == null ? 'On request' : esc(money(site, s.price))}</span>` : ''}
+        </div>
+        <a class="menu-book" href="book.html?service=${encodeURIComponent(s.name)}" aria-label="Book ${esc(s.name)}">Book <span aria-hidden="true">→</span></a>
+      </article>`;
+        })
+        .join('\n');
+      return `    <section class="menu-group" data-group-block="${esc(group)}">
+      <header class="group-head">
+        <h3>${esc(group)}</h3>
+        <span class="group-count">${inGroup.length} ${inGroup.length === 1 ? 'service' : 'services'}</span>
+      </header>
+${rows}
+    </section>`;
     })
     .join('\n');
 
-  return `${tabs}
-  <div class="menu-list" id="menuList">
-${rows}
+  return `${toolbar}
+  <div class="menu-layout">
+    <aside class="menu-aside" aria-hidden="true">
+      <figure class="menu-preview-card" id="menuPreview">
+        <img src="${esc(GROUP_PREVIEW[firstGroup] ?? '')}" alt="" id="menuPreviewImg" loading="lazy">
+        <figcaption>
+          <span class="preview-kicker" id="menuPreviewKicker">${esc(firstGroup ?? '')}</span>
+          <strong id="menuPreviewTitle">The room it happens in</strong>
+          <span class="preview-meta" id="menuPreviewMeta">Hover a service to see where</span>
+        </figcaption>
+      </figure>
+      <a class="btn btn-primary" href="book.html">Book a Service</a>
+    </aside>
+    <div class="menu-list" id="menuList">
+${groupBlocks}
+    </div>
   </div>
   ${
     showPrices
@@ -281,26 +315,32 @@ export function galleryGrid({ filters = true, items = BASE_GALLERY, layout = 'gr
   const groups = [...new Set(items.map((i) => i.group))];
   const tabs = filters
     ? `
-  <div class="filter-row center reveal" role="tablist" aria-label="Filter photos">
-    <button class="chip is-active" data-gallery-filter="all" role="tab" aria-selected="true">Everything</button>
-    ${groups
-      .map(
-        (g) =>
-          `<button class="chip" data-gallery-filter="${esc(g)}" role="tab" aria-selected="false">${esc(g)}</button>`
-      )
-      .join('\n    ')}
+  <div class="gallery-tools reveal">
+    <div class="filter-row" role="tablist" aria-label="Filter photos">
+      <button class="chip is-active" data-gallery-filter="all" role="tab" aria-selected="true">Everything <span>${items.length}</span></button>
+      ${groups
+        .map(
+          (g) =>
+            `<button class="chip" data-gallery-filter="${esc(g)}" role="tab" aria-selected="false">${esc(g)} <span>${items.filter((i) => i.group === g).length}</span></button>`
+        )
+        .join('\n      ')}
+    </div>
+    <p class="gallery-hint">Click any photo to open it full size</p>
   </div>`
     : '';
   const tiles = items
     .map(
       (img, i) => `    <button class="gallery-item reveal" data-group="${esc(img.group)}" data-index="${i}" aria-label="Open photo: ${esc(img.alt)}">
       <img src="images/${img.file}" alt="${esc(img.alt)}" loading="lazy" width="800" height="600">
-      <span class="gallery-caption">${esc(img.group)}</span>
+      <span class="gallery-caption">
+        <span class="gallery-num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="gallery-group">${esc(img.group)}</span>
+      </span>
     </button>`
     )
     .join('\n');
   return `${tabs}
-  <div class="gallery-grid${layout === 'mosaic' ? ' is-mosaic' : ''}" id="galleryGrid">
+  <div class="gallery-grid${layout === 'mosaic' ? ' is-mosaic' : ' is-editorial'}" id="galleryGrid">
 ${tiles}
   </div>
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
@@ -311,6 +351,7 @@ ${tiles}
       <figcaption id="lightboxCaption"></figcaption>
     </figure>
     <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">›</button>
+    <div class="lightbox-rail" id="lightboxRail" aria-hidden="true"></div>
   </div>`;
 }
 

@@ -308,6 +308,7 @@ if (railSections.length) {
 const menuList = document.getElementById('menuList');
 if (menuList) {
   const rows = $$<HTMLElement>('#menuList .menu-row');
+  const groupBlocks = $$<HTMLElement>('[data-group-block]');
   const chips = $$<HTMLButtonElement>('[data-filter]');
   const search = $<HTMLInputElement>('#serviceSearch');
   const empty = document.getElementById('filterEmpty');
@@ -323,42 +324,13 @@ if (menuList) {
       row.hidden = !visible;
       if (visible) shown += 1;
     });
+    /* A heading with nothing under it is just noise. */
+    groupBlocks.forEach((block) => {
+      const visibleRows = block.querySelectorAll<HTMLElement>('.menu-row:not([hidden])').length;
+      block.hidden = visibleRows === 0;
+    });
     if (empty) empty.hidden = shown > 0;
   };
-
-  /* A photo of the room that service happens in, following the cursor down the
-     menu. Pointer devices only — it would be in the way on a phone. */
-  if (window.matchMedia('(min-width: 900px) and (pointer: fine)').matches && !reduceMotion) {
-    const preview = document.createElement('div');
-    preview.className = 'menu-preview';
-    preview.setAttribute('aria-hidden', 'true');
-    const previewImg = document.createElement('img');
-    previewImg.alt = '';
-    previewImg.loading = 'lazy';
-    preview.appendChild(previewImg);
-    document.body.appendChild(preview);
-
-    let frame = 0;
-    const move = (e: MouseEvent): void => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        preview.style.left = `${e.clientX + 150}px`;
-        preview.style.top = `${e.clientY}px`;
-      });
-    };
-
-    rows.forEach((row) => {
-      const src = row.dataset.preview;
-      if (!src) return;
-      row.addEventListener('mouseenter', () => {
-        if (previewImg.getAttribute('src') !== src) previewImg.src = src;
-        preview.classList.add('is-visible');
-      });
-      row.addEventListener('mousemove', move);
-      row.addEventListener('mouseleave', () => preview.classList.remove('is-visible'));
-    });
-  }
 
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
@@ -372,6 +344,36 @@ if (menuList) {
     });
   });
   search?.addEventListener('input', apply);
+
+  /* The pinned preview: hovering or focusing a row changes the picture beside
+     the list, instead of a thumbnail chasing the cursor over the words. */
+  const previewImg = $<HTMLImageElement>('#menuPreviewImg');
+  const previewKicker = document.getElementById('menuPreviewKicker');
+  const previewTitle = document.getElementById('menuPreviewTitle');
+  const previewMeta = document.getElementById('menuPreviewMeta');
+  const previewCard = document.getElementById('menuPreview');
+
+  if (previewImg && previewCard) {
+    const showRow = (row: HTMLElement): void => {
+      const src = row.dataset.preview;
+      if (src && previewImg.getAttribute('src') !== src) {
+        previewCard.classList.add('is-swapping');
+        previewImg.src = src;
+        window.setTimeout(() => previewCard.classList.remove('is-swapping'), 220);
+      }
+      if (previewKicker) previewKicker.textContent = row.dataset.group ?? '';
+      if (previewTitle) previewTitle.textContent = row.dataset.service ?? '';
+      if (previewMeta) {
+        const minutes = row.dataset.minutes;
+        previewMeta.textContent = minutes ? `About ${minutes} minutes in the chair` : '';
+      }
+    };
+
+    rows.forEach((row) => {
+      row.addEventListener('mouseenter', () => showRow(row));
+      row.addEventListener('focusin', () => showRow(row));
+    });
+  }
 }
 
 /* --------------------------------------------------- gallery filter + lightbox */
@@ -397,10 +399,31 @@ if (galleryGrid) {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = $<HTMLImageElement>('#lightboxImg');
   const caption = document.getElementById('lightboxCaption');
+  const rail = document.getElementById('lightboxRail');
   let index = 0;
   let lastFocused: HTMLElement | null = null;
 
   const visibleTiles = (): HTMLButtonElement[] => tiles.filter((t) => !t.hidden);
+
+  /* A strip of thumbnails along the bottom: where you are in the set, and a way
+     to jump straight to a photo instead of arrowing through everything. */
+  const buildRail = (list: HTMLButtonElement[]): void => {
+    if (!rail) return;
+    rail.replaceChildren();
+    list.forEach((tile, i) => {
+      const source = tile.querySelector('img');
+      if (!source) return;
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.setAttribute('aria-label', `Photo ${i + 1}`);
+      const image = document.createElement('img');
+      image.src = source.src;
+      image.alt = '';
+      thumb.appendChild(image);
+      thumb.addEventListener('click', () => show(i));
+      rail.appendChild(thumb);
+    });
+  };
 
   const show = (i: number): void => {
     const list = visibleTiles();
@@ -411,6 +434,16 @@ if (galleryGrid) {
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
     if (caption) caption.textContent = `${img.alt} — ${index + 1} of ${list.length}`;
+    if (rail) {
+      Array.from(rail.children).forEach((thumb, t) => {
+        thumb.classList.toggle('is-active', t === index);
+      });
+      (rail.children[index] as HTMLElement | undefined)?.scrollIntoView({
+        block: 'nearest',
+        inline: 'center',
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
+    }
   };
 
   const open = (i: number): void => {
@@ -418,6 +451,7 @@ if (galleryGrid) {
     lastFocused = document.activeElement as HTMLElement;
     lightbox.hidden = false;
     document.body.classList.add('nav-open');
+    buildRail(visibleTiles());
     show(i);
     $<HTMLButtonElement>('#lightboxClose')?.focus();
   };

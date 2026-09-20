@@ -181,50 +181,58 @@ function footer(site) {
     .map((item) => `<a href="${item.href}">${item.label}</a>`)
     .join('\n        ');
   return `<footer class="site-footer theme-dark">
-  <span class="footer-mark" aria-hidden="true">${esc(site.shortName)}</span>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="images/logo.png" alt="${esc(site.name)}" class="footer-logo" width="170" height="50" loading="lazy">
-      <p class="footer-tagline">${esc(site.tagline)}.</p>
-      ${
-        socialLinks(site) ||
-        /* No social links set yet — offer the two things people actually want
-           instead of leaving a hole in the layout. */
-        `<div class="footer-actions">
+  <div class="footer-inner">
+    <div class="footer-lead">
+      <div>
+        <img src="images/logo.png" alt="${esc(site.name)}" class="footer-logo" width="170" height="50" loading="lazy">
+        <p class="footer-tagline">${esc(site.tagline)}.</p>
+      </div>
+      <div class="footer-lead-actions">
         <a class="btn btn-primary" href="book.html">Book a Chair</a>
-        <a class="btn btn-ghost" href="tel:${esc(site.phoneHref)}">Call the Shop</a>
-      </div>`
-      }
-    </div>
-    <div class="footer-col">
-      <h4>Explore</h4>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        ${explore}
+        <a class="btn btn-ghost" href="tel:${esc(site.phoneHref)}">${esc(site.phoneDisplay)}</a>
+        ${socialLinks(site)}
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Find us</h4>
-      <p class="footer-text">
-        ${esc(site.address.line1)}<br>${esc(site.address.line2)}
-      </p>
-      <a class="text-link" href="${esc(site.address.mapsUrl)}" target="_blank" rel="noopener">Open in Maps →</a>
-      <p class="footer-text">
-        <a href="tel:${esc(site.phoneHref)}">${esc(site.phoneDisplay)}</a><br>
-        <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
-      </p>
+
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          ${explore}
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Find us</h4>
+        <a class="footer-map" href="${esc(site.address.mapsUrl)}" target="_blank" rel="noopener">
+          <img src="images/gallery/the-shop/storefront-at-night.jpg" alt="The shop at night, Eterna Mall Gate 2" loading="lazy" width="600" height="400">
+          <span>Open in Maps →</span>
+        </a>
+        <p class="footer-text">${esc(site.address.line1)}<br>${esc(site.address.line2)}</p>
+      </div>
+      <div class="footer-col">
+        <h4>Reach us</h4>
+        <p class="footer-text">
+          <a href="tel:${esc(site.phoneHref)}">${esc(site.phoneDisplay)}</a><br>
+          <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
+        </p>
+        <p class="footer-text">Walk-ins welcome.<br>Booking ahead saves the wait.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul class="hours-list compact" data-hours-list>
+          ${hoursRows}
+        </ul>
+        <p class="status-inline" id="statusInline">Checking today's hours…</p>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Hours</h4>
-      <ul class="hours-list compact" data-hours-list>
-        ${hoursRows}
-      </ul>
+
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> ${esc(site.name)}. All rights reserved.</p>
+      <p class="footer-credit"><a href="#top">Back to top ↑</a></p>
     </div>
   </div>
-  <div class="footer-bottom">
-    <p>&copy; <span id="year">2026</span> ${esc(site.name)}. All rights reserved.</p>
-    <p class="footer-credit"><a href="#top">Back to top ↑</a></p>
-  </div>
+  <span class="footer-mark" aria-hidden="true">${esc(site.name)}</span>
 </footer>`;
 }
 
