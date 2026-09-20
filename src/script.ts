@@ -53,6 +53,21 @@ if (themeToggle) {
       /* private browsing or blocked storage: theme just won't persist */
     }
   });
+  /* No explicit choice saved yet: keep following the device's setting live,
+     so a tab left open through sunset (or a manual OS toggle) still follows
+     along, right up until the visitor picks one for themselves. */
+  let hasSavedChoice = true;
+  try {
+    hasSavedChoice = localStorage.getItem('theme') === 'light' || localStorage.getItem('theme') === 'dark';
+  } catch {
+    /* private browsing or blocked storage: treat as no saved choice */
+    hasSavedChoice = false;
+  }
+  if (!hasSavedChoice) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      apply(e.matches ? 'dark' : 'light');
+    });
+  }
 }
 
 /* ---------------------------------------------------------------- footer year */
