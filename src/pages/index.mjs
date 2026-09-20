@@ -21,7 +21,7 @@ export default function home(site) {
 
   return {
     file: 'index.html',
-    title: `${site.name} — Barbershop in Mivida, New Cairo`,
+    title: `${site.name} — Mivida, New Cairo`,
     description: site.description,
     bodyClass: 'page-home dark-top',
     body: `
