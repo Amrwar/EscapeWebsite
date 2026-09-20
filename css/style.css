@@ -472,7 +472,8 @@ body.dark-top .site-header:not(.scrolled) .nav-logo.on-light { display: none; }
   flex: none;
 }
 .status-pill.is-open { opacity: 1; }
-.status-pill.is-open .status-dot { animation: pulse 2.4s infinite; }
+.status-pill.is-open .status-dot { animation: pulse 2.4s infinite; background: #3a9d5d; color: #3a9d5d; }
+.status-pill.is-closed .status-dot { background: #b23b3b; color: #b23b3b; }
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
   70% { box-shadow: 0 0 0 7px transparent; opacity: 0.75; }
