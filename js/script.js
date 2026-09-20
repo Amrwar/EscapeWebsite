@@ -27,6 +27,25 @@ const SITE = (() => {
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+/* ---------------------------------------------------------------- theme toggle */
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    const apply = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    apply(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+    themeToggle.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        apply(next);
+        try {
+            localStorage.setItem('theme', next);
+        }
+        catch {
+            /* private browsing or blocked storage: theme just won't persist */
+        }
+    });
+}
 /* ---------------------------------------------------------------- footer year */
 const yearEl = document.getElementById('year');
 if (yearEl)

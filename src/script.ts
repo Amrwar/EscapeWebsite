@@ -35,6 +35,26 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 const $ = <T extends Element>(sel: string): T | null => document.querySelector<T>(sel);
 const $$ = <T extends Element>(sel: string): T[] => Array.from(document.querySelectorAll<T>(sel));
 
+/* ---------------------------------------------------------------- theme toggle */
+
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const apply = (theme: 'light' | 'dark') => {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  };
+  apply(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* private browsing or blocked storage: theme just won't persist */
+    }
+  });
+}
+
 /* ---------------------------------------------------------------- footer year */
 
 const yearEl = document.getElementById('year');
