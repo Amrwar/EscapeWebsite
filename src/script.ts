@@ -242,13 +242,12 @@ function shopStatus(now = new Date()): Status | null {
 function updateStatus(): void {
   const status = shopStatus();
   if (!status) return;
-  const pill = document.getElementById('statusPill');
-  const text = document.getElementById('statusText');
-  if (pill && text) {
+  $$<HTMLElement>('.status-pill').forEach((pill) => {
     pill.classList.toggle('is-open', status.open);
     pill.classList.toggle('is-closed', !status.open);
-    text.textContent = status.short;
-  }
+    const text = pill.querySelector<HTMLElement>('.status-text');
+    if (text) text.textContent = status.short;
+  });
   const inline = document.getElementById('statusInline');
   if (inline) {
     inline.textContent = status.long;

@@ -213,13 +213,13 @@ function updateStatus() {
     const status = shopStatus();
     if (!status)
         return;
-    const pill = document.getElementById('statusPill');
-    const text = document.getElementById('statusText');
-    if (pill && text) {
+    $$('.status-pill').forEach((pill) => {
         pill.classList.toggle('is-open', status.open);
         pill.classList.toggle('is-closed', !status.open);
-        text.textContent = status.short;
-    }
+        const text = pill.querySelector('.status-text');
+        if (text)
+            text.textContent = status.short;
+    });
     const inline = document.getElementById('statusInline');
     if (inline) {
         inline.textContent = status.long;

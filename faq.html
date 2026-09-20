@@ -40,9 +40,12 @@
       <img src="images/logo-dark.png" alt="Escape Barbershop" class="nav-logo on-light" width="150" height="44">
       <img src="images/logo.png" alt="" aria-hidden="true" class="nav-logo on-dark" width="150" height="44">
     </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-mobile-right">
+      <div class="status-pill status-pill-top" id="statusPillTop" title="Today's hours"><span class="status-dot"></span><span class="status-text">Checking hours…</span></div>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
     <ul class="nav-links" id="navLinks">
         <li><a href="services.html" data-page="services.html">Services</a></li>
         <li><a href="offers.html" data-page="offers.html">Offers</a></li>
@@ -53,7 +56,7 @@
         <li class="nav-extra"><a href="reviews.html" data-page="reviews.html">Reviews</a></li>
         <li class="nav-extra"><a href="faq.html" data-page="faq.html" aria-current="page">FAQ</a></li>
         <li class="nav-extra"><a href="contact.html" data-page="contact.html">Contact</a></li>
-      <li class="status-pill" id="statusPill" title="Today's hours"><span class="status-dot"></span><span id="statusText">Checking hours…</span></li>
+      <li class="status-pill status-pill-nav" id="statusPillNav" title="Today's hours"><span class="status-dot"></span><span class="status-text">Checking hours…</span></li>
       <li>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
