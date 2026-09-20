@@ -10,12 +10,24 @@
 
 import { readFile, writeFile, readdir } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { render } from './layout.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const site = JSON.parse(await readFile(path.join(root, 'site.config.json'), 'utf8'));
+
+/* A content hash on the stylesheet and script URLs so a push always reaches
+   every visitor's browser, instead of them keeping whatever was cached from
+   before — the exact bug that kept resurfacing with the plain favicon.png
+   URL until that got a version tag too. */
+const hashOf = async (relPath) =>
+  createHash('md5').update(await readFile(path.join(root, relPath))).digest('hex').slice(0, 8);
+site.assetVersion = {
+  css: await hashOf('css/style.css'),
+  js: await hashOf('js/script.js'),
+};
 
 const pagesDir = path.join(root, 'src', 'pages');
 const files = (await readdir(pagesDir)).filter((f) => f.endsWith('.mjs')).sort();
