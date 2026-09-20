@@ -14,5 +14,5 @@ site.config.json:
 
     "photoCaptions": { "fades/skin-fade-01.jpg": "A tight skin fade, finished with a razor" }
 
-Landscape shots around 1600px wide work best. Everything is shown in black and
-white, so mixed lighting between photos matters less than you'd think.
+Landscape shots around 1600px wide work best — photos are shown in colour, as
+shot, so it's worth taking them with the shop lights on.

@@ -35,7 +35,8 @@
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <nav class="nav" aria-label="Main">
     <a class="logo" href="index.html" aria-label="Escape Barbershop — home">
-      <img src="images/logo.png" alt="Escape Barbershop" class="nav-logo" width="150" height="44">
+      <img src="images/logo-dark.png" alt="Escape Barbershop" class="nav-logo on-light" width="150" height="44">
+      <img src="images/logo.png" alt="" aria-hidden="true" class="nav-logo on-dark" width="150" height="44">
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -68,28 +69,61 @@
   
   <div class="filter-row center reveal" role="tablist" aria-label="Filter photos">
     <button class="chip is-active" data-gallery-filter="all" role="tab" aria-selected="true">Everything</button>
-    <button class="chip" data-gallery-filter="The Shop" role="tab" aria-selected="false">The Shop</button>
+    <button class="chip" data-gallery-filter="Details" role="tab" aria-selected="false">Details</button>
     <button class="chip" data-gallery-filter="The Chairs" role="tab" aria-selected="false">The Chairs</button>
+    <button class="chip" data-gallery-filter="The Shop" role="tab" aria-selected="false">The Shop</button>
     <button class="chip" data-gallery-filter="Stations" role="tab" aria-selected="false">Stations</button>
   </div>
   <div class="gallery-grid" id="galleryGrid">
-    <button class="gallery-item reveal" data-group="The Shop" data-index="0" aria-label="Open photo: Escape Barbershop storefront at night">
-      <img src="images/storefront.jpg" alt="Escape Barbershop storefront at night" loading="lazy" width="800" height="600">
+    <button class="gallery-item reveal" data-group="Details" data-index="0" aria-label="Open photo: Climbers On The Wall at Escape Barbershop">
+      <img src="images/gallery/details/climbers-on-the-wall.jpg" alt="Climbers On The Wall at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">Details</span>
+    </button>
+    <button class="gallery-item reveal" data-group="Details" data-index="1" aria-label="Open photo: Cosmetics Shelf at Escape Barbershop">
+      <img src="images/gallery/details/cosmetics-shelf.jpg" alt="Cosmetics Shelf at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">Details</span>
+    </button>
+    <button class="gallery-item reveal" data-group="Details" data-index="2" aria-label="Open photo: Tools Trolley at Escape Barbershop">
+      <img src="images/gallery/details/tools-trolley.jpg" alt="Tools Trolley at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">Details</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Chairs" data-index="3" aria-label="Open photo: Chair Row at Escape Barbershop">
+      <img src="images/gallery/the-chairs/chair-row.jpg" alt="Chair Row at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">The Chairs</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Chairs" data-index="4" aria-label="Open photo: In The Chair at Escape Barbershop">
+      <img src="images/gallery/the-chairs/in-the-chair.jpg" alt="In The Chair at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">The Chairs</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Chairs" data-index="5" aria-label="Open photo: Mirror Arches at Escape Barbershop">
+      <img src="images/gallery/the-chairs/mirror-arches.jpg" alt="Mirror Arches at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">The Chairs</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Shop" data-index="6" aria-label="Open photo: Reception Desk at Escape Barbershop">
+      <img src="images/gallery/the-shop/reception-desk.jpg" alt="Reception Desk at Escape Barbershop" loading="lazy" width="800" height="600">
       <span class="gallery-caption">The Shop</span>
     </button>
-    <button class="gallery-item reveal" data-group="The Shop" data-index="1" aria-label="Open photo: Entrance with pendant lighting">
+    <button class="gallery-item reveal" data-group="The Shop" data-index="7" aria-label="Open photo: Reception Wall Logo at Escape Barbershop">
+      <img src="images/gallery/the-shop/reception-wall-logo.jpg" alt="Reception Wall Logo at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">The Shop</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Shop" data-index="8" aria-label="Open photo: Storefront At Night at Escape Barbershop">
+      <img src="images/gallery/the-shop/storefront-at-night.jpg" alt="Storefront At Night at Escape Barbershop" loading="lazy" width="800" height="600">
+      <span class="gallery-caption">The Shop</span>
+    </button>
+    <button class="gallery-item reveal" data-group="The Shop" data-index="9" aria-label="Open photo: Entrance with pendant lighting">
       <img src="images/entrance-lights.jpg" alt="Entrance with pendant lighting" loading="lazy" width="800" height="600">
       <span class="gallery-caption">The Shop</span>
     </button>
-    <button class="gallery-item reveal" data-group="The Chairs" data-index="2" aria-label="Open photo: Barber chairs lined up along the mirrors">
+    <button class="gallery-item reveal" data-group="The Chairs" data-index="10" aria-label="Open photo: Barber chairs lined up along the mirrors">
       <img src="images/barber-chairs.jpg" alt="Barber chairs lined up along the mirrors" loading="lazy" width="800" height="600">
       <span class="gallery-caption">The Chairs</span>
     </button>
-    <button class="gallery-item reveal" data-group="The Chairs" data-index="3" aria-label="Open photo: Pedicure area with dark leather chairs">
+    <button class="gallery-item reveal" data-group="The Chairs" data-index="11" aria-label="Open photo: Pedicure area with dark leather chairs">
       <img src="images/pedicure-area.jpg" alt="Pedicure area with dark leather chairs" loading="lazy" width="800" height="600">
       <span class="gallery-caption">The Chairs</span>
     </button>
-    <button class="gallery-item reveal" data-group="Stations" data-index="4" aria-label="Open photo: Wash basin station">
+    <button class="gallery-item reveal" data-group="Stations" data-index="12" aria-label="Open photo: Wash basin station">
       <img src="images/wash-station.jpg" alt="Wash basin station" loading="lazy" width="800" height="600">
       <span class="gallery-caption">Stations</span>
     </button>
@@ -106,7 +140,7 @@
 </section>
 
 
-<section class="cta-strip" id="book">
+<section class="cta-strip theme-dark" id="book">
   <div class="cta-inner reveal">
     <p class="eyebrow center">Book your visit</p>
     <h2>Better in <em>person</em></h2>
@@ -121,12 +155,16 @@
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer theme-dark">
+  <span class="footer-mark" aria-hidden="true">Escape</span>
   <div class="footer-top">
     <div class="footer-brand">
       <img src="images/logo.png" alt="Escape Barbershop" class="footer-logo" width="170" height="50" loading="lazy">
       <p class="footer-tagline">Where a cut becomes an escape.</p>
-      
+      <div class="footer-actions">
+        <a class="btn btn-primary" href="book.html">Book a Chair</a>
+        <a class="btn btn-ghost" href="tel:+201000000000">Call the Shop</a>
+      </div>
     </div>
     <div class="footer-col">
       <h4>Explore</h4>

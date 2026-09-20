@@ -104,6 +104,7 @@
   "_team": "TODO: these names came from the shop's own booking system — check them, and check what each one is known for. Photos are picked up automatically: drop a portrait at images/team/<name>.jpg (so images/team/abdullah.jpg) and it appears. `since` is the year they joined; left null, nothing is claimed.",
   "team": [
     {
+      "photo": "images/team/barber-1.jpg",
       "name": "Abdullah",
       "role": "Master Barber",
       "specialty": "Skin fades and classic scissor work, finished with a razor edge.",
@@ -112,6 +113,7 @@
       "since": null
     },
     {
+      "photo": "images/team/barber-2.jpg",
       "name": "Khaled",
       "role": "Senior Barber",
       "specialty": "Beard sculpting and hot-towel work — shapes that hold their line.",
@@ -120,6 +122,7 @@
       "since": null
     },
     {
+      "photo": "images/team/barber-3.jpg",
       "name": "Mohamed",
       "role": "Barber",
       "specialty": "Colour work: silver, ash tones and hand-placed highlights.",
@@ -128,6 +131,7 @@
       "since": null
     },
     {
+      "photo": "images/team/barber-4.jpg",
       "name": "Ali",
       "role": "Barber",
       "specialty": "Styling and kids' cuts — patient with first-timers.",

@@ -1,6 +1,6 @@
 # Escape Barbershop — Website
 
-A dark, upscale site for Escape Barbershop in Mivida, New Cairo. Twelve pages, monochrome to match the shop's logo and photography, with a live "open now" pill, a searchable service menu, a photo lightbox and a booking form that sends requests to the shop's WhatsApp.
+A site for Escape Barbershop in Mivida, New Cairo. Twelve pages on bone paper with ink type, dropping into dark bands for the hero, the film strip and the footer — bright like the shop itself, with the colour coming from the photography. Live "open now" pill, searchable service menu, photo lightbox, silent clips filmed in the chairs, and a booking form that sends requests to the shop's WhatsApp.
 
 **Live:** https://escape-website-phi.vercel.app — every push to `main` redeploys it.
 
@@ -80,6 +80,7 @@ Adding a page means adding one file to `src/pages/` and, if it belongs in the na
 
 ## What else is on the site
 
+- **The film strip** — four silent clips shot in the shop (a cut, a treatment, the chair, pulling up at Gate 2). They load and play only while on screen, so the page stays light for anyone who doesn't scroll that far.
 - **Booking extras** — the form remembers your name and number on your own device, and offers an **Add to My Calendar** file (marked tentative, since the shop still confirms). After hours it says so instead of letting you wonder.
 - **Print the Menu** — a print stylesheet turns the services page into a clean list on white paper.
 - **Home-screen install** — `site.webmanifest` is generated at build time, so the site can be saved to a phone's home screen.
@@ -107,24 +108,26 @@ Both folders have a README repeating this, so it's there when you need it.
 
 Everything is rendered in black and white to match the rest of the site, so don't worry about matching colour between shots.
 
-### Photos that ship with the site
+### What's in there now
 
-| File | Used on |
-|---|---|
-| `storefront.jpg` | Home, About, Gallery, social cards |
-| `entrance-lights.jpg` | Home hero background, About, Gallery |
-| `barber-chairs.jpg` | Gallery |
-| `pedicure-area.jpg` | Gallery |
-| `wash-station.jpg` | About, Gallery |
+Nine photos of the shop (`images/gallery/the-shop`, `the-chairs`, `details`), the four barber portraits (`images/team/barber-1..4.jpg`), and the five older photos that came with the first version (`images/*.jpg`).
 
-**Hero video** — optional. Put a clip at `videos/hero.mp4` and the home hero plays it automatically; until then the entrance photo stands in.
+**Videos** — `videos/hero.mp4` plays behind the home hero; `reel-cut`, `reel-treatment`, `reel-chair` and `reel-arrival` make up the film strip. All silent, all cut down from the originals to about 0.4–1.3 MB each, each with a poster frame beside it. To swap one, drop a new file in with the same name — or re-cut from a source clip:
+
+```bash
+ffmpeg -ss 2 -t 8 -i source.mp4 -an -vf "scale=540:960:flags=lanczos"   -c:v libx264 -preset slow -crf 29 -pix_fmt yuv420p -movflags +faststart videos/reel-cut.mp4
+ffmpeg -ss 2 -i source.mp4 -frames:v 1 -vf "scale=540:-2" -q:v 5 videos/reel-cut-poster.jpg
+```
+
+Remove `videos/hero.mp4` and the hero falls back to a photo on its own.
 
 **Logo** — `images/logo.png`, used in the header, hero and footer. `images/favicon.svg` is the browser-tab icon.
 
 ## Design notes
 
 - **Type** — Fraunces (serif) for headings, Inter for everything else.
-- **Palette** — true monochrome: near-black backgrounds, off-white text, one hairline border colour. Tokens live at the top of `css/style.css`.
-- **Photos** are rendered greyscale so mixed-quality sources read as one set.
+- **Palette** — bone paper (`#f7f5f0`) and ink (`#15140f`), with dark bands for the hero, film strip, call-outs and footer. Any section can carry `theme-dark` or `theme-light`; both set the same handful of variables, and every component is written against those. Tokens live at the top of `css/style.css`.
+- **Photos** are shown in colour, as shot — they're where the warmth comes from.
+- **Signature pieces** — the photo collage on the home page, the overlapped photo stack in the story section, the section rail down the left edge, and the preview image that follows the cursor across the service menu (desktop, pointer devices only).
 - **Motion** — scroll reveals, count-ups, a marquee and a hero glow, all disabled for anyone who asks for reduced motion.
 - **Accessibility** — skip link, visible focus rings, labelled controls, keyboard-operable lightbox and accordion, and the nav collapses to a full-screen menu below 1100px.

@@ -2,30 +2,30 @@ import { existsSync } from 'node:fs';
 import { esc, waLink } from '../../tools/layout.mjs';
 import {
   sectionHead,
-  divider,
   ctaStrip,
   featuredServices,
-  galleryGrid,
+  mosaic,
   gallery,
+  filmStrip,
   hoursTable,
 } from '../../tools/components.mjs';
 
 export default function home(site) {
-  /* Drop a clip in at videos/hero.mp4 and the hero plays it. Until then the
-     storefront photo stands in, rather than asking the browser for a file that
-     isn't there. */
+  /* videos/hero.mp4 plays behind the hero when it's there; otherwise the
+     entrance photo stands in, rather than asking for a file that isn't. */
   const heroVideo = existsSync(new URL('../../videos/hero.mp4', import.meta.url))
-    ? `<video class="hero-video" autoplay muted loop playsinline poster="images/hero-poster.svg" aria-hidden="true">
+    ? `<video class="hero-video" autoplay muted loop playsinline poster="videos/hero-poster.jpg" aria-hidden="true">
     <source src="videos/hero.mp4" type="video/mp4">
   </video>`
     : `<img class="hero-video" src="images/entrance-lights.jpg" alt="" aria-hidden="true" fetchpriority="high">`;
+
   return {
     file: 'index.html',
     title: `${site.name} — Barbershop in Mivida, New Cairo`,
     description: site.description,
     bodyClass: 'page-home',
     body: `
-<section class="hero">
+<section class="hero" data-rail="Escape">
   <div class="hero-bg" aria-hidden="true"></div>
   ${heroVideo}
   <div class="hero-overlay" aria-hidden="true"></div>
@@ -33,8 +33,8 @@ export default function home(site) {
   <div class="hero-content">
     <img src="images/logo.png" alt="${esc(site.name)}" class="hero-logo" width="260" height="76">
     <p class="eyebrow center">Mivida · New Cairo</p>
-    <h1>Where a cut<br>becomes <em>an escape</em></h1>
-    <p class="hero-sub">Modern barbering, old-world detail. Fades, beards, straight-razor finishes — in a room built to slow you down.</p>
+    <h1><span class="line">Where a cut</span><span class="line">becomes <em>an escape</em></span></h1>
+    <p class="hero-sub">Modern barbering, old-world detail. Fades, beards, hot-towel finishes — in a room built to slow you down.</p>
     <div class="hero-actions center">
       <a href="book.html" class="btn btn-primary">Book an Appointment</a>
       <a href="services.html" class="btn btn-ghost">See the Menu</a>
@@ -48,7 +48,7 @@ export default function home(site) {
   <a href="#story" class="scroll-cue" aria-label="Scroll to content"><span></span></a>
 </section>
 
-<section class="marquee" aria-hidden="true">
+<section class="marquee theme-dark" aria-hidden="true">
   <div class="marquee-track">
     <span>Fades</span><span>✦</span><span>Beard Sculpting</span><span>✦</span><span>Hot Towel</span><span>✦</span>
     <span>Colour</span><span>✦</span><span>Protein</span><span>✦</span><span>Kids' Cuts</span><span>✦</span>
@@ -59,12 +59,13 @@ export default function home(site) {
   </div>
 </section>
 
-<section class="about" id="story">
+<section class="about stack" id="story" data-rail="The Place">
   <div class="about-media reveal">
-    <div class="about-frame">
-      <div class="frame-inner">
-        <img src="images/storefront.jpg" alt="Escape Barbershop storefront at night" loading="lazy" width="900" height="600">
-      </div>
+    <div class="stack-frame stack-back">
+      <img src="images/gallery/the-chairs/mirror-arches.jpg" alt="Barber chairs under arched mirrors" loading="lazy" width="1200" height="900">
+    </div>
+    <div class="stack-frame stack-front">
+      <img src="images/gallery/details/climbers-on-the-wall.jpg" alt="Climbing figures mounted on the shop wall" loading="lazy" width="900" height="1200">
     </div>
     <div class="frame-badge">
       <span>Est.</span>
@@ -74,8 +75,8 @@ export default function home(site) {
   <div class="about-copy reveal">
     <p class="eyebrow">The place</p>
     <h2>Not just a barbershop.<br><em>An escape.</em></h2>
-    <p>Low light, dark concrete, and a chair that finally lets your shoulders drop. Escape was built for people who want their grooming to feel like a reset — sharp lines, honest service, no rush.</p>
-    <p>Every station is set up for precision: proper wash basins, hot towels, blades that are sharpened, not swapped out. Every visit ends the same way — you leave looking better than you walked in.</p>
+    <p>Pale concrete, black steel, arched mirrors and two climbers scaling the wall above the sofa — the room was built to be worth the half hour, not just to hold a chair.</p>
+    <p>Every station is set for precision: proper wash basins, hot towels, Kérastase and L'Oréal on the shelf, blades that are sharpened rather than swapped. You leave looking better than you walked in.</p>
     <div class="hero-actions" style="justify-content:flex-start">
       <a href="about.html" class="btn btn-ghost">Our Story</a>
       <a href="behind-the-chair.html" class="btn btn-ghost">Meet the Barbers</a>
@@ -83,30 +84,29 @@ export default function home(site) {
   </div>
 </section>
 
-${divider}
-
-<section class="services">
+<section class="services" data-rail="Services">
   ${sectionHead('Services', 'Crafted, <em>not rushed</em>', 'Twenty-six services, from a thirty-minute fade to a two-hour protein treatment.')}
   ${featuredServices(site)}
-  <div class="hero-actions center" style="margin-top:3rem">
+  <div class="hero-actions center" style="margin-top:2.8rem">
     <a href="services.html" class="btn btn-ghost">View the Full Menu</a>
     <a href="offers.html" class="btn btn-ghost">Packages &amp; Offers</a>
   </div>
 </section>
 
-${divider}
+<section class="reels theme-dark" data-rail="In the Shop">
+  ${sectionHead('Thirty seconds inside', 'The <em>shop</em>, moving', 'Filmed in the chairs. No sound — just the work.')}
+  ${filmStrip()}
+</section>
 
-<section class="gallery">
-  ${sectionHead('Inside Escape', 'The <em>space</em>', 'Shot in the shop, not in a stock library.')}
-  ${galleryGrid({ filters: false, items: gallery(site).slice(0, 3) })}
-  <div class="hero-actions center" style="margin-top:3rem">
+<section class="gallery" data-rail="The Space">
+  ${sectionHead('Inside Escape', 'The <em>space</em>', 'Shot on site, not in a stock library.')}
+  ${mosaic(gallery(site).slice(0, 5))}
+  <div class="hero-actions center" style="margin-top:2.8rem">
     <a href="gallery.html" class="btn btn-ghost">See the Full Gallery</a>
   </div>
 </section>
 
-${divider}
-
-<section class="visit-teaser">
+<section class="visit-teaser" data-rail="Visit">
   <div class="visit-teaser-grid">
     <div class="reveal">
       <p class="eyebrow">Find us</p>
@@ -117,10 +117,10 @@ ${divider}
         <a href="visit.html" class="btn btn-ghost">Hours &amp; Directions</a>
       </div>
     </div>
-    <div class="reveal">
+    <div class="reveal hours-panel">
       <h3 class="block-title">This week</h3>
       ${hoursTable(site)}
-      <p class="cta-note" style="text-align:left">Times shown in shop time. Holidays can shift — call ahead if it's late.</p>
+      <p class="cta-note" style="text-align:left">Shop time. Holidays can shift — call ahead if it's late.</p>
     </div>
   </div>
 </section>

@@ -22,7 +22,7 @@ export const divider = '<div class="divider" aria-hidden="true"><span>✦</span>
 
 export function ctaStrip(site, heading, sub) {
   return `
-<section class="cta-strip" id="book">
+<section class="cta-strip theme-dark" id="book">
   <div class="cta-inner reveal">
     <p class="eyebrow center">Book your visit</p>
     <h2>${heading}</h2>
@@ -41,6 +41,15 @@ export const hasPrices = (site) =>
   site.services.some((s) => s.price != null) || site.packages.some((p) => p.price != null);
 
 const money = (site, value) => `${value} ${site.currency}`;
+
+/** The photo that follows the cursor when you run down the menu. */
+const GROUP_PREVIEW = {
+  Hair: 'images/gallery/the-chairs/in-the-chair.jpg',
+  Beard: 'videos/reel-treatment-poster.jpg',
+  'Colour & Treatments': 'images/gallery/details/cosmetics-shelf.jpg',
+  Packages: 'images/gallery/the-chairs/mirror-arches.jpg',
+  Extras: 'images/gallery/details/tools-trolley.jpg',
+};
 
 export function serviceMenu(site, { filters = true } = {}) {
   const showPrices = hasPrices(site);
@@ -70,7 +79,7 @@ export function serviceMenu(site, { filters = true } = {}) {
   const rows = site.services
     .map((s, i) => {
       const n = String(i + 1).padStart(2, '0');
-      return `    <article class="menu-row reveal" data-group="${esc(s.group)}" data-name="${esc(`${s.name} ${s.ar ?? ''}`)}">
+      return `    <article class="menu-row reveal" data-group="${esc(s.group)}" data-name="${esc(`${s.name} ${s.ar ?? ''}`)}" data-preview="${esc(GROUP_PREVIEW[s.group] ?? '')}">
       <span class="menu-num">${n}</span>
       <div class="menu-body">
         <h3>${esc(s.name)}${s.ar ? ` <span class="menu-ar" lang="ar" dir="rtl">${esc(s.ar)}</span>` : ''}</h3>
@@ -243,7 +252,6 @@ export function reviewWall(site) {
 
 /** The photos that shipped with the site. */
 const BASE_GALLERY = [
-  { file: 'storefront.jpg', alt: 'Escape Barbershop storefront at night', group: 'The Shop' },
   { file: 'entrance-lights.jpg', alt: 'Entrance with pendant lighting', group: 'The Shop' },
   { file: 'barber-chairs.jpg', alt: 'Barber chairs lined up along the mirrors', group: 'The Chairs' },
   { file: 'pedicure-area.jpg', alt: 'Pedicure area with dark leather chairs', group: 'The Chairs' },
@@ -260,7 +268,16 @@ export function gallery(site) {
   return [...dropped, ...BASE_GALLERY];
 }
 
-export function galleryGrid({ filters = true, items = BASE_GALLERY } = {}) {
+/**
+ * An art-directed collage rather than a grid of equal squares: the first photo
+ * runs tall down the left, the next two stack beside it, and the rest fill the
+ * row underneath. It reads like a spread instead of a contact sheet.
+ */
+export function mosaic(items) {
+  return galleryGrid({ filters: false, items, layout: 'mosaic' });
+}
+
+export function galleryGrid({ filters = true, items = BASE_GALLERY, layout = 'grid' } = {}) {
   const groups = [...new Set(items.map((i) => i.group))];
   const tabs = filters
     ? `
@@ -276,14 +293,14 @@ export function galleryGrid({ filters = true, items = BASE_GALLERY } = {}) {
     : '';
   const tiles = items
     .map(
-      (img, i) => `    <button class="gallery-item reveal${img.span ? ` is-${img.span}` : ''}" data-group="${esc(img.group)}" data-index="${i}" aria-label="Open photo: ${esc(img.alt)}">
+      (img, i) => `    <button class="gallery-item reveal" data-group="${esc(img.group)}" data-index="${i}" aria-label="Open photo: ${esc(img.alt)}">
       <img src="images/${img.file}" alt="${esc(img.alt)}" loading="lazy" width="800" height="600">
       <span class="gallery-caption">${esc(img.group)}</span>
     </button>`
     )
     .join('\n');
   return `${tabs}
-  <div class="gallery-grid" id="galleryGrid">
+  <div class="gallery-grid${layout === 'mosaic' ? ' is-mosaic' : ''}" id="galleryGrid">
 ${tiles}
   </div>
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
@@ -294,6 +311,40 @@ ${tiles}
       <figcaption id="lightboxCaption"></figcaption>
     </figure>
     <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">›</button>
+  </div>`;
+}
+
+/**
+ * The film strip: short silent clips shot in the shop. They only load when
+ * they're about to be seen and they play muted, so the page stays quiet and
+ * light until someone scrolls this far.
+ */
+export const REELS = [
+  { file: 'reel-cut', title: 'The cut', caption: 'Clipper work, chair four' },
+  { file: 'reel-treatment', title: 'The treatment', caption: 'Steam, mask, reset' },
+  { file: 'reel-chair', title: 'The chair', caption: 'Where the half hour goes' },
+  { file: 'reel-arrival', title: 'The arrival', caption: 'Pulling up at Gate 2' },
+];
+
+export function filmStrip(reels = REELS) {
+  return `
+  <div class="reel-grid">
+    ${reels
+      .map(
+        (r) => `<figure class="reel-card reveal">
+      <video
+        src="videos/${r.file}.mp4"
+        poster="videos/${r.file}-poster.jpg"
+        muted loop playsinline preload="none"
+        aria-label="${esc(r.title)} — ${esc(r.caption)}"
+        data-autoplay></video>
+      <figcaption class="reel-label">
+        <strong>${esc(r.title)}</strong>
+        <span>${esc(r.caption)}</span>
+      </figcaption>
+    </figure>`
+      )
+      .join('\n    ')}
   </div>`;
 }
 

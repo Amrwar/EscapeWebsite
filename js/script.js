@@ -199,6 +199,72 @@ if (hero && cursorGlow && !reduceMotion && window.matchMedia('(pointer: fine)').
         cursorGlow.style.setProperty('--y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
     });
 }
+/* ------------------------------------------------------------- the film strip */
+/* Clips only load and play while they're on screen — the page stays light and
+   quiet for anyone who never scrolls that far. */
+const reels = $$('video[data-autoplay]');
+if (reels.length) {
+    const reelObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const video = entry.target;
+            if (entry.isIntersecting && !reduceMotion) {
+                if (video.preload === 'none')
+                    video.preload = 'auto';
+                void video.play().catch(() => {
+                    /* a browser that refuses autoplay just shows the poster */
+                });
+            }
+            else {
+                video.pause();
+            }
+        });
+    }, { threshold: 0.35 });
+    reels.forEach((video) => reelObserver.observe(video));
+}
+/* ------------------------------------------------------- hero parallax drift */
+const heroMedia = $('.hero-video');
+if (heroMedia && !reduceMotion) {
+    window.addEventListener('scroll', () => {
+        const y = Math.min(window.scrollY, window.innerHeight);
+        heroMedia.style.transform = `scale(${1 + y * 0.00022}) translateY(${y * 0.12}px)`;
+    }, { passive: true });
+}
+/* ------------------------------------------------------------- section rail */
+/* A quiet marker down the left edge: which part of the page you're in, and how
+   far through it. Desktop only — CSS hides it on touch. */
+const railSections = $$('[data-rail]');
+if (railSections.length) {
+    const rail = document.createElement('div');
+    rail.className = 'rail';
+    rail.setAttribute('aria-hidden', 'true');
+    rail.innerHTML = '<span class="rail-line"></span><span class="rail-label"></span>';
+    document.body.appendChild(rail);
+    const label = rail.querySelector('.rail-label');
+    const line = rail.querySelector('.rail-line');
+    const updateRail = () => {
+        var _a;
+        const middle = window.scrollY + window.innerHeight * 0.4;
+        let current = null;
+        railSections.forEach((section) => {
+            if (section.offsetTop <= middle)
+                current = section;
+        });
+        if (!current) {
+            rail.classList.remove('is-visible');
+            return;
+        }
+        const section = current;
+        rail.classList.add('is-visible');
+        const name = (_a = section.dataset.rail) !== null && _a !== void 0 ? _a : '';
+        if (label && label.textContent !== name)
+            label.textContent = name;
+        const through = (middle - section.offsetTop) / Math.max(section.offsetHeight, 1);
+        line === null || line === void 0 ? void 0 : line.style.setProperty('--rail-progress', `${Math.max(0, Math.min(through, 1)) * 100}%`);
+    };
+    updateRail();
+    window.addEventListener('scroll', updateRail, { passive: true });
+    window.addEventListener('resize', updateRail);
+}
 /* ------------------------------------------------ service menu filter + search */
 const menuList = document.getElementById('menuList');
 if (menuList) {
@@ -222,6 +288,40 @@ if (menuList) {
         if (empty)
             empty.hidden = shown > 0;
     };
+    /* A photo of the room that service happens in, following the cursor down the
+       menu. Pointer devices only — it would be in the way on a phone. */
+    if (window.matchMedia('(min-width: 900px) and (pointer: fine)').matches && !reduceMotion) {
+        const preview = document.createElement('div');
+        preview.className = 'menu-preview';
+        preview.setAttribute('aria-hidden', 'true');
+        const previewImg = document.createElement('img');
+        previewImg.alt = '';
+        previewImg.loading = 'lazy';
+        preview.appendChild(previewImg);
+        document.body.appendChild(preview);
+        let frame = 0;
+        const move = (e) => {
+            if (frame)
+                return;
+            frame = requestAnimationFrame(() => {
+                frame = 0;
+                preview.style.left = `${e.clientX + 150}px`;
+                preview.style.top = `${e.clientY}px`;
+            });
+        };
+        rows.forEach((row) => {
+            const src = row.dataset.preview;
+            if (!src)
+                return;
+            row.addEventListener('mouseenter', () => {
+                if (previewImg.getAttribute('src') !== src)
+                    previewImg.src = src;
+                preview.classList.add('is-visible');
+            });
+            row.addEventListener('mousemove', move);
+            row.addEventListener('mouseleave', () => preview.classList.remove('is-visible'));
+        });
+    }
     chips.forEach((chip) => {
         chip.addEventListener('click', () => {
             var _a;

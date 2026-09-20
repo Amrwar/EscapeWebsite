@@ -123,7 +123,12 @@ const filtered = await evaluate(`
   document.querySelector('[data-gallery-filter="The Chairs"]').click();
   [...document.querySelectorAll('#galleryGrid .gallery-item')].filter(t => !t.hidden).length
 `);
-check('gallery filter works', filtered === 2, `${filtered} tiles`);
+const tileCount = await evaluate(`document.querySelectorAll('#galleryGrid .gallery-item').length`);
+check(
+  'gallery filter narrows the set',
+  filtered > 0 && filtered < tileCount,
+  `${filtered} of ${tileCount} tiles`
+);
 
 /* ---- FAQ ---- */
 await goto('faq.html');
@@ -215,11 +220,14 @@ await goto('behind-the-chair.html');
 const cards = await evaluate(`document.querySelectorAll('.team-card').length`);
 check('every barber has a card', cards === 4, `${cards} cards`);
 
-const fallbacks = await evaluate(`
-  document.querySelectorAll('.team-photo .team-initial').length
+/* Every barber shows either their portrait or a monogram plate — never an
+   empty frame, whichever the shop has supplied so far. */
+const plates = await evaluate(`
+  [...document.querySelectorAll('.team-photo')]
+    .every(p => p.querySelector('img') || p.querySelector('.team-initial'))
     + ':' + document.querySelectorAll('.team-photo img').length
 `);
-check('portraits fall back to a monogram until photos land', fallbacks === '4:0', fallbacks);
+check('every barber card shows a portrait or a monogram', plates === 'true:4', plates);
 
 const picks = await evaluate(`
   [...document.querySelectorAll('.pick-card')].every(a => a.href.includes('barber='))

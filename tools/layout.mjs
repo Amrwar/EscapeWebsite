@@ -153,7 +153,8 @@ function header(page, site) {
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <nav class="nav" aria-label="Main">
     <a class="logo" href="index.html" aria-label="${esc(site.name)} — home">
-      <img src="images/logo.png" alt="${esc(site.name)}" class="nav-logo" width="150" height="44">
+      <img src="images/logo-dark.png" alt="${esc(site.name)}" class="nav-logo on-light" width="150" height="44">
+      <img src="images/logo.png" alt="" aria-hidden="true" class="nav-logo on-dark" width="150" height="44">
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -179,12 +180,21 @@ function footer(site) {
   const explore = [...NAV, ...NAV_SECONDARY]
     .map((item) => `<a href="${item.href}">${item.label}</a>`)
     .join('\n        ');
-  return `<footer class="site-footer">
+  return `<footer class="site-footer theme-dark">
+  <span class="footer-mark" aria-hidden="true">${esc(site.shortName)}</span>
   <div class="footer-top">
     <div class="footer-brand">
       <img src="images/logo.png" alt="${esc(site.name)}" class="footer-logo" width="170" height="50" loading="lazy">
       <p class="footer-tagline">${esc(site.tagline)}.</p>
-      ${socialLinks(site)}
+      ${
+        socialLinks(site) ||
+        /* No social links set yet — offer the two things people actually want
+           instead of leaving a hole in the layout. */
+        `<div class="footer-actions">
+        <a class="btn btn-primary" href="book.html">Book a Chair</a>
+        <a class="btn btn-ghost" href="tel:${esc(site.phoneHref)}">Call the Shop</a>
+      </div>`
+      }
     </div>
     <div class="footer-col">
       <h4>Explore</h4>

@@ -11,6 +11,6 @@ Run `npm run build` and the photo appears on the "Behind the Chair" page and
 anywhere else that barber is shown. Until a file exists, the card shows a
 monogram plate instead, so nothing looks broken.
 
-Portraits look best upright (roughly 3:4), shot against the shop's own dark
-walls. They're rendered in black and white to match the rest of the site, so
-don't worry about colour grading. Around 1200px on the long edge is plenty.
+Portraits look best upright (roughly 3:4), shot straight on against the shop's
+concrete wall — that's how the four in here were taken. Around 1200px on the
+long edge is plenty.

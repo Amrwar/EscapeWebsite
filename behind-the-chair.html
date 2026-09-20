@@ -35,7 +35,8 @@
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <nav class="nav" aria-label="Main">
     <a class="logo" href="index.html" aria-label="Escape Barbershop — home">
-      <img src="images/logo.png" alt="Escape Barbershop" class="nav-logo" width="150" height="44">
+      <img src="images/logo-dark.png" alt="Escape Barbershop" class="nav-logo on-light" width="150" height="44">
+      <img src="images/logo.png" alt="" aria-hidden="true" class="nav-logo on-dark" width="150" height="44">
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -69,7 +70,7 @@
   <div class="team-grid">
     <article class="team-card reveal">
       <div class="team-photo">
-        <span class="team-initial" aria-hidden="true">A</span>
+        <img src="images/team/barber-1.jpg" alt="Abdullah, master barber at Escape Barbershop" loading="lazy">
         <span class="team-index" aria-hidden="true">01</span>
       </div>
       <h3>Abdullah</h3>
@@ -81,7 +82,7 @@
     </article>
     <article class="team-card reveal">
       <div class="team-photo">
-        <span class="team-initial" aria-hidden="true">K</span>
+        <img src="images/team/barber-2.jpg" alt="Khaled, senior barber at Escape Barbershop" loading="lazy">
         <span class="team-index" aria-hidden="true">02</span>
       </div>
       <h3>Khaled</h3>
@@ -93,7 +94,7 @@
     </article>
     <article class="team-card reveal">
       <div class="team-photo">
-        <span class="team-initial" aria-hidden="true">M</span>
+        <img src="images/team/barber-3.jpg" alt="Mohamed, barber at Escape Barbershop" loading="lazy">
         <span class="team-index" aria-hidden="true">03</span>
       </div>
       <h3>Mohamed</h3>
@@ -105,7 +106,7 @@
     </article>
     <article class="team-card reveal">
       <div class="team-photo">
-        <span class="team-initial" aria-hidden="true">A</span>
+        <img src="images/team/barber-4.jpg" alt="Ali, barber at Escape Barbershop" loading="lazy">
         <span class="team-index" aria-hidden="true">04</span>
       </div>
       <h3>Ali</h3>
@@ -194,7 +195,7 @@
 </section>
 
 
-<section class="cta-strip" id="book">
+<section class="cta-strip theme-dark" id="book">
   <div class="cta-inner reveal">
     <p class="eyebrow center">Book your visit</p>
     <h2>Book the chair you <em>trust</em></h2>
@@ -209,12 +210,16 @@
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer theme-dark">
+  <span class="footer-mark" aria-hidden="true">Escape</span>
   <div class="footer-top">
     <div class="footer-brand">
       <img src="images/logo.png" alt="Escape Barbershop" class="footer-logo" width="170" height="50" loading="lazy">
       <p class="footer-tagline">Where a cut becomes an escape.</p>
-      
+      <div class="footer-actions">
+        <a class="btn btn-primary" href="book.html">Book a Chair</a>
+        <a class="btn btn-ghost" href="tel:+201000000000">Call the Shop</a>
+      </div>
     </div>
     <div class="footer-col">
       <h4>Explore</h4>

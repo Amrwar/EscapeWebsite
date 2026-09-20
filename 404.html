@@ -35,7 +35,8 @@
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <nav class="nav" aria-label="Main">
     <a class="logo" href="index.html" aria-label="Escape Barbershop — home">
-      <img src="images/logo.png" alt="Escape Barbershop" class="nav-logo" width="150" height="44">
+      <img src="images/logo-dark.png" alt="Escape Barbershop" class="nav-logo on-light" width="150" height="44">
+      <img src="images/logo.png" alt="" aria-hidden="true" class="nav-logo on-dark" width="150" height="44">
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -70,12 +71,16 @@
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer theme-dark">
+  <span class="footer-mark" aria-hidden="true">Escape</span>
   <div class="footer-top">
     <div class="footer-brand">
       <img src="images/logo.png" alt="Escape Barbershop" class="footer-logo" width="170" height="50" loading="lazy">
       <p class="footer-tagline">Where a cut becomes an escape.</p>
-      
+      <div class="footer-actions">
+        <a class="btn btn-primary" href="book.html">Book a Chair</a>
+        <a class="btn btn-ghost" href="tel:+201000000000">Call the Shop</a>
+      </div>
     </div>
     <div class="footer-col">
       <h4>Explore</h4>
