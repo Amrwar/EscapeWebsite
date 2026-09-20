@@ -62,8 +62,8 @@ await writeFile(
       background_color: '#090909',
       theme_color: '#090909',
       icons: [
-        { src: '/images/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
-        { src: '/images/logo.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: '/images/favicon.png', sizes: '64x64', type: 'image/png' },
+        { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
       ],
     },
     null,
