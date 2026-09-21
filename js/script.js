@@ -75,15 +75,27 @@ let navScrollY = 0;
    fighting the menu panel's own independent scrolling. Plain
    `overflow: hidden` drops the scroll position while it's applied, so it's
    saved here and restored on the next frame once the lock is lifted (doing
-   it in the same tick as removing the class is unreliable). */
+   it in the same tick as removing the class is unreliable).
+
+   The CSS lock alone has proven inconsistent on real iOS Safari (touch
+   scrolling inside the menu panel sometimes still doesn't register), so a
+   touchmove guard backs it up: block any touch drag that starts outside the
+   menu panel, and do nothing at all for one that starts inside it, letting
+   the panel's own native scrolling handle it untouched. */
+function blockBackgroundTouch(e) {
+    if (navLinks && !navLinks.contains(e.target))
+        e.preventDefault();
+}
 function lockScroll() {
     navScrollY = window.scrollY;
     document.body.classList.add('nav-open');
     document.documentElement.classList.add('nav-open');
+    document.addEventListener('touchmove', blockBackgroundTouch, { passive: false });
 }
 function unlockScroll() {
     document.body.classList.remove('nav-open');
     document.documentElement.classList.remove('nav-open');
+    document.removeEventListener('touchmove', blockBackgroundTouch);
     requestAnimationFrame(() => window.scrollTo(0, navScrollY));
 }
 function closeNav() {
