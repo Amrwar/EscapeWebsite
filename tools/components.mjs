@@ -282,6 +282,7 @@ export function reviewWall(site) {
       : '★★★★★';
     return `
   <div class="review-empty reveal">
+    ${hasRating ? `<span class="review-empty-mark" aria-hidden="true">&rdquo;</span>` : ''}
     ${hasRating ? `<span class="review-empty-score">${esc(site.googleRating)}</span>` : ''}
     <span class="stars" aria-hidden="true">${stars}</span>
     ${hasRating ? `<span class="review-empty-count">${esc(site.googleReviewCount)} reviews on Google</span>` : ''}

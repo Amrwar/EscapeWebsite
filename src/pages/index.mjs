@@ -84,6 +84,28 @@ export default function home(site) {
   </div>
 </section>
 
+<section class="ritual section-narrow" data-rail="The Ritual">
+  ${sectionHead('The Ritual', 'What to <em>expect</em>')}
+  <ol class="ritual-grid">
+    <li class="ritual-step reveal">
+      <h3>Walk in, or book ahead</h3>
+      <p>Same-day chairs for walk-ins; a WhatsApp message holds your slot if you'd rather not wait.</p>
+    </li>
+    <li class="ritual-step reveal">
+      <h3>Sit down, slow down</h3>
+      <p>Hot towel, a proper wash, and a barber who asks before he cuts — not after.</p>
+    </li>
+    <li class="ritual-step reveal">
+      <h3>The cut itself</h3>
+      <p>Clipper and scissor work, shaped to your head, finished with a razor edge.</p>
+    </li>
+    <li class="ritual-step reveal">
+      <h3>Leave looking sharp</h3>
+      <p>Styled, brushed down, and out the door in less time than you expected.</p>
+    </li>
+  </ol>
+</section>
+
 <section class="services" data-rail="Services">
   ${sectionHead('Services', 'Crafted, <em>not rushed</em>', 'Twenty-six services, from a thirty-minute fade to a two-hour protein treatment.')}
   ${featuredServices(site)}
