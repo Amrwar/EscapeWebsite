@@ -82,6 +82,8 @@ export default function book(site) {
         <div class="field">
           <label for="bookTime">Time</label>
           <input type="time" id="bookTime" name="time" required step="900">
+          <div class="slot-grid" id="slotGrid" hidden></div>
+          <p class="slot-note" id="slotNote" hidden>Pick a barber and a date to see times that are already taken.</p>
           <p class="field-error" data-error-for="bookTime" hidden>Choose a time inside that day's opening hours.</p>
         </div>
       </div>

@@ -685,6 +685,105 @@ if (bookingForm) {
     return minutes >= toMinutes(day.open) && minutes < toMinutes(day.close);
   };
 
+  /* Live slot picker: half-hour buttons across that day's opening hours,
+     greyed out wherever that exact barber is already booked. "No
+     preference" isn't tracked — there's no specific chair to check against
+     — so those times always show open, same as the plain time field did. */
+  const slotGrid = document.getElementById('slotGrid');
+  const slotNote = document.getElementById('slotNote');
+  let takenSlots = new Set<string>();
+
+  const dayTimes = (dateValue: string): string[] => {
+    if (!SITE.hours.length || !dateValue) return [];
+    const day = SITE.hours[new Date(`${dateValue}T00:00`).getDay()];
+    if (!day || !day.open || !day.close) return [];
+    const times: string[] = [];
+    for (let m = toMinutes(day.open); m < toMinutes(day.close); m += 30) {
+      times.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+    }
+    return times;
+  };
+
+  const renderSlots = (): void => {
+    if (!slotGrid || !dateInput || !timeInput) return;
+    const times = dayTimes(dateInput.value);
+    if (!times.length) {
+      slotGrid.hidden = true;
+      timeInput.hidden = false;
+      if (slotNote) slotNote.hidden = true;
+      return;
+    }
+    timeInput.hidden = true;
+    slotGrid.hidden = false;
+    if (slotNote) slotNote.hidden = true;
+    slotGrid.innerHTML = times
+      .map((t) => {
+        const taken = takenSlots.has(t);
+        const selected = timeInput.value === t;
+        return `<button type="button" class="slot-btn${selected ? ' is-selected' : ''}" data-time="${t}"${taken ? ' disabled' : ''}>${prettyTime(t)}</button>`;
+      })
+      .join('');
+  };
+
+  slotGrid?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.slot-btn');
+    if (!btn || btn.disabled || !timeInput) return;
+    timeInput.value = btn.dataset.time ?? '';
+    setError(timeInput, false);
+    renderSlots();
+  });
+
+  const refreshTaken = async (): Promise<void> => {
+    takenSlots = new Set();
+    if (dateInput?.value && barberInput?.value) {
+      try {
+        const res = await fetch(
+          `/api/slots?date=${encodeURIComponent(dateInput.value)}&barber=${encodeURIComponent(barberInput.value)}`
+        );
+        if (res.ok) {
+          const data = (await res.json()) as { taken?: string[] };
+          takenSlots = new Set(data.taken ?? []);
+        }
+      } catch {
+        /* offline, or the API isn't reachable — just show every hour as open */
+      }
+    }
+    renderSlots();
+  };
+
+  dateInput?.addEventListener('change', refreshTaken);
+  barberInput?.addEventListener('change', refreshTaken);
+  refreshTaken();
+
+  /* Best-effort: reserves the slot in the background once a request is
+     actually sent. Never blocks the WhatsApp/SMS/copy action on it — that
+     message is what the shop actually confirms, this is just what keeps
+     the next visitor from being offered the same exact slot. */
+  const reserveSlot = (): void => {
+    if (!dateInput?.value || !timeInput?.value) return;
+    fetch('/api/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: dateInput.value,
+        time: timeInput.value,
+        barber: barberInput?.value ?? '',
+        name: nameInput?.value.trim() ?? '',
+        phone: phoneInput?.value.trim() ?? '',
+        service: serviceInput?.value ?? '',
+        notes: notesInput?.value.trim() ?? '',
+      }),
+    })
+      .then((res) => {
+        if (res.status === 409 && status) {
+          status.textContent += ' Heads up — that exact time may have just been taken by someone else; we’ll confirm on WhatsApp either way.';
+        }
+      })
+      .catch(() => {
+        /* the reservation is best-effort; the WhatsApp message is what actually gets confirmed */
+      });
+  };
+
   const buildMessage = (): string => {
     const lines = [
       `New booking request — ${SITE.name}`,
@@ -757,6 +856,7 @@ if (bookingForm) {
       '_blank',
       'noopener'
     );
+    reserveSlot();
   });
 
   $<HTMLButtonElement>('#bookSms')?.addEventListener('click', () => {
@@ -764,6 +864,7 @@ if (bookingForm) {
     const message = buildMessage();
     showPreview(message, 'Your messages app is opening. Press send there to finish the request.');
     location.href = `sms:${SITE.phone}?&body=${encodeURIComponent(message)}`;
+    reserveSlot();
   });
 
   $<HTMLButtonElement>('#bookCopy')?.addEventListener('click', () => {
@@ -777,6 +878,7 @@ if (bookingForm) {
       .catch(() =>
         showPreview(message, 'Copy the text below and send it to the shop however suits you.')
       );
+    reserveSlot();
   });
 
   /* Clear an error as soon as the visitor fixes it. */

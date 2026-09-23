@@ -636,6 +636,107 @@ if (bookingForm) {
         const minutes = toMinutes(timeValue);
         return minutes >= toMinutes(day.open) && minutes < toMinutes(day.close);
     };
+    /* Live slot picker: half-hour buttons across that day's opening hours,
+       greyed out wherever that exact barber is already booked. "No
+       preference" isn't tracked — there's no specific chair to check against
+       — so those times always show open, same as the plain time field did. */
+    const slotGrid = document.getElementById('slotGrid');
+    const slotNote = document.getElementById('slotNote');
+    let takenSlots = new Set();
+    const dayTimes = (dateValue) => {
+        if (!SITE.hours.length || !dateValue)
+            return [];
+        const day = SITE.hours[new Date(`${dateValue}T00:00`).getDay()];
+        if (!day || !day.open || !day.close)
+            return [];
+        const times = [];
+        for (let m = toMinutes(day.open); m < toMinutes(day.close); m += 30) {
+            times.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+        }
+        return times;
+    };
+    const renderSlots = () => {
+        if (!slotGrid || !dateInput || !timeInput)
+            return;
+        const times = dayTimes(dateInput.value);
+        if (!times.length) {
+            slotGrid.hidden = true;
+            timeInput.hidden = false;
+            if (slotNote)
+                slotNote.hidden = true;
+            return;
+        }
+        timeInput.hidden = true;
+        slotGrid.hidden = false;
+        if (slotNote)
+            slotNote.hidden = true;
+        slotGrid.innerHTML = times
+            .map((t) => {
+            const taken = takenSlots.has(t);
+            const selected = timeInput.value === t;
+            return `<button type="button" class="slot-btn${selected ? ' is-selected' : ''}" data-time="${t}"${taken ? ' disabled' : ''}>${prettyTime(t)}</button>`;
+        })
+            .join('');
+    };
+    slotGrid === null || slotGrid === void 0 ? void 0 : slotGrid.addEventListener('click', (e) => {
+        var _a;
+        const btn = e.target.closest('.slot-btn');
+        if (!btn || btn.disabled || !timeInput)
+            return;
+        timeInput.value = (_a = btn.dataset.time) !== null && _a !== void 0 ? _a : '';
+        setError(timeInput, false);
+        renderSlots();
+    });
+    const refreshTaken = async () => {
+        var _a;
+        takenSlots = new Set();
+        if ((dateInput === null || dateInput === void 0 ? void 0 : dateInput.value) && (barberInput === null || barberInput === void 0 ? void 0 : barberInput.value)) {
+            try {
+                const res = await fetch(`/api/slots?date=${encodeURIComponent(dateInput.value)}&barber=${encodeURIComponent(barberInput.value)}`);
+                if (res.ok) {
+                    const data = (await res.json());
+                    takenSlots = new Set((_a = data.taken) !== null && _a !== void 0 ? _a : []);
+                }
+            }
+            catch {
+                /* offline, or the API isn't reachable — just show every hour as open */
+            }
+        }
+        renderSlots();
+    };
+    dateInput === null || dateInput === void 0 ? void 0 : dateInput.addEventListener('change', refreshTaken);
+    barberInput === null || barberInput === void 0 ? void 0 : barberInput.addEventListener('change', refreshTaken);
+    refreshTaken();
+    /* Best-effort: reserves the slot in the background once a request is
+       actually sent. Never blocks the WhatsApp/SMS/copy action on it — that
+       message is what the shop actually confirms, this is just what keeps
+       the next visitor from being offered the same exact slot. */
+    const reserveSlot = () => {
+        var _a, _b, _c, _d, _e;
+        if (!(dateInput === null || dateInput === void 0 ? void 0 : dateInput.value) || !(timeInput === null || timeInput === void 0 ? void 0 : timeInput.value))
+            return;
+        fetch('/api/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                date: dateInput.value,
+                time: timeInput.value,
+                barber: (_a = barberInput === null || barberInput === void 0 ? void 0 : barberInput.value) !== null && _a !== void 0 ? _a : '',
+                name: (_b = nameInput === null || nameInput === void 0 ? void 0 : nameInput.value.trim()) !== null && _b !== void 0 ? _b : '',
+                phone: (_c = phoneInput === null || phoneInput === void 0 ? void 0 : phoneInput.value.trim()) !== null && _c !== void 0 ? _c : '',
+                service: (_d = serviceInput === null || serviceInput === void 0 ? void 0 : serviceInput.value) !== null && _d !== void 0 ? _d : '',
+                notes: (_e = notesInput === null || notesInput === void 0 ? void 0 : notesInput.value.trim()) !== null && _e !== void 0 ? _e : '',
+            }),
+        })
+            .then((res) => {
+            if (res.status === 409 && status) {
+                status.textContent += ' Heads up — that exact time may have just been taken by someone else; we’ll confirm on WhatsApp either way.';
+            }
+        })
+            .catch(() => {
+            /* the reservation is best-effort; the WhatsApp message is what actually gets confirmed */
+        });
+    };
     const buildMessage = () => {
         const lines = [
             `New booking request — ${SITE.name}`,
@@ -700,6 +801,7 @@ if (bookingForm) {
         const message = buildMessage();
         showPreview(message, 'WhatsApp is opening with your request. Press send there — it is not booked until you do, and we reply to confirm.');
         window.open(`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+        reserveSlot();
     });
     (_e = $('#bookSms')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', () => {
         if (!validate())
@@ -707,6 +809,7 @@ if (bookingForm) {
         const message = buildMessage();
         showPreview(message, 'Your messages app is opening. Press send there to finish the request.');
         location.href = `sms:${SITE.phone}?&body=${encodeURIComponent(message)}`;
+        reserveSlot();
     });
     (_f = $('#bookCopy')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', () => {
         if (!validate())
@@ -716,6 +819,7 @@ if (bookingForm) {
             .writeText(message)
             .then(() => showPreview(message, 'Copied. Paste it into WhatsApp, a message, or an email to the shop.'))
             .catch(() => showPreview(message, 'Copy the text below and send it to the shop however suits you.'));
+        reserveSlot();
     });
     /* Clear an error as soon as the visitor fixes it. */
     [nameInput, phoneInput, serviceInput, dateInput, timeInput].forEach((field) => {

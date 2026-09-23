@@ -1597,6 +1597,33 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 .field select.has-error { border-color: #a4443c; }
 .field-error { font-size: var(--step--1); color: #a4443c; }
 
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.slot-btn {
+  padding: 0.55rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: var(--step--2);
+  font-weight: 600;
+  color: var(--fg-soft);
+  background: var(--panel);
+  transition: all 0.25s var(--ease);
+}
+.slot-btn:hover:not(:disabled) { border-color: var(--line-strong); color: var(--fg); }
+.slot-btn.is-selected { background: var(--fill); border-color: var(--fill); color: var(--fill-fg); }
+.slot-btn:disabled {
+  color: var(--muted);
+  background: var(--bg-soft);
+  text-decoration: line-through;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.slot-note { font-size: var(--step--1); color: var(--muted); margin-top: 0.4rem; }
+
 .form-actions {
   display: flex;
   flex-wrap: wrap;

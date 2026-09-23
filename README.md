@@ -54,14 +54,28 @@ The build prints a warning listing anything still on a placeholder value.
 
 ## How the booking form works
 
-There's no server behind this site, so the form doesn't pretend to send anything by itself. It validates what was typed — including refusing a time when the shop is shut that day — writes the request out in full, and hands it to WhatsApp (or SMS, or the clipboard). The visitor presses send, and it lands in the shop's normal WhatsApp chat.
+The form doesn't pretend to book anything by itself. It validates what was typed — including refusing a time when the shop is shut that day — writes the request out in full, and hands it to WhatsApp (or SMS, or the clipboard). The visitor presses send, and it lands in the shop's normal WhatsApp chat.
 
 That means: **nothing is booked until the shop replies**, and the page says so.
+
+### Blocking out times that are already taken
+
+Picking a barber and a date shows half-hour slots instead of a plain time field, and any exact slot already requested with that same barber is greyed out. This only tracks requests made through this form — it still doesn't know about anything arranged by phone or WhatsApp directly, and "no preference" bookings aren't tracked either, since there's no specific chair to check against.
+
+This needs a one-time setup that isn't done automatically:
+
+1. In the Vercel dashboard, open this project → **Storage** → **Create Database** → **Marketplace Database Providers** → pick a **Redis** option (Upstash). Connect it to this project — Vercel adds the required environment variables on its own.
+2. Redeploy once after connecting it.
+
+Two small serverless functions live in `api/` (`slots.mjs` reads what's taken, `book.mjs` reserves a slot) — nothing else to configure. Until the storage is connected, both quietly fall back to showing every time as open (the same as before this feature existed) rather than breaking.
 
 ## Structure
 
 ```
 site.config.json    — the shop's details: the file to edit
+api/slots.mjs       — serverless: what's already booked for a barber/date
+api/book.mjs        — serverless: reserves a slot
+api/_redis.mjs      — shared Redis client for both of the above
 src/pages/*.mjs     — one file per page, its own content only
 src/script.ts       — all the interactive behaviour (compiled to js/script.js)
 tools/layout.mjs    — the shell every page shares: head, header, footer, action bar
