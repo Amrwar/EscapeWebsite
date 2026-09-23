@@ -721,6 +721,45 @@ if (bookingForm) {
     [nameInput, phoneInput, serviceInput, dateInput, timeInput].forEach((field) => {
         field === null || field === void 0 ? void 0 : field.addEventListener('input', () => setError(field, false));
     });
+    /* A card beside the form that fills in as you do, so the request is readable
+       before it is sent. */
+    const summary = document.getElementById('bookSummary');
+    if (summary) {
+        const slot = (key) => summary.querySelector(`[data-summary="${key}"]`);
+        const dayNames = SITE.hours.map((d) => d.day);
+        const prettyDate = (value) => {
+            var _a;
+            const date = new Date(`${value}T00:00`);
+            if (Number.isNaN(date.getTime()))
+                return '';
+            return `${(_a = dayNames[date.getDay()]) !== null && _a !== void 0 ? _a : ''} ${date.getDate()} ${date.toLocaleString('en', { month: 'long' })}`;
+        };
+        const updateSummary = () => {
+            var _a;
+            const service = slot('service');
+            if (service)
+                service.textContent = (serviceInput === null || serviceInput === void 0 ? void 0 : serviceInput.value) || '—';
+            const barber = slot('barber');
+            if (barber)
+                barber.textContent = (barberInput === null || barberInput === void 0 ? void 0 : barberInput.value) || 'Whoever is free';
+            const when = slot('when');
+            if (when) {
+                const date = (dateInput === null || dateInput === void 0 ? void 0 : dateInput.value) ? prettyDate(dateInput.value) : '';
+                const time = (timeInput === null || timeInput === void 0 ? void 0 : timeInput.value) ? prettyTime(timeInput.value) : '';
+                when.textContent = date && time ? `${date}, ${time}` : date || time || '—';
+            }
+            const minutes = slot('minutes');
+            if (minutes) {
+                const value = (_a = serviceInput === null || serviceInput === void 0 ? void 0 : serviceInput.selectedOptions[0]) === null || _a === void 0 ? void 0 : _a.dataset.minutes;
+                minutes.textContent = value ? `About ${value} minutes` : '—';
+            }
+        };
+        [nameInput, phoneInput, serviceInput, barberInput, dateInput, timeInput].forEach((field) => {
+            field === null || field === void 0 ? void 0 : field.addEventListener('input', updateSummary);
+            field === null || field === void 0 ? void 0 : field.addEventListener('change', updateSummary);
+        });
+        updateSummary();
+    }
     /* Returning customers shouldn't retype their own name and number. Stored on
        this device only, and only after they've actually sent a request. */
     const REMEMBER_KEY = 'escape.customer';

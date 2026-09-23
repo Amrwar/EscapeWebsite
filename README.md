@@ -16,6 +16,7 @@ Change it, run `npm run build`, and every page that shows that information updat
 npm install     # once
 npm run build   # rebuild the pages after editing site.config.json
 npm run dev     # build, then serve on http://localhost:8000
+npm run images  # make WebP copies of new photos (needs ffmpeg)
 ```
 
 The build prints a warning listing anything still on a placeholder value.
@@ -67,6 +68,7 @@ tools/layout.mjs    — the shell every page shares: head, header, footer, actio
 tools/components.mjs— blocks used on more than one page (menu, hours, FAQ, team…)
 tools/build.mjs     — pours pages into the shell, writes the HTML + sitemap
 tools/photos.mjs    — finds photos dropped into images/team and images/gallery
+tools/optimize-images.mjs — makes the WebP copies the pages serve first
 tools/serve.mjs     — the local preview server
 tools/smoke.mjs     — end-to-end checks (see below)
 css/style.css       — the whole design system
@@ -81,6 +83,7 @@ Adding a page means adding one file to `src/pages/` and, if it belongs in the na
 ## What else is on the site
 
 - **The film strip** — four silent clips shot in the shop (a cut, a treatment, the chair, pulling up at Gate 2). They load and play only while on screen, so the page stays light for anyone who doesn't scroll that far.
+- **Booking** — the fields are grouped the way you'd be asked in person (who you are, what you're after, when), with a card beside them that fills in as you type so the request is readable before it's sent.
 - **Booking extras** — the form remembers your name and number on your own device, and offers an **Add to My Calendar** file (marked tentative, since the shop still confirms). After hours it says so instead of letting you wonder.
 - **Print the Menu** — a print stylesheet turns the services page into a clean list on white paper.
 - **Home-screen install** — `site.webmanifest` is generated at build time, so the site can be saved to a phone's home screen.
@@ -105,6 +108,8 @@ You never edit code to add a picture. Drop the file in the right folder and run 
 **Gallery photos** → `images/gallery/<section>/<file>.jpg`. The folder name becomes the filter button on the Gallery page (`images/gallery/the-chairs/mirrors.jpg` files it under "The Chairs"), and new photos also feed the three tiles on the home page. The file name becomes the alt text; to write your own, add it to `photoCaptions` in `site.config.json`. Landscape, about 1600px wide.
 
 Both folders have a README repeating this, so it's there when you need it.
+
+After adding photos run `npm run images`. It writes a WebP copy next to each one — about 40% smaller — and the build serves that first with the original as the fallback, so nothing breaks on an older browser. It only touches photos whose copy is missing or out of date, and it needs ffmpeg (`npm i -D ffmpeg-static` is enough).
 
 Everything is rendered in black and white to match the rest of the site, so don't worry about matching colour between shots.
 

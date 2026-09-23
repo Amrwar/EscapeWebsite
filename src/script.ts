@@ -784,6 +784,48 @@ if (bookingForm) {
     field?.addEventListener('input', () => setError(field, false));
   });
 
+  /* A card beside the form that fills in as you do, so the request is readable
+     before it is sent. */
+  const summary = document.getElementById('bookSummary');
+  if (summary) {
+    const slot = (key: string): HTMLElement | null =>
+      summary.querySelector<HTMLElement>(`[data-summary="${key}"]`);
+
+    const dayNames = SITE.hours.map((d) => d.day);
+    const prettyDate = (value: string): string => {
+      const date = new Date(`${value}T00:00`);
+      if (Number.isNaN(date.getTime())) return '';
+      return `${dayNames[date.getDay()] ?? ''} ${date.getDate()} ${date.toLocaleString('en', { month: 'long' })}`;
+    };
+
+    const updateSummary = (): void => {
+      const service = slot('service');
+      if (service) service.textContent = serviceInput?.value || '—';
+
+      const barber = slot('barber');
+      if (barber) barber.textContent = barberInput?.value || 'Whoever is free';
+
+      const when = slot('when');
+      if (when) {
+        const date = dateInput?.value ? prettyDate(dateInput.value) : '';
+        const time = timeInput?.value ? prettyTime(timeInput.value) : '';
+        when.textContent = date && time ? `${date}, ${time}` : date || time || '—';
+      }
+
+      const minutes = slot('minutes');
+      if (minutes) {
+        const value = serviceInput?.selectedOptions[0]?.dataset.minutes;
+        minutes.textContent = value ? `About ${value} minutes` : '—';
+      }
+    };
+
+    [nameInput, phoneInput, serviceInput, barberInput, dateInput, timeInput].forEach((field) => {
+      field?.addEventListener('input', updateSummary);
+      field?.addEventListener('change', updateSummary);
+    });
+    updateSummary();
+  }
+
   /* Returning customers shouldn't retype their own name and number. Stored on
      this device only, and only after they've actually sent a request. */
   const REMEMBER_KEY = 'escape.customer';

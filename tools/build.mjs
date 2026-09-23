@@ -9,6 +9,7 @@
  */
 
 import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
@@ -32,11 +33,24 @@ site.assetVersion = {
 const pagesDir = path.join(root, 'src', 'pages');
 const files = (await readdir(pagesDir)).filter((f) => f.endsWith('.mjs')).sort();
 
+/**
+ * Serve WebP where we have it, with the original as the fallback. Done here
+ * rather than in the templates so no page has to know which photos have been
+ * converted — `npm run images` makes the copies, this picks them up.
+ */
+function preferWebp(html) {
+  return html.replace(/<img[^>]*src="(images\/[^"]+\.(?:jpe?g|png))"[^>]*>/g, (tag, src) => {
+    const webp = src.replace(/\.(jpe?g|png)$/i, '.webp');
+    if (!existsSync(path.join(root, webp))) return tag;
+    return `<picture><source srcset="${webp}" type="image/webp">${tag}</picture>`;
+  });
+}
+
 const built = [];
 for (const file of files) {
   const mod = await import(pathToFileURL(path.join(pagesDir, file)).href);
   const page = mod.default(site);
-  await writeFile(path.join(root, page.file), render(page, site), 'utf8');
+  await writeFile(path.join(root, page.file), preferWebp(render(page, site)), 'utf8');
   built.push(page.file);
 }
 
