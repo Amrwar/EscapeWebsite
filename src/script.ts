@@ -729,6 +729,9 @@ if (bookingForm) {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.slot-btn');
     if (!btn || btn.disabled || !timeInput) return;
     timeInput.value = btn.dataset.time ?? '';
+    /* Setting .value directly doesn't fire input/change, which the live
+       summary card beside the form listens for. */
+    timeInput.dispatchEvent(new Event('input', { bubbles: true }));
     setError(timeInput, false);
     renderSlots();
   });
