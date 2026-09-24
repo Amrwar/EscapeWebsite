@@ -13,9 +13,7 @@
  * about anything arranged directly by phone or WhatsApp, same as before.
  */
 import { redis } from './_redis.mjs';
-
-const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const TIME_RE = /^\d{2}:\d{2}$/;
+import { slotProblem, clientKey, overRateLimit, KEEP_SECONDS } from './_slot.mjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -32,8 +30,18 @@ export default async function handler(req, res) {
     }
   }
   const { date, time, barber, name, phone, service, notes } = body ?? {};
-  if (typeof date !== 'string' || !DATE_RE.test(date) || typeof time !== 'string' || !TIME_RE.test(time)) {
-    res.status(400).json({ error: 'invalid date or time' });
+
+  /* The form checks this too, but anything can post here: a slot in the past,
+     at 3am, or on a day the shop is shut would otherwise sit in the picker
+     greying out a time nobody could book. */
+  const problem = slotProblem(date, time);
+  if (problem) {
+    res.status(400).json({ error: problem });
+    return;
+  }
+
+  if (await overRateLimit(redis, clientKey(req))) {
+    res.status(429).json({ error: 'too many requests' });
     return;
   }
 
@@ -58,13 +66,20 @@ export default async function handler(req, res) {
   });
 
   if (cleanBarber) {
-    const added = await redis.sadd(`booked:${date}:${cleanBarber}`, time);
+    const key = `booked:${date}:${cleanBarber}`;
+    const added = await redis.sadd(key, time);
     if (added === 0) {
       res.status(409).json({ error: 'taken' });
       return;
     }
+    /* Long past the appointment, and it stops old days accumulating for ever. */
+    await redis.expire(key, KEEP_SECONDS);
   }
 
-  await redis.rpush(`bookings:${date}`, record);
+  const log = `bookings:${date}`;
+  await redis.rpush(log, record);
+  /* The same expiry covers the customer's name and number: this is a copy of a
+     WhatsApp message, not a record the shop is keeping. */
+  await redis.expire(log, KEEP_SECONDS);
   res.status(200).json({ ok: true });
 }

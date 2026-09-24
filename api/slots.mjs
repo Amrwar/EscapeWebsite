@@ -31,5 +31,8 @@ export default async function handler(req, res) {
   }
 
   const taken = await redis.smembers(`booked:${date}:${barber.trim().slice(0, 60)}`);
+  /* A day's worth of greyed-out slots is worth a few seconds of caching at the
+     edge, but never longer — someone booking now should see it shortly. */
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=10, stale-while-revalidate=30');
   res.status(200).json({ taken });
 }

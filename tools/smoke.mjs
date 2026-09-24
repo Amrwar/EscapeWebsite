@@ -231,8 +231,11 @@ check('calendar file covers the right slot', icsOk, ics.split('\r\n').slice(3, 9
 /* The header is light over the home page's dark hero and ink once it turns to
    bone on scroll. Getting that the wrong way round hides the whole nav, so it
    is checked rather than eyeballed. */
-const headerContrast = async (label, path, scrollTo) => {
+const headerContrast = async (label, path, scrollTo, theme) => {
   await goto(path);
+  /* The site follows the device's light/dark setting and remembers a manual
+     choice, so the nav has to hold up in both. */
+  await evaluate(`document.documentElement.dataset.theme = '${theme}'; 0`);
   /* The header cross-fades between states; measuring mid-transition reads a
      half-applied colour, so transitions are switched off for the measurement. */
   await evaluate(`
@@ -267,7 +270,12 @@ const headerContrast = async (label, path, scrollTo) => {
     const under = document
       .elementsFromPoint(box.left + box.width / 2, box.top + box.height / 2)
       .find((el) => !el.closest('.site-header'));
-    const back = headerBg !== null ? headerBg : opaqueBehind(under);
+    /* When the header is see-through and nothing paints under it, what shows is
+       the page itself — which the theme sets on <body>. */
+    const back =
+      headerBg !== null
+        ? headerBg
+        : (opaqueBehind(under) ?? opaqueBehind(document.body));
     JSON.stringify({ text: lum(getComputedStyle(link).color), back });
   `);
   const { text, back } = JSON.parse(reading);
@@ -277,10 +285,23 @@ const headerContrast = async (label, path, scrollTo) => {
     `text ${text.toFixed(2)} vs background ${back === null ? 'unknown' : back.toFixed(2)}`
   );
 };
-await headerContrast('over the hero', 'index.html', 0);
-await headerContrast('once the header turns to paper', 'index.html', 900);
-await headerContrast('on an inner page', 'services.html', 0);
-await headerContrast('over the about cover', 'about.html', 0);
+/* Below 1100px the nav collapses into the overlay menu, whose links are a
+   different colour on a different background — measure the real top nav. */
+await send('Emulation.setDeviceMetricsOverride', {
+  width: 1440,
+  height: 900,
+  deviceScaleFactor: 1,
+  mobile: false,
+});
+
+for (const theme of ['light', 'dark']) {
+  await headerContrast(`over the hero (${theme})`, 'index.html', 0, theme);
+  await headerContrast(`once the header is scrolled (${theme})`, 'index.html', 900, theme);
+  await headerContrast(`on an inner page (${theme})`, 'services.html', 0, theme);
+  await headerContrast(`over the about cover (${theme})`, 'about.html', 0, theme);
+}
+
+await send('Emulation.clearDeviceMetricsOverride');
 
 /* ---- the team page ---- */
 await goto('behind-the-chair.html');

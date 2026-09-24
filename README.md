@@ -69,6 +69,10 @@ This needs a one-time setup that isn't done automatically:
 
 Two small serverless functions live in `api/` (`slots.mjs` reads what's taken, `book.mjs` reserves a slot) — nothing else to configure. Until the storage is connected, both quietly fall back to showing every time as open (the same as before this feature existed) rather than breaking.
 
+Because anything can post to `/api/book`, not just the form, the endpoint checks the slot itself: the day has to be one the shop is open, the time inside that day's hours, and the date within the next four months (a day of slack either side of today, since the shop, the visitor and the server can each be on a different side of midnight). One address can reserve twenty slots an hour, which is far more than a person needs and far less than it takes to grey out the whole calendar. Everything stored — including the name and number attached to a request — expires after ninety days; it's a copy of a WhatsApp message, not a record the shop keeps.
+
+`node tools/slot-test.mjs` checks those rules against the real hours.
+
 ## Structure
 
 ```
@@ -76,6 +80,8 @@ site.config.json    — the shop's details: the file to edit
 api/slots.mjs       — serverless: what's already booked for a barber/date
 api/book.mjs        — serverless: reserves a slot
 api/_redis.mjs      — shared Redis client for both of the above
+api/_slot.mjs       — the slot rules: opening hours, horizon, rate limit
+api/_hours.mjs      — generated from site.config.json by the build
 src/pages/*.mjs     — one file per page, its own content only
 src/script.ts       — all the interactive behaviour (compiled to js/script.js)
 tools/layout.mjs    — the shell every page shares: head, header, footer, action bar
@@ -85,6 +91,7 @@ tools/photos.mjs    — finds photos dropped into images/team and images/gallery
 tools/optimize-images.mjs — makes the WebP copies the pages serve first
 tools/serve.mjs     — the local preview server
 tools/smoke.mjs     — end-to-end checks (see below)
+tools/slot-test.mjs — checks the booking endpoint's slot rules
 css/style.css       — the whole design system
 images/team/        — barber portraits, picked up by file name
 images/gallery/     — gallery photos, filed by the folder they're in
